@@ -21,17 +21,15 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
         [Raids.the_Weapons_Refrain_Ultimate];
 
     public override Metadata? Metadata =>
-        new(1, "Maggie — UWU Ifrit Dash accessibility");
+        new(1, "Maggie - UWU Ifrit Dash accessibility");
 
     public override void OnSetup()
     {
-        // Bright green = Ifrit's dash START.
         Controller.RegisterElementFromCode(
             "IfritDash_Current",
             "{\"Name\":\"CURRENT\",\"Enabled\":false,\"radius\":2.5,\"Donut\":0.35,\"color\":4278255360,\"thicc\":8.0,\"FillStep\":1.0,\"tether\":true,\"LegacyFill\":true}"
         );
 
-        // Bright cyan = opposite side / dash END.
         Controller.RegisterElementFromCode(
             "IfritDash_Next",
             "{\"Name\":\"NEXT\",\"Enabled\":false,\"radius\":2.2,\"Donut\":0.35,\"color\":4294967040,\"thicc\":8.0,\"FillStep\":1.0,\"tether\":true,\"LegacyFill\":true}"
@@ -66,7 +64,6 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
         if (!active)
             return;
 
-        // Keep the two markers visible briefly through the dash.
         if (Environment.TickCount64 - startedAt > 4500)
             OnReset();
     }
@@ -80,7 +77,6 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
 
     private static Vector3 OppositePoint(Vector3 start)
     {
-        // Mirror Ifrit's starting position through arena center.
         return new Vector3(
             Center.X * 2f - start.X,
             start.Y,
