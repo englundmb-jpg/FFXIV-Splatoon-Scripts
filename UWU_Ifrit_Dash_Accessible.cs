@@ -51,7 +51,12 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
             return;
 
         Vector3 start = ifrit.Position;
-        Vector3 end = OppositePoint(start);
+
+        Vector3 end = new Vector3(
+            Center.X * 2f - start.X,
+            start.Y,
+            Center.Z * 2f - start.Z
+        );
 
         ShowRoute(start, end);
 
@@ -72,16 +77,12 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
     {
         active = false;
         startedAt = 0;
-        DisableMarkers();
-    }
 
-    private static Vector3 OppositePoint(Vector3 start)
-    {
-        return new Vector3(
-            Center.X * 2f - start.X,
-            start.Y,
-            Center.Z * 2f - start.Z
-        );
+        if (Controller.TryGetElementByName("IfritDash_Current", out var current))
+            current.Enabled = false;
+
+        if (Controller.TryGetElementByName("IfritDash_Next", out var next))
+            next.Enabled = false;
     }
 
     private void ShowRoute(Vector3 currentPosition, Vector3 nextPosition)
@@ -97,14 +98,5 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
 
         current.Enabled = true;
         next.Enabled = true;
-    }
-
-    private void DisableMarkers()
-    {
-        if (Controller.TryGetElementByName("IfritDash_Current", out var current))
-            current.Enabled = false;
-
-        if (Controller.TryGetElementByName("IfritDash_Next", out var next))
-            next.Enabled = false;
     }
 }
