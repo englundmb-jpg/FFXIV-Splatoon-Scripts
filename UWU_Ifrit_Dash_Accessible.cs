@@ -1,10 +1,7 @@
-using Dalamud.Game.ClientState.Objects.SubKinds;
 using ECommons.DalamudServices;
 using ECommons.ExcelServices.TerritoryEnumeration;
 using Splatoon.SplatoonScripting;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
 
 namespace MaggieScripts.Duties.Stormblood;
@@ -13,9 +10,6 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
 {
     private const uint CrimsonCycloneCastId = 0x2B5F;
     private static readonly Vector3 Center = new(100f, 0f, 100f);
-
-    private bool active;
-    private long startedAt;
 
     public override HashSet<uint>? ValidTerritories { get; } =
         [Raids.the_Weapons_Refrain_Ultimate];
@@ -43,16 +37,13 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
         if (castId != CrimsonCycloneCastId)
             return;
 
-        var ifrit = Svc.Objects
-            .OfType<IBattleNpc>()
-            .FirstOrDefault(x => x.EntityId == source);
-
+        var ifrit = source.GetObject();
         if (ifrit == null)
             return;
 
-        Vector3 start = ifrit.Position;
+        var start = ifrit.Position;
 
-        Vector3 end = new Vector3(
+        var end = new Vector3(
             Center.X * 2f - start.X,
             start.Y,
             Center.Z * 2f - start.Z
@@ -60,37 +51,18 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
 
         ShowRoute(start, end);
 
-        active = true;
-        startedAt = Environment.TickCount64;
-    }
-
-    public override void OnUpdate()
-    {
-        if (!active)
-            return;
-
-        if (Environment.TickCount64 - startedAt > 4500)
-            OnReset();
+        Controller.ScheduleReset(4500);
     }
 
     public override void OnReset()
     {
-        active = false;
-        startedAt = 0;
-
-        if (Controller.TryGetElementByName("IfritDash_Current", out var current))
-            current.Enabled = false;
-
-        if (Controller.TryGetElementByName("IfritDash_Next", out var next))
-            next.Enabled = false;
+        DisableMarkers();
     }
 
     private void ShowRoute(Vector3 currentPosition, Vector3 nextPosition)
     {
-        if (!Controller.TryGetElementByName("IfritDash_Current", out var current))
-            return;
-
-        if (!Controller.TryGetElementByName("IfritDash_Next", out var next))
+        if (!Controller.TryGetElementByName("IfritDash_Current", out var current) ||
+            !Controller.TryGetElementByName("IfritDash_Next", out var next))
             return;
 
         current.SetRefPosition(currentPosition);
@@ -98,5 +70,14 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
 
         current.Enabled = true;
         next.Enabled = true;
+    }
+
+    private void DisableMarkers()
+    {
+        if (Controller.TryGetElementByName("IfritDash_Current", out var current))
+            current.Enabled = false;
+
+        if (Controller.TryGetElementByName("IfritDash_Next", out var next))
+            next.Enabled = false;
     }
 }
