@@ -38,6 +38,7 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
             return;
 
         var ifrit = source.GetObject();
+
         if (ifrit == null)
             return;
 
