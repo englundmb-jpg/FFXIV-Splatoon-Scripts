@@ -21,7 +21,7 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
         [Raids.the_Weapons_Refrain_Ultimate];
 
     public override Metadata? Metadata =>
-        new(1, "Maggie - UWU Ifrit Dash accessibility");
+        new(1, "Maggie UWU Ifrit Dash Accessible");
 
     public override void OnSetup()
     {
@@ -50,8 +50,8 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
         if (ifrit == null)
             return;
 
-        var start = ifrit.Position;
-        var end = OppositePoint(start);
+        Vector3 start = ifrit.Position;
+        Vector3 end = OppositePoint(start);
 
         ShowRoute(start, end);
 
@@ -86,8 +86,10 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
 
     private void ShowRoute(Vector3 currentPosition, Vector3 nextPosition)
     {
-        if (!Controller.TryGetElementByName("IfritDash_Current", out var current) ||
-            !Controller.TryGetElementByName("IfritDash_Next", out var next))
+        if (!Controller.TryGetElementByName("IfritDash_Current", out var current))
+            return;
+
+        if (!Controller.TryGetElementByName("IfritDash_Next", out var next))
             return;
 
         current.SetRefPosition(currentPosition);
