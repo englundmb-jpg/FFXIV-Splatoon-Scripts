@@ -22,7 +22,7 @@ public override void OnSetup()
 
 public override void OnStartingCast(uint source, uint castId)
 {
-    // Ultimate Annihilation
+    // Same verified Ultimate Annihilation trigger as the working script.
     if (castId != 0x2D4C)
         return;
 
@@ -39,9 +39,7 @@ public override void OnUpdate()
 
     var elapsed = Environment.TickCount64 - startedAt;
 
-    // Prepare for Crimson Cyclone.
-    // Green = current position.
-    // Cyan = beginning of the Ifrit dash.
+    // Prepare for Ifrit dash.
     if (stage == 0 && elapsed >= 23000)
     {
         stage = 1;
@@ -54,7 +52,7 @@ public override void OnUpdate()
         return;
     }
 
-    // Crimson Cyclone.
+    // Crimson Cyclone:
     // Green = beginning of dash.
     // Cyan = end of dash.
     if (stage == 1 && elapsed >= 27500)
@@ -69,7 +67,7 @@ public override void OnUpdate()
         return;
     }
 
-    // Remove markers after the dash.
+    // Clear after the dash.
     if (elapsed >= 33000)
         Controller.Reset();
 }
@@ -104,10 +102,3 @@ private void DisableMarkers()
     if (Controller.TryGetElementByName(
             "IfritDash_Current",
             out var current))
-        current.Enabled = false;
-
-    if (Controller.TryGetElementByName(
-            "IfritDash_Next",
-            out var next))
-        next.Enabled = false;
-}
