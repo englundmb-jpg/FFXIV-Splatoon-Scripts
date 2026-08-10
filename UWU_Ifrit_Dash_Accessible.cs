@@ -82,8 +82,7 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
         if (nailIndex < 0)
             return;
 
-        // Only accept the Crimson Cyclones in the actual
-        // nail-death order from this pull.
+        // Follow the ACTUAL nail death order from this pull.
         if (nailIndex != dashCount)
             return;
 
@@ -185,7 +184,6 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
             }
         }
 
-        // Don't accept an unrelated Ifrit object.
         if (closestDistance > 8.0f)
             return -1;
 
