@@ -1,4 +1,5 @@
 using Dalamud.Game.ClientState.Objects.SubKinds;
+using Dalamud.Game.ClientState.Objects.Types;
 using ECommons.DalamudServices;
 using Splatoon.Data;
 using Splatoon.Memory;
@@ -235,8 +236,6 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
 
             if (actor != null)
             {
-                // Keep the last real position in case the object
-                // disappears immediately when it dies.
                 nail.Position = actor.Position;
 
                 if (actor.CurrentHp > 0)
@@ -249,9 +248,6 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
                 continue;
             }
 
-            // A dead nail may disappear from the object table.
-            // Require several missing frames so a one-frame object
-            // table hiccup is not mistaken for a death.
             nail.MissingFrames++;
 
             if (nail.MissingFrames >= 3)
@@ -272,9 +268,6 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
         if (deathOrder.Count == 4)
         {
             nailOrderComplete = true;
-
-            // deathOrder[3] is the ACTUAL last nail killed.
-            // This remains correct even if PF did not follow Z order.
         }
     }
 
@@ -292,8 +285,6 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
             .Where(x => HorizontalDistance(x.Position, Center) <= ArenaLimit)
             .ToList();
 
-        // For the nail-order dash set, there must be an Ifrit/clone
-        // at every stored nail location.
         foreach (var nail in deathOrder)
         {
             var found = ifritActors.Any(ifrit =>
