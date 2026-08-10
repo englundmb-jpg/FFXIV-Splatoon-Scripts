@@ -1,10 +1,6 @@
-using Dalamud.Game.ClientState.Objects.SubKinds;
-using ECommons.DalamudServices;
 using ECommons.ExcelServices.TerritoryEnumeration;
 using Splatoon.SplatoonScripting;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
 
 namespace MaggieScripts.Duties.Stormblood;
@@ -17,22 +13,8 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
     public override Metadata? Metadata =>
         new(1, "Maggie Ifrit Dash accessibility build");
 
-    private sealed class NailInfo
-    {
-        public uint EntityId;
-        public Vector3 Position;
-        public bool Dead;
-    }
-
-    private readonly List<NailInfo> nails = new();
-    private readonly List<Vector3> nailDeathOrder = new();
-
-    private bool nailsCaptured;
-    private bool nailOrderComplete;
-    private int dashCount;
-
-    private static readonly Vector3 Center =
-        new(100.0f, 0.0f, 100.0f);
+    private bool active;
+    private int cycloneCount;
 
     public override void OnSetup()
     {
@@ -49,162 +31,52 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
         OnReset();
     }
 
-    public override void OnUpdate()
+    public override void OnStartingCast(uint source, uint castId)
     {
-        if (!nailsCaptured)
+        // 2D4C = Ultimate Annihilation.
+        // This is the proven phase gate used by the working
+        // Annihilation accessibility script.
+        if (castId == 0x2D4C)
         {
-            TryCaptureNails();
+            active = true;
+            cycloneCount = 0;
             return;
         }
 
-        if (!nailOrderComplete)
-            TrackNailDeaths();
-    }
+        if (!active)
+            return;
 
-    public override void OnStartingCast(uint source, uint castId)
-    {
         // 2B5F = Crimson Cyclone.
-        if (castId != 0x2B5F)
+        if (castId == 0x2B5F)
+        {
+            cycloneCount++;
+
+            // First Crimson Cyclone during Annihilation.
+            if (cycloneCount == 1)
+            {
+                ShowRoute(
+                    new Vector3(100.138f, 0.0f, 81.841f),
+                    new Vector3(100.070f, 0.0f, 90.900f)
+                );
+            }
+
             return;
+        }
 
-        if (!nailOrderComplete)
-            return;
-
-        var ifrit = Svc.Objects
-            .OfType<IBattleNpc>()
-            .FirstOrDefault(x => x.EntityId == source);
-
-        if (ifrit == null)
-            return;
-
-        var nailIndex = FindClosestNail(ifrit.Position);
-
-        if (nailIndex < 0)
-            return;
-
-        // Follow the ACTUAL nail death order from this pull.
-        if (nailIndex != dashCount)
-            return;
-
-        var start = nailDeathOrder[dashCount];
-        var end = OppositePoint(start);
-
-        ShowRoute(start, end);
-
-        dashCount++;
-
-        if (dashCount >= 4)
-            Controller.ScheduleReset(5000);
+        // 2B52 = Eye of the Storm.
+        // End this helper after the Cyclone/Landslide section.
+        if (castId == 0x2B52 && cycloneCount > 0)
+        {
+            DisableMarkers();
+            active = false;
+        }
     }
 
     public override void OnReset()
     {
-        nails.Clear();
-        nailDeathOrder.Clear();
-
-        nailsCaptured = false;
-        nailOrderComplete = false;
-        dashCount = 0;
-
+        active = false;
+        cycloneCount = 0;
         DisableMarkers();
-    }
-
-    private void TryCaptureNails()
-    {
-        var found = Svc.Objects
-            .OfType<IBattleNpc>()
-            .Where(x =>
-                x.Name.TextValue.Equals(
-                    "Infernal Nail",
-                    StringComparison.OrdinalIgnoreCase))
-            .Where(x => x.CurrentHp > 0)
-            .ToList();
-
-        if (found.Count != 4)
-            return;
-
-        nails.Clear();
-
-        foreach (var nail in found)
-        {
-            nails.Add(new NailInfo
-            {
-                EntityId = nail.EntityId,
-                Position = nail.Position,
-                Dead = false
-            });
-        }
-
-        nailsCaptured = true;
-    }
-
-    private void TrackNailDeaths()
-    {
-        foreach (var nail in nails)
-        {
-            if (nail.Dead)
-                continue;
-
-            var actor = Svc.Objects
-                .OfType<IBattleNpc>()
-                .FirstOrDefault(x => x.EntityId == nail.EntityId);
-
-            if (actor != null)
-            {
-                nail.Position = actor.Position;
-
-                if (actor.CurrentHp > 0)
-                    continue;
-            }
-
-            nail.Dead = true;
-            nailDeathOrder.Add(nail.Position);
-        }
-
-        if (nailDeathOrder.Count == 4)
-        {
-            nailOrderComplete = true;
-            dashCount = 0;
-        }
-    }
-
-    private int FindClosestNail(Vector3 position)
-    {
-        var closest = -1;
-        var closestDistance = float.MaxValue;
-
-        for (var i = 0; i < nailDeathOrder.Count; i++)
-        {
-            var distance = Distance(position, nailDeathOrder[i]);
-
-            if (distance < closestDistance)
-            {
-                closestDistance = distance;
-                closest = i;
-            }
-        }
-
-        if (closestDistance > 8.0f)
-            return -1;
-
-        return closest;
-    }
-
-    private static Vector3 OppositePoint(Vector3 start)
-    {
-        return new Vector3(
-            Center.X * 2.0f - start.X,
-            start.Y,
-            Center.Z * 2.0f - start.Z
-        );
-    }
-
-    private static float Distance(Vector3 a, Vector3 b)
-    {
-        var x = a.X - b.X;
-        var z = a.Z - b.Z;
-
-        return MathF.Sqrt(x * x + z * z);
     }
 
     private void ShowRoute(Vector3 currentPosition, Vector3 nextPosition)
