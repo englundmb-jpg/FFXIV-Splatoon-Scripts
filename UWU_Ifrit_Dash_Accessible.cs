@@ -1,349 +1,233 @@
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using ECommons.DalamudServices;
+using ECommons.ExcelServices.TerritoryEnumeration;
 using Splatoon.SplatoonScripting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 
-namespace MaggieScripts.Duties.Stormblood
+namespace MaggieScripts.Duties.Stormblood;
+
+public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
 {
-    public sealed class UWU_Ifrit_Dash_Dynamic_Accessible : SplatoonScript
+    public override HashSet<uint>? ValidTerritories { get; } =
+        [Raids.the_Weapons_Refrain_Ultimate];
+
+    public override Metadata? Metadata =>
+        new(1, "Maggie Ifrit Dash accessibility build");
+
+    private sealed class NailInfo
     {
-        private const uint CrimsonCycloneCastId = 0x2B5F;
+        public uint EntityId;
+        public Vector3 Position;
+        public bool Dead;
+    }
 
-        private static readonly Vector3 Center =
-            new Vector3(100f, 0f, 100f);
+    private readonly List<NailInfo> nails = new();
+    private readonly List<Vector3> nailDeathOrder = new();
 
-        private const float ArenaLimit = 30f;
-        private const float NailMatchDistance = 7f;
+    private bool nailsCaptured;
+    private bool nailOrderComplete;
+    private int dashCount;
 
-        private sealed class NailInfo
+    private static readonly Vector3 Center =
+        new(100.0f, 0.0f, 100.0f);
+
+    public override void OnSetup()
+    {
+        Controller.RegisterElementFromCode(
+            "IfritDash_Current",
+            "{\"Name\":\"CURRENT\",\"Enabled\":false,\"radius\":2.5,\"Donut\":0.35,\"color\":4278255360,\"thicc\":8.0,\"FillStep\":1.0,\"tether\":true,\"LegacyFill\":true}"
+        );
+
+        Controller.RegisterElementFromCode(
+            "IfritDash_Next",
+            "{\"Name\":\"NEXT\",\"Enabled\":false,\"radius\":2.2,\"Donut\":0.35,\"color\":4294967040,\"thicc\":8.0,\"FillStep\":1.0,\"tether\":true,\"LegacyFill\":true}"
+        );
+
+        OnReset();
+    }
+
+    public override void OnUpdate()
+    {
+        if (!nailsCaptured)
         {
-            public uint EntityId;
-            public Vector3 Position;
-            public bool DeathRecorded;
-            public int MissingFrames;
+            TryCaptureNails();
+            return;
         }
 
-        private readonly Dictionary<uint, NailInfo> nails =
-            new Dictionary<uint, NailInfo>();
+        if (!nailOrderComplete)
+            TrackNailDeaths();
+    }
 
-        private readonly List<NailInfo> deathOrder =
-            new List<NailInfo>();
+    public override void OnStartingCast(uint source, uint castId)
+    {
+        // 2B5F = Crimson Cyclone.
+        if (castId != 0x2B5F)
+            return;
 
-        private bool nailsCaptured;
-        private bool nailOrderComplete;
+        if (!nailOrderComplete)
+            return;
 
-        private bool dashSequenceActive;
-        private int nextDashIndex;
+        var ifrit = Svc.Objects
+            .OfType<IBattleNpc>()
+            .FirstOrDefault(x => x.EntityId == source);
 
-        private bool markersVisible;
-        private long markersShownAt;
+        if (ifrit == null)
+            return;
 
-        public override HashSet<uint> ValidTerritories
+        var nailIndex = FindClosestNail(ifrit.Position);
+
+        if (nailIndex < 0)
+            return;
+
+        // Only accept the Crimson Cyclones in the actual
+        // nail-death order from this pull.
+        if (nailIndex != dashCount)
+            return;
+
+        var start = nailDeathOrder[dashCount];
+        var end = OppositePoint(start);
+
+        ShowRoute(start, end);
+
+        dashCount++;
+
+        if (dashCount >= 4)
+            Controller.ScheduleReset(5000);
+    }
+
+    public override void OnReset()
+    {
+        nails.Clear();
+        nailDeathOrder.Clear();
+
+        nailsCaptured = false;
+        nailOrderComplete = false;
+        dashCount = 0;
+
+        DisableMarkers();
+    }
+
+    private void TryCaptureNails()
+    {
+        var found = Svc.Objects
+            .OfType<IBattleNpc>()
+            .Where(x =>
+                x.Name.TextValue.Equals(
+                    "Infernal Nail",
+                    StringComparison.OrdinalIgnoreCase))
+            .Where(x => x.CurrentHp > 0)
+            .ToList();
+
+        if (found.Count != 4)
+            return;
+
+        nails.Clear();
+
+        foreach (var nail in found)
         {
-            get
+            nails.Add(new NailInfo
             {
-                return new HashSet<uint> { 777 };
-            }
+                EntityId = nail.EntityId,
+                Position = nail.Position,
+                Dead = false
+            });
         }
 
-        public override Metadata? Metadata =>
-            new Metadata(2, "Maggie Ifrit Dash Dynamic");
+        nailsCaptured = true;
+    }
 
-        public override void OnSetup()
+    private void TrackNailDeaths()
+    {
+        foreach (var nail in nails)
         {
-            Controller.RegisterElementFromCode(
-                "IfritDash_Current",
-                "{\"Name\":\"CURRENT\",\"Enabled\":false,\"radius\":2.5,\"Donut\":0.35,\"color\":4278255360,\"thicc\":8.0,\"FillStep\":1.0,\"tether\":true,\"LegacyFill\":true,\"overlayText\":\"CURRENT\",\"overlayBGColor\":4278190080,\"overlayTextColor\":4294967295,\"overlayFScale\":1.5}"
-            );
+            if (nail.Dead)
+                continue;
 
-            Controller.RegisterElementFromCode(
-                "IfritDash_Next",
-                "{\"Name\":\"NEXT\",\"Enabled\":false,\"radius\":2.2,\"Donut\":0.35,\"color\":4294967040,\"thicc\":8.0,\"FillStep\":1.0,\"tether\":true,\"LegacyFill\":true,\"overlayText\":\"NEXT\",\"overlayBGColor\":4278190080,\"overlayTextColor\":4294967295,\"overlayFScale\":1.5}"
-            );
-
-            OnReset();
-        }
-
-        public override void OnUpdate()
-        {
-            if (!nailsCaptured)
-            {
-                TryCaptureNails();
-            }
-            else if (!nailOrderComplete)
-            {
-                TrackNailDeaths();
-            }
-
-            if (markersVisible &&
-                Environment.TickCount64 - markersShownAt > 4500)
-            {
-                HideMarkers();
-                markersVisible = false;
-            }
-        }
-
-        public override void OnStartingCast(uint source, uint castId)
-        {
-            if (castId != CrimsonCycloneCastId)
-                return;
-
-            if (!nailOrderComplete)
-                return;
-
-            if (!NailDashLayoutPresent())
-                return;
-
-            var caster = Svc.Objects
+            var actor = Svc.Objects
                 .OfType<IBattleNpc>()
-                .FirstOrDefault(x => x.EntityId == source);
+                .FirstOrDefault(x => x.EntityId == nail.EntityId);
 
-            if (caster == null)
-                return;
-
-            var nailIndex = FindMatchingNailIndex(caster.Position);
-
-            if (nailIndex < 0)
-                return;
-
-            if (!dashSequenceActive)
+            if (actor != null)
             {
-                if (nailIndex != 0)
-                    return;
+                nail.Position = actor.Position;
 
-                dashSequenceActive = true;
-                nextDashIndex = 0;
-            }
-
-            if (nailIndex != nextDashIndex)
-                return;
-
-            var start = caster.Position;
-            var end = OppositePoint(start);
-
-            ShowRoute(start, end);
-
-            nextDashIndex++;
-
-            if (nextDashIndex >= 4)
-            {
-                dashSequenceActive = false;
-            }
-        }
-
-        public override void OnReset()
-        {
-            nails.Clear();
-            deathOrder.Clear();
-
-            nailsCaptured = false;
-            nailOrderComplete = false;
-
-            dashSequenceActive = false;
-            nextDashIndex = 0;
-
-            markersVisible = false;
-            markersShownAt = 0;
-
-            HideMarkers();
-        }
-
-        private void TryCaptureNails()
-        {
-            var liveNails = Svc.Objects
-                .OfType<IBattleNpc>()
-                .Where(x =>
-                    x.Name.TextValue.Equals(
-                        "Infernal Nail",
-                        StringComparison.OrdinalIgnoreCase))
-                .Where(x =>
-                    HorizontalDistance(x.Position, Center) <= ArenaLimit)
-                .Where(x => x.MaxHp > 0)
-                .Where(x => x.CurrentHp > 0)
-                .ToList();
-
-            if (liveNails.Count != 4)
-                return;
-
-            nails.Clear();
-            deathOrder.Clear();
-
-            foreach (var nail in liveNails)
-            {
-                nails[nail.EntityId] = new NailInfo
-                {
-                    EntityId = nail.EntityId,
-                    Position = nail.Position,
-                    DeathRecorded = false,
-                    MissingFrames = 0
-                };
-            }
-
-            nailsCaptured = true;
-        }
-
-        private void TrackNailDeaths()
-        {
-            foreach (var nail in nails.Values)
-            {
-                if (nail.DeathRecorded)
+                if (actor.CurrentHp > 0)
                     continue;
-
-                var actor = Svc.Objects
-                    .OfType<IBattleNpc>()
-                    .FirstOrDefault(x => x.EntityId == nail.EntityId);
-
-                if (actor != null)
-                {
-                    nail.Position = actor.Position;
-
-                    if (actor.CurrentHp > 0)
-                    {
-                        nail.MissingFrames = 0;
-                        continue;
-                    }
-
-                    RecordNailDeath(nail);
-                    continue;
-                }
-
-                nail.MissingFrames++;
-
-                if (nail.MissingFrames >= 3)
-                {
-                    RecordNailDeath(nail);
-                }
             }
+
+            nail.Dead = true;
+            nailDeathOrder.Add(nail.Position);
         }
 
-        private void RecordNailDeath(NailInfo nail)
+        if (nailDeathOrder.Count == 4)
         {
-            if (nail.DeathRecorded)
-                return;
-
-            nail.DeathRecorded = true;
-            deathOrder.Add(nail);
-
-            if (deathOrder.Count == 4)
-            {
-                nailOrderComplete = true;
-            }
+            nailOrderComplete = true;
+            dashCount = 0;
         }
+    }
 
-        private bool NailDashLayoutPresent()
+    private int FindClosestNail(Vector3 position)
+    {
+        var closest = -1;
+        var closestDistance = float.MaxValue;
+
+        for (var i = 0; i < nailDeathOrder.Count; i++)
         {
-            if (deathOrder.Count != 4)
-                return false;
+            var distance = Distance(position, nailDeathOrder[i]);
 
-            var ifritActors = Svc.Objects
-                .OfType<IBattleNpc>()
-                .Where(x =>
-                    x.Name.TextValue.Contains(
-                        "Ifrit",
-                        StringComparison.OrdinalIgnoreCase))
-                .Where(x =>
-                    HorizontalDistance(x.Position, Center) <= ArenaLimit)
-                .ToList();
-
-            foreach (var nail in deathOrder)
+            if (distance < closestDistance)
             {
-                var found = ifritActors.Any(ifrit =>
-                    HorizontalDistance(
-                        ifrit.Position,
-                        nail.Position) <= NailMatchDistance);
-
-                if (!found)
-                    return false;
-            }
-
-            return true;
-        }
-
-        private int FindMatchingNailIndex(Vector3 casterPosition)
-        {
-            var bestIndex = -1;
-            var bestDistance = float.MaxValue;
-
-            for (var i = 0; i < deathOrder.Count; i++)
-            {
-                var distance = HorizontalDistance(
-                    casterPosition,
-                    deathOrder[i].Position);
-
-                if (distance < bestDistance)
-                {
-                    bestDistance = distance;
-                    bestIndex = i;
-                }
-            }
-
-            if (bestDistance > NailMatchDistance)
-                return -1;
-
-            return bestIndex;
-        }
-
-        private static Vector3 OppositePoint(Vector3 start)
-        {
-            return new Vector3(
-                Center.X * 2f - start.X,
-                start.Y,
-                Center.Z * 2f - start.Z
-            );
-        }
-
-        private void ShowRoute(
-            Vector3 currentPosition,
-            Vector3 nextPosition)
-        {
-            if (Controller.TryGetElementByName(
-                    "IfritDash_Current",
-                    out var current))
-            {
-                current.SetOffPosition(currentPosition);
-                current.Enabled = true;
-            }
-
-            if (Controller.TryGetElementByName(
-                    "IfritDash_Next",
-                    out var next))
-            {
-                next.SetOffPosition(nextPosition);
-                next.Enabled = true;
-            }
-
-            markersVisible = true;
-            markersShownAt = Environment.TickCount64;
-        }
-
-        private void HideMarkers()
-        {
-            if (Controller.TryGetElementByName(
-                    "IfritDash_Current",
-                    out var current))
-            {
-                current.Enabled = false;
-            }
-
-            if (Controller.TryGetElementByName(
-                    "IfritDash_Next",
-                    out var next))
-            {
-                next.Enabled = false;
+                closestDistance = distance;
+                closest = i;
             }
         }
 
-        private static float HorizontalDistance(
-            Vector3 a,
-            Vector3 b)
-        {
-            var dx = a.X - b.X;
-            var dz = a.Z - b.Z;
+        // Don't accept an unrelated Ifrit object.
+        if (closestDistance > 8.0f)
+            return -1;
 
-            return MathF.Sqrt(dx * dx + dz * dz);
-        }
+        return closest;
+    }
+
+    private static Vector3 OppositePoint(Vector3 start)
+    {
+        return new Vector3(
+            Center.X * 2.0f - start.X,
+            start.Y,
+            Center.Z * 2.0f - start.Z
+        );
+    }
+
+    private static float Distance(Vector3 a, Vector3 b)
+    {
+        var x = a.X - b.X;
+        var z = a.Z - b.Z;
+
+        return MathF.Sqrt(x * x + z * z);
+    }
+
+    private void ShowRoute(Vector3 currentPosition, Vector3 nextPosition)
+    {
+        if (!Controller.TryGetElementByName("IfritDash_Current", out var current) ||
+            !Controller.TryGetElementByName("IfritDash_Next", out var next))
+            return;
+
+        current.SetRefPosition(currentPosition);
+        next.SetRefPosition(nextPosition);
+
+        current.Enabled = true;
+        next.Enabled = true;
+    }
+
+    private void DisableMarkers()
+    {
+        if (Controller.TryGetElementByName("IfritDash_Current", out var current))
+            current.Enabled = false;
+
+        if (Controller.TryGetElementByName("IfritDash_Next", out var next))
+            next.Enabled = false;
     }
 }
