@@ -19,7 +19,7 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
         new(100f, 0f, 100f);
 
     private const float ArenaLimit = 30f;
-    private const float NailMatchDistance = 7f;
+    private const float NailMatchDistance = 10f;
 
     private sealed class NailInfo
     {
@@ -35,9 +35,6 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
     private bool nailsCaptured;
     private bool nailOrderComplete;
 
-    private bool dashSequenceActive;
-    private int nextDashIndex;
-
     private bool markersVisible;
     private long markersShownAt;
 
@@ -45,7 +42,7 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
         [777];
 
     public override Metadata? Metadata =>
-        new(2, "Maggie");
+        new(3, "Maggie");
 
     public override void OnSetup()
     {
@@ -113,20 +110,19 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
         }
     }
 
-    public override unsafe void OnStartingCast(uint sourceId, PacketActorCast* packet)
+    public override unsafe void OnStartingCast(
+        uint sourceId,
+        PacketActorCast* packet)
     {
         if (packet->ActionDescriptor !=
-            new ActionDescriptor(FFXIVClientStructs.FFXIV.Client.Game.ActionType.Action, CrimsonCycloneCastId))
+            new ActionDescriptor(
+                FFXIVClientStructs.FFXIV.Client.Game.ActionType.Action,
+                CrimsonCycloneCastId))
             return;
 
+        // Ignore Crimson Cyclones until the real Infernal Nail
+        // set has been completed and its positions are known.
         if (!nailOrderComplete)
-            return;
-
-        // Do not react to the earlier Ifrit dash set.
-        //
-        // The nail-order dash set is only accepted once Ifrit/clones
-        // have appeared back at the four actual nail locations.
-        if (!NailDashLayoutPresent())
             return;
 
         var caster = Svc.Objects
@@ -136,39 +132,19 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
         if (caster == null)
             return;
 
+        // Match this ACTUAL Crimson Cyclone caster to whichever
+        // recorded nail position is closest.
         var nailIndex = FindMatchingNailIndex(caster.Position);
 
         if (nailIndex < 0)
             return;
 
-        // When this second dash set first appears, begin with the
-        // ACTUAL first nail that died on this pull.
-        if (!dashSequenceActive)
-        {
-            if (nailIndex != 0)
-                return;
+        // Use the caster's ACTUAL position for CURRENT.
+        // The dash travels through arena center to the opposite side.
+        var current = caster.Position;
+        var next = OppositePoint(current);
 
-            dashSequenceActive = true;
-            nextDashIndex = 0;
-        }
-
-        // Nail deaths determine Crimson Cyclone order.
-        // Only accept the next dash if it matches the actual
-        // recorded nail-death order from this pull.
-        if (nailIndex != nextDashIndex)
-            return;
-
-        var start = caster.Position;
-        var end = OppositePoint(start);
-
-        ShowRoute(start, end);
-
-        nextDashIndex++;
-
-        if (nextDashIndex >= 4)
-        {
-            dashSequenceActive = false;
-        }
+        ShowRoute(current, next);
     }
 
     public override void OnReset()
@@ -178,9 +154,6 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
 
         nailsCaptured = false;
         nailOrderComplete = false;
-
-        dashSequenceActive = false;
-        nextDashIndex = 0;
 
         markersVisible = false;
         markersShownAt = 0;
@@ -196,13 +169,12 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
                 x.Name.TextValue.Equals(
                     "Infernal Nail",
                     StringComparison.OrdinalIgnoreCase))
-            .Where(x => HorizontalDistance(x.Position, Center) <= ArenaLimit)
+            .Where(x =>
+                HorizontalDistance(x.Position, Center) <= ArenaLimit)
             .Where(x => x.MaxHp > 0)
             .Where(x => x.CurrentHp > 0)
             .ToList();
 
-        // There is one real set of four Infernal Nails in Ifrit.
-        // Do not begin tracking until all four are visible together.
         if (liveNails.Count != 4)
             return;
 
@@ -269,34 +241,6 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
         {
             nailOrderComplete = true;
         }
-    }
-
-    private bool NailDashLayoutPresent()
-    {
-        if (deathOrder.Count != 4)
-            return false;
-
-        var ifritActors = Svc.Objects
-            .OfType<IBattleNpc>()
-            .Where(x =>
-                x.Name.TextValue.Contains(
-                    "Ifrit",
-                    StringComparison.OrdinalIgnoreCase))
-            .Where(x => HorizontalDistance(x.Position, Center) <= ArenaLimit)
-            .ToList();
-
-        foreach (var nail in deathOrder)
-        {
-            var found = ifritActors.Any(ifrit =>
-                HorizontalDistance(
-                    ifrit.Position,
-                    nail.Position) <= NailMatchDistance);
-
-            if (!found)
-                return false;
-        }
-
-        return true;
     }
 
     private int FindMatchingNailIndex(Vector3 casterPosition)
