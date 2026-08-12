@@ -44,11 +44,15 @@ public sealed class UWU_Primal_Roulette_Accessible : SplatoonScript
 
     private int titanWeightCount;
 
+    // Once targetable Ultima has been seen, allow all
+    // primals for the later Primal Roulette.
+    private bool sawTargetableUltima;
+
     public override HashSet<uint>? ValidTerritories { get; } =
         [777];
 
     public override Metadata? Metadata =>
-        new(1, "Maggie");
+        new(2, "Maggie");
 
     public override void OnSetup()
     {
@@ -99,6 +103,20 @@ public sealed class UWU_Primal_Roulette_Accessible : SplatoonScript
 
     public override void OnUpdate()
     {
+        // Proven phase gate:
+        // once real targetable Ultima has been seen,
+        // later primal appearances belong to the Ultima portion.
+        var ultima = Svc.Objects
+            .OfType<IBattleNpc>()
+            .FirstOrDefault(x =>
+                x.Name.TextValue.Contains(
+                    "Ultima",
+                    StringComparison.OrdinalIgnoreCase) &&
+                x.IsTargetable);
+
+        if (ultima != null)
+            sawTargetableUltima = true;
+
         // Roulette primals appear one at a time.
         // Read the actual live primal actor rather than predict the order.
         var primal = FindLiveRoulettePrimal();
@@ -110,6 +128,16 @@ public sealed class UWU_Primal_Roulette_Accessible : SplatoonScript
 
         if (detected == Primal.None)
             return;
+
+        // BEFORE Ultima:
+        // Keep only the useful Ifrit markers.
+        // Suppress original Garuda and Titan phase markers.
+        if (!sawTargetableUltima &&
+            detected != Primal.Ifrit)
+        {
+            HideMarkers();
+            return;
+        }
 
         // Only react when a new primal actor becomes the active one.
         if (primal.EntityId == lastPrimalSource &&
@@ -136,6 +164,12 @@ public sealed class UWU_Primal_Roulette_Accessible : SplatoonScript
         var primal = GetPrimal(source);
 
         if (primal == Primal.None)
+            return;
+
+        // Same gate as OnUpdate:
+        // before Ultima, only Ifrit is allowed to display.
+        if (!sawTargetableUltima &&
+            primal != Primal.Ifrit)
             return;
 
         // If the actor detection did not catch the new primal first,
@@ -167,6 +201,7 @@ public sealed class UWU_Primal_Roulette_Accessible : SplatoonScript
         lastPrimalSeenAt = 0;
 
         titanWeightCount = 0;
+        sawTargetableUltima = false;
 
         HideMarkers();
     }
@@ -239,10 +274,6 @@ public sealed class UWU_Primal_Roulette_Accessible : SplatoonScript
 
     private void DrawGaruda()
     {
-        // NAUR / Roulette:
-        // Start outside Wicked Wheel, then move IN for Wicked Tornado.
-        //
-        // A is the north inner reference used by the NA waymarks.
         ShowRoute(
             A,
             Three,
@@ -252,9 +283,6 @@ public sealed class UWU_Primal_Roulette_Accessible : SplatoonScript
 
     private void DrawIfrit()
     {
-        // Current Aether/NAUR:
-        // party begins Roulette at 2 and moves toward 3
-        // for the Ifrit Eruption/Cyclone movement.
         ShowRoute(
             Two,
             Three,
@@ -264,10 +292,6 @@ public sealed class UWU_Primal_Roulette_Accessible : SplatoonScript
 
     private void DrawTitanStep(int step)
     {
-        // Titan has three Woken Weight sets.
-        //
-        // Keep the party in the NAUR 2/3 quadrant.
-        // First display gets you set north.
         if (step <= 0)
         {
             ShowRoute(
