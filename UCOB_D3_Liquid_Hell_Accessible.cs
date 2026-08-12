@@ -147,7 +147,7 @@ public sealed class UCOB_D3_Liquid_Hell_Accessible : SplatoonScript
                 out var current))
         {
             current.SetOffPosition(currentPosition);
-            current.Enabled = true;https://github.com/englundmb-jpg/FFXIV-Splatoon-Scripts/tree/main
+            current.Enabled = true;
         }
 
         if (Controller.TryGetElementByName(
