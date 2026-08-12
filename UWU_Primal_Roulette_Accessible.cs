@@ -44,8 +44,13 @@ public sealed class UWU_Primal_Roulette_Accessible : SplatoonScript
 
     private int titanWeightCount;
 
-    // Once targetable Ultima has been seen, allow all
-    // primals for the later Primal Roulette.
+    // Before Ultima:
+    // Garuda OFF
+    // Ifrit ON
+    // Titan OFF
+    //
+    // After targetable Ultima has appeared:
+    // Garuda / Ifrit / Titan are all enabled for Primal Roulette.
     private bool sawTargetableUltima;
 
     public override HashSet<uint>? ValidTerritories { get; } =
@@ -103,9 +108,8 @@ public sealed class UWU_Primal_Roulette_Accessible : SplatoonScript
 
     public override void OnUpdate()
     {
-        // Proven phase gate:
-        // once real targetable Ultima has been seen,
-        // later primal appearances belong to the Ultima portion.
+        // Once the real targetable Ultima Weapon has appeared,
+        // enable all three primals for the later Primal Roulette.
         var ultima = Svc.Objects
             .OfType<IBattleNpc>()
             .FirstOrDefault(x =>
@@ -117,7 +121,6 @@ public sealed class UWU_Primal_Roulette_Accessible : SplatoonScript
         if (ultima != null)
             sawTargetableUltima = true;
 
-        // Roulette primals appear one at a time.
         // Read the actual live primal actor rather than predict the order.
         var primal = FindLiveRoulettePrimal();
 
@@ -129,9 +132,9 @@ public sealed class UWU_Primal_Roulette_Accessible : SplatoonScript
         if (detected == Primal.None)
             return;
 
-        // BEFORE Ultima:
-        // Keep only the useful Ifrit markers.
-        // Suppress original Garuda and Titan phase markers.
+        // BEFORE ULTIMA:
+        // keep Ifrit markers only.
+        // Suppress original Garuda and Titan markers.
         if (!sawTargetableUltima &&
             detected != Primal.Ifrit)
         {
@@ -166,13 +169,13 @@ public sealed class UWU_Primal_Roulette_Accessible : SplatoonScript
         if (primal == Primal.None)
             return;
 
-        // Same gate as OnUpdate:
-        // before Ultima, only Ifrit is allowed to display.
+        // Same early-phase filter for cast detection.
+        // Before Ultima, only Ifrit is allowed.
         if (!sawTargetableUltima &&
             primal != Primal.Ifrit)
             return;
 
-        // If the actor detection did not catch the new primal first,
+        // If actor detection did not catch the new primal first,
         // the real cast event will.
         if (primal != currentPrimal)
         {
@@ -181,7 +184,6 @@ public sealed class UWU_Primal_Roulette_Accessible : SplatoonScript
         }
 
         // Titan's Roulette mechanic is three Weight of the Land sets.
-        // 0x2B65 is the already verified UWU Weight of the Land cast.
         if (currentPrimal == Primal.Titan &&
             packet->ActionDescriptor ==
             new ActionDescriptor(
