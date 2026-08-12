@@ -1,5 +1,8 @@
 using Dalamud.Game.ClientState.Objects.SubKinds;
+using Dalamud.Game.ClientState.Objects.Types;
 using ECommons.DalamudServices;
+using Splatoon.Data;
+using Splatoon.Memory;
 using Splatoon.SplatoonScripting;
 using System;
 using System.Collections.Generic;
@@ -9,8 +12,6 @@ namespace MaggieScripts.Duties.Stormblood;
 
 public sealed class UCOB_Nael_Dive_Accessible : SplatoonScript
 {
-    private const uint NaelNpcId = 2617;
-
     private bool active;
     private long activatedAt;
 
@@ -18,12 +19,10 @@ public sealed class UCOB_Nael_Dive_Accessible : SplatoonScript
         [733];
 
     public override Metadata? Metadata =>
-        new(1, "Maggie");
+        new(2, "Maggie");
 
     public override void OnSetup()
     {
-        // VERIFIED layout:
-        // CURRENT = +15,+15 relative to Nael's rotation.
         Controller.RegisterElementFromCode(
             "NaelDive_Current",
             """
@@ -49,8 +48,6 @@ public sealed class UCOB_Nael_Dive_Accessible : SplatoonScript
             """
         );
 
-        // VERIFIED layout:
-        // NEXT = -15,+15 relative to Nael's rotation.
         Controller.RegisterElementFromCode(
             "NaelDive_Next",
             """
@@ -84,7 +81,9 @@ public sealed class UCOB_Nael_Dive_Accessible : SplatoonScript
         var nael = Svc.Objects
             .OfType<IBattleNpc>()
             .FirstOrDefault(x =>
-                x.DataId == NaelNpcId);
+                x.Name.TextValue.Contains(
+                    "Nael",
+                    StringComparison.OrdinalIgnoreCase));
 
         if (nael == null)
         {
@@ -94,9 +93,6 @@ public sealed class UCOB_Nael_Dive_Accessible : SplatoonScript
             return;
         }
 
-        // First implementation test:
-        // use the verified Nael actor itself to prove the
-        // actor-relative CURRENT/NEXT geometry in script form.
         if (!active)
             Activate();
 
