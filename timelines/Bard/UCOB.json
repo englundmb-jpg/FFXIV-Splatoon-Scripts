@@ -1,0 +1,382 @@
+{
+  "Id": "UCOB",
+  "Name": "UCOB",
+  "Description": "",
+  "Version": "1.0.0",
+  "AIOTimelineVersion": "1.0",
+  "Timelines": {
+    "TheUnendingCoilOfBahamutUltimate": {
+      "Id": "30771373-078d-42ad-a928-8754573c9de5",
+      "Name": "TheUnendingCoilOfBahamutUltimate",
+      "Description": "",
+      "ZoneId": 733,
+      "CreatedAt": "2025-11-19T14:31:29.9451416Z",
+      "ModifiedAt": "2025-11-19T20:42:38.9547753Z",
+      "VisualizerSettings": {
+        "TimeScale": 50.0,
+        "ClusterThreshold": 0.5,
+        "LastScrollPosition": 47700.0
+      },
+      "ActionSequences": [
+        {
+          "Id": "6aa5bb9d-7a65-4d0f-8302-23c6bb2223b7",
+          "Name": "Action Sequence",
+          "Description": "Sequence with 2 actions: Troubadour + Nature's Minne",
+          "Time": 4.98,
+          "Timeout": 5.0,
+          "CreatedAt": "2025-11-19T20:37:11.5478194Z",
+          "ModifiedAt": "2025-11-19T20:37:11.5478194Z",
+          "Actions": [
+            {
+              "Id": "a21ed778-77b7-4494-a22b-ab1a1db585a4",
+              "ActionId": 7405,
+              "SkillbarId": "",
+              "TTSText": "",
+              "TriggerType": 0,
+              "LogicOperator": 0,
+              "TargetType": 0,
+              "TargetSelectionStrategy": 6,
+              "SkipBuffId": 0,
+              "TargetOperation": 0,
+              "TargetDataId": 0,
+              "TargetName": ""
+            },
+            {
+              "Id": "b79558f4-fd94-4c33-9c45-99f008917733",
+              "ActionId": 7408,
+              "SkillbarId": "",
+              "TTSText": "",
+              "TriggerType": 0,
+              "LogicOperator": 0,
+              "TargetType": 1,
+              "TargetSelectionStrategy": 6,
+              "SkipBuffId": 0,
+              "TargetOperation": 0,
+              "TargetDataId": 0,
+              "TargetName": ""
+            }
+          ]
+        },
+        {
+          "Id": "d6374c32-3b11-439d-833b-dadae0c40168",
+          "Name": "Action Sequence",
+          "Description": "Quick Drop: Troubadour",
+          "Time": 144.12,
+          "Timeout": 5.0,
+          "CreatedAt": "2025-11-19T20:37:47.3433443Z",
+          "ModifiedAt": "2025-11-19T20:37:47.3433444Z",
+          "Actions": [
+            {
+              "Id": "985d254a-a245-4ac6-b6da-4cc448a4dc9b",
+              "ActionId": 7405,
+              "SkillbarId": "",
+              "TTSText": "",
+              "TriggerType": 0,
+              "LogicOperator": 0,
+              "TargetType": 0,
+              "TargetSelectionStrategy": 6,
+              "SkipBuffId": 0,
+              "TargetOperation": 0,
+              "TargetDataId": 0,
+              "TargetName": ""
+            }
+          ]
+        },
+        {
+          "Id": "6f904e89-f1ac-44c1-9536-5f5fab1427fd",
+          "Name": "Action Sequence",
+          "Description": "Quick Drop: Nature's Minne",
+          "Time": 207.46,
+          "Timeout": 5.0,
+          "CreatedAt": "2025-11-19T20:38:12.3923217Z",
+          "ModifiedAt": "2025-11-19T20:38:12.3923217Z",
+          "Actions": [
+            {
+              "Id": "1959fcec-04cc-4834-bfff-7282d4756438",
+              "ActionId": 7408,
+              "SkillbarId": "",
+              "TTSText": "",
+              "TriggerType": 0,
+              "LogicOperator": 0,
+              "TargetType": 1,
+              "TargetSelectionStrategy": 6,
+              "SkipBuffId": 0,
+              "TargetOperation": 0,
+              "TargetDataId": 0,
+              "TargetName": ""
+            }
+          ]
+        },
+        {
+          "Id": "82be05d0-ff5d-40e6-8194-ae071b68cc57",
+          "Name": "Action Sequence",
+          "Description": "Quick Drop: Troubadour",
+          "Time": 278.34,
+          "Timeout": 5.0,
+          "CreatedAt": "2025-11-19T20:38:30.6000333Z",
+          "ModifiedAt": "2025-11-19T20:38:30.6000334Z",
+          "Actions": [
+            {
+              "Id": "86c5732d-2c6f-479d-92f5-347b6def985e",
+              "ActionId": 7405,
+              "SkillbarId": "",
+              "TTSText": "",
+              "TriggerType": 0,
+              "LogicOperator": 0,
+              "TargetType": 0,
+              "TargetSelectionStrategy": 6,
+              "SkipBuffId": 0,
+              "TargetOperation": 0,
+              "TargetDataId": 0,
+              "TargetName": ""
+            }
+          ]
+        },
+        {
+          "Id": "5f819db2-f82b-43fb-85a0-21ddfa08ab91",
+          "Name": "Action Sequence",
+          "Description": "Quick Drop: Nature's Minne",
+          "Time": 374.32,
+          "Timeout": 5.0,
+          "CreatedAt": "2025-11-19T20:38:57.619922Z",
+          "ModifiedAt": "2025-11-19T20:38:57.6199221Z",
+          "Actions": [
+            {
+              "Id": "5592a0ee-c38f-45ea-9ec2-deb4331293a7",
+              "ActionId": 7408,
+              "SkillbarId": "",
+              "TTSText": "",
+              "TriggerType": 0,
+              "LogicOperator": 0,
+              "TargetType": 1,
+              "TargetSelectionStrategy": 6,
+              "SkipBuffId": 0,
+              "TargetOperation": 0,
+              "TargetDataId": 0,
+              "TargetName": ""
+            }
+          ]
+        },
+        {
+          "Id": "b5312c8d-8968-4082-8af7-216f1e5f3e3c",
+          "Name": "Action Sequence",
+          "Description": "Quick Drop: Troubadour",
+          "Time": 418.34,
+          "Timeout": 5.0,
+          "CreatedAt": "2025-11-19T20:39:13.3650856Z",
+          "ModifiedAt": "2025-11-19T20:39:13.3650857Z",
+          "Actions": [
+            {
+              "Id": "0af92fe0-8c69-4804-bee8-d052b91cb7b0",
+              "ActionId": 7405,
+              "SkillbarId": "",
+              "TTSText": "",
+              "TriggerType": 0,
+              "LogicOperator": 0,
+              "TargetType": 0,
+              "TargetSelectionStrategy": 6,
+              "SkipBuffId": 0,
+              "TargetOperation": 0,
+              "TargetDataId": 0,
+              "TargetName": ""
+            }
+          ]
+        },
+        {
+          "Id": "8da1547a-e677-47b3-8c98-c951c1e29c11",
+          "Name": "Action Sequence",
+          "Description": "Sequence with 2 actions: Troubadour + Nature's Minne",
+          "Time": 548.58,
+          "Timeout": 5.0,
+          "CreatedAt": "2025-11-19T20:40:29.6651499Z",
+          "ModifiedAt": "2025-11-19T20:40:29.6651499Z",
+          "Actions": [
+            {
+              "Id": "ded8055c-bd2c-40c9-b553-3d1ce341af96",
+              "ActionId": 7405,
+              "SkillbarId": "",
+              "TTSText": "",
+              "TriggerType": 0,
+              "LogicOperator": 0,
+              "TargetType": 0,
+              "TargetSelectionStrategy": 6,
+              "SkipBuffId": 0,
+              "TargetOperation": 0,
+              "TargetDataId": 0,
+              "TargetName": ""
+            },
+            {
+              "Id": "cb2b5834-eb6f-47c9-a2e7-fd9b2aad2719",
+              "ActionId": 7408,
+              "SkillbarId": "",
+              "TTSText": "",
+              "TriggerType": 0,
+              "LogicOperator": 0,
+              "TargetType": 1,
+              "TargetSelectionStrategy": 6,
+              "SkipBuffId": 0,
+              "TargetOperation": 0,
+              "TargetDataId": 0,
+              "TargetName": ""
+            }
+          ]
+        },
+        {
+          "Id": "8417b6e1-025d-422e-9805-7f0d6d13f92b",
+          "Name": "Action Sequence",
+          "Description": "Quick Drop: Nature's Minne",
+          "Time": 669.28,
+          "Timeout": 5.0,
+          "CreatedAt": "2025-11-19T20:40:57.2365798Z",
+          "ModifiedAt": "2025-11-19T20:40:57.2365798Z",
+          "Actions": [
+            {
+              "Id": "4dca8f99-07e7-4753-a779-1af6b84fb115",
+              "ActionId": 7408,
+              "SkillbarId": "",
+              "TTSText": "",
+              "TriggerType": 0,
+              "LogicOperator": 0,
+              "TargetType": 1,
+              "TargetSelectionStrategy": 6,
+              "SkipBuffId": 0,
+              "TargetOperation": 0,
+              "TargetDataId": 0,
+              "TargetName": ""
+            }
+          ]
+        },
+        {
+          "Id": "678dc48b-e875-4616-a538-58b366373c4a",
+          "Name": "Action Sequence",
+          "Description": "Quick Drop: Troubadour",
+          "Time": 676.62,
+          "Timeout": 5.0,
+          "CreatedAt": "2025-11-19T20:41:12.4664441Z",
+          "ModifiedAt": "2025-11-19T20:41:12.4664441Z",
+          "Actions": [
+            {
+              "Id": "7b1039f6-3485-4393-ac07-026d26383058",
+              "ActionId": 7405,
+              "SkillbarId": "",
+              "TTSText": "",
+              "TriggerType": 0,
+              "LogicOperator": 0,
+              "TargetType": 0,
+              "TargetSelectionStrategy": 6,
+              "SkipBuffId": 0,
+              "TargetOperation": 0,
+              "TargetDataId": 0,
+              "TargetName": ""
+            }
+          ]
+        },
+        {
+          "Id": "432c2916-c633-4f9c-8877-32845731987a",
+          "Name": "Action Sequence",
+          "Description": "Quick Drop: Troubadour",
+          "Time": 816.74,
+          "Timeout": 5.0,
+          "CreatedAt": "2025-11-19T20:41:44.9003635Z",
+          "ModifiedAt": "2025-11-19T20:41:44.9003636Z",
+          "Actions": [
+            {
+              "Id": "0c2f9135-4624-435b-8e3c-68a93d12fecd",
+              "ActionId": 7405,
+              "SkillbarId": "",
+              "TTSText": "",
+              "TriggerType": 0,
+              "LogicOperator": 0,
+              "TargetType": 0,
+              "TargetSelectionStrategy": 6,
+              "SkipBuffId": 0,
+              "TargetOperation": 0,
+              "TargetDataId": 0,
+              "TargetName": ""
+            }
+          ]
+        },
+        {
+          "Id": "1a15d07c-ffe1-47d2-bd69-06033e93b32b",
+          "Name": "Action Sequence",
+          "Description": "Quick Drop: Nature's Minne",
+          "Time": 821.62,
+          "Timeout": 5.0,
+          "CreatedAt": "2025-11-19T20:42:00.994849Z",
+          "ModifiedAt": "2025-11-19T20:42:00.9948492Z",
+          "Actions": [
+            {
+              "Id": "c8479eb7-0cbf-47b7-a1b3-5802e9a363cf",
+              "ActionId": 7408,
+              "SkillbarId": "",
+              "TTSText": "",
+              "TriggerType": 0,
+              "LogicOperator": 0,
+              "TargetType": 1,
+              "TargetSelectionStrategy": 6,
+              "SkipBuffId": 0,
+              "TargetOperation": 0,
+              "TargetDataId": 0,
+              "TargetName": ""
+            }
+          ]
+        },
+        {
+          "Id": "15e528dc-0ec9-4234-b1b6-abc5ce59e174",
+          "Name": "Action Sequence",
+          "Description": "Quick Drop: Troubadour",
+          "Time": 951.84,
+          "Timeout": 5.0,
+          "CreatedAt": "2025-11-19T20:42:31.5366117Z",
+          "ModifiedAt": "2025-11-19T20:42:31.5366118Z",
+          "Actions": [
+            {
+              "Id": "60ec1773-2742-4871-a98b-40958c05ef9a",
+              "ActionId": 7405,
+              "SkillbarId": "",
+              "TTSText": "",
+              "TriggerType": 0,
+              "LogicOperator": 0,
+              "TargetType": 0,
+              "TargetSelectionStrategy": 6,
+              "SkipBuffId": 0,
+              "TargetOperation": 0,
+              "TargetDataId": 0,
+              "TargetName": ""
+            }
+          ]
+        },
+        {
+          "Id": "726702c7-1103-4c98-9671-5089ffdaa415",
+          "Name": "Action Sequence",
+          "Description": "Quick Drop: Nature's Minne",
+          "Time": 957.7,
+          "Timeout": 5.0,
+          "CreatedAt": "2025-11-19T20:42:38.9547696Z",
+          "ModifiedAt": "2025-11-19T20:42:38.9547696Z",
+          "Actions": [
+            {
+              "Id": "7538d419-94f5-45d9-a260-daa7b5f0a516",
+              "ActionId": 7408,
+              "SkillbarId": "",
+              "TTSText": "",
+              "TriggerType": 0,
+              "LogicOperator": 0,
+              "TargetType": 1,
+              "TargetSelectionStrategy": 6,
+              "SkipBuffId": 0,
+              "TargetOperation": 0,
+              "TargetDataId": 0,
+              "TargetName": ""
+            }
+          ]
+        }
+      ],
+      "LogicSequences": []
+    }
+  },
+  "Conditions": [],
+  "Logics": [],
+  "CreatedAt": "2025-11-19T14:43:36.2869534Z",
+  "ModifiedAt": "2025-11-19T14:43:36.2869535Z"
+}
