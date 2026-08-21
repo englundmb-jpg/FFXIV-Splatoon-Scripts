@@ -1,4 +1,4 @@
-
+{
   "Id": "Maggie-DNC-R1",
   "Name": "Maggie DNC R1",
   "Description": "Dancer R1 control profile. Opener stays enabled and burst repeats normally; Save CD is the only manual burst-delay control. Preserves manual Dance Partner, healing and shielding. Enables core rotation controls and automatic interrupt. Pools three feathers and spends one at four.",
