@@ -3,5 +3,12 @@
   "timelines/Bard/UCOB.json": "1.0.1",
   "timelines/Astrologian/M9S.json": "1.0.0",
   "timelines/Astrologian/M11S.json": "1.0.0",
-  "events/Dancer/Maggie_DNC_R1_Reactions.json": "1.0.0"
+  "events/Dancer/Maggie_DNC_R1_Reactions.json": "1.0.1",
+  "events/Bard/Maggie_BRD_R1_Reactions.json": "1.0.0",
+  "events/Machinist/Maggie_MCH_R1_Reactions.json": "1.0.0",
+  "events/Summoner/Maggie_SMN_R1_Reactions.json": "1.0.0",
+  "events/Pictomancer/Maggie_PCT_R1_Reactions.json": "1.0.0",
+  "events/Viper/Maggie_VPR_R1_Reactions.json": "1.0.0",
+  "events/Warrior/Maggie_WAR_R1_Reactions.json": "1.0.0",
+  "events/Paladin/Maggie_PLD_R1_Reactions.json": "1.0.0"
 }
