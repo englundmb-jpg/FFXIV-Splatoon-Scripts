@@ -1,47 +1,33 @@
 {
-  "Id": "Maggie-DNC-R1",
-  "Name": "Maggie DNC R1",
-  "Description": "Dancer R1 control profile. Opener stays enabled and burst repeats normally; Save CD is the only manual burst-delay control. Preserves manual Dance Partner, healing and shielding. Enables core rotation controls and automatic interrupt. Pools three feathers and spends one at four.",
-  "CreatedAt": "2026-08-20T22:00:00.000Z",
-  "ModifiedAt": "2026-08-20T22:00:00.000Z",
+  "Id": "Maggie-PCT-R1",
+  "Name": "Maggie PCT R1",
+  "Description": "Pictomancer R1 control profile. Opener stays enabled and burst repeats normally. Save CD is the only manual burst-delay control and is never reset by this profile.",
+  "CreatedAt": "2026-08-21T23:30:00.000Z",
+  "ModifiedAt": "2026-08-21T23:30:00.000Z",
   "Events": [
     {
-      "Id": "40000000-0000-4000-8000-000000000001",
-      "Name": "Set DNC defaults out of combat",
-      "Description": "Keeps Opener enabled. Does not touch Save CD, Auto Partner, healing or shielding.",
+      "Id": "84000000-0000-4000-8000-000000000001",
+      "Name": "Set PCT defaults out of combat",
+      "Description": "Keeps Opener and normal damage controls enabled. Does not touch Save CD.",
       "EventType": "OnTick",
-      "LogicId": "50000000-0000-4000-8000-000000000001",
+      "LogicId": "84000000-0000-4000-8000-000000000004",
       "ThrottleSameEvent": 0.5,
       "ThrottleAllEvents": 0.1,
       "Timeout": 5,
       "RecheckDuration": 0,
       "Filters": {},
-      "CreatedAt": "2026-08-20T22:00:00.000Z",
-      "ModifiedAt": "2026-08-20T22:00:00.000Z"
-    },
-    {
-      "Id": "40000000-0000-4000-8000-000000000004",
-      "Name": "Hold 3 Fans - Spend 1 at 4",
-      "Description": "Directly spends one Fan Dance at four feathers, then naturally returns to holding three. No combat toggle switching.",
-      "EventType": "OnTick",
-      "LogicId": "50000000-0000-4000-8000-000000000004",
-      "ThrottleSameEvent": 0.1,
-      "ThrottleAllEvents": 0.05,
-      "Timeout": 5,
-      "RecheckDuration": 0,
-      "Filters": {},
-      "CreatedAt": "2026-08-20T22:00:00.000Z",
-      "ModifiedAt": "2026-08-20T22:00:00.000Z"
+      "CreatedAt": "2026-08-21T23:30:00.000Z",
+      "ModifiedAt": "2026-08-21T23:30:00.000Z"
     }
   ],
   "Conditions": [
     {
-      "Id": "10000000-0000-4000-8000-000000000001",
+      "Id": "84000000-0000-4000-8000-000000000002",
       "Name": "Out of combat",
       "Description": "",
       "SubConditions": [
         {
-          "Id": "10000000-0000-4000-8000-000000000002",
+          "Id": "84000000-0000-4000-8000-000000000003",
           "Name": "Out of combat",
           "Description": "",
           "TargetType": 0,
@@ -242,244 +228,28 @@
           "TargetCountComparison": 3,
           "UsePercentageMode": false,
           "RequiredTargetPercentage": 100,
-          "CreatedAt": "2026-08-20T22:00:00.000Z",
-          "ModifiedAt": "2026-08-20T22:00:00.000Z",
+          "CreatedAt": "2026-08-21T23:30:00.000Z",
+          "ModifiedAt": "2026-08-21T23:30:00.000Z",
           "ShouldUseTargetCount": false
         }
       ],
-      "CreatedAt": "2026-08-20T22:00:00.000Z",
-      "ModifiedAt": "2026-08-20T22:00:00.000Z",
-      "ExcludeFromTargetAccumulation": false
-    },
-    {
-      "Id": "20000000-0000-4000-8000-000000000004",
-      "Name": "Feathers equal 4",
-      "Description": "",
-      "SubConditions": [
-        {
-          "Id": "20000000-0000-4000-8000-00000000000f",
-          "Name": "Feathers equal 4",
-          "Description": "",
-          "TargetType": 0,
-          "ConditionType": 4,
-          "Parameters": {
-            "BuffParams": {
-              "StatusId": 0,
-              "StatusIds": [],
-              "UseMultipleStatuses": false,
-              "StatusLogic": 1,
-              "CheckDuration": false,
-              "MinDuration": 0,
-              "DurationComparison": 3,
-              "CheckStacks": false,
-              "RequiredStacks": 1,
-              "StackComparison": 3,
-              "InvertCheck": false,
-              "RequiredBuffCount": 2,
-              "BuffCountComparison": 3,
-              "StatusTargetOverrides": {},
-              "IsEnabled": true
-            },
-            "HealthParams": {
-              "Percentage": 100,
-              "Comparison": 1,
-              "UseRawValue": false,
-              "RawValue": 1000,
-              "IsEnabled": true
-            },
-            "DistanceParams": {
-              "Distance": 0,
-              "Comparison": 1,
-              "CheckLineOfSight": false,
-              "IsEnabled": true
-            },
-            "GaugeParams": {
-              "PropertyName": "Feathers",
-              "ValueType": 0,
-              "NumericValue": 4,
-              "BooleanValue": false,
-              "StringValue": "",
-              "Comparison": 3,
-              "IsEnabled": true
-            },
-            "MpParams": {
-              "Percentage": 100,
-              "Comparison": 1,
-              "UseRawValue": false,
-              "RawValue": 1000,
-              "IsEnabled": true
-            },
-            "LastAbilityParams": {
-              "AbilityId": 1,
-              "TimeThreshold": 0.5,
-              "TimeComparison": 1,
-              "IsEnabled": true
-            },
-            "LastGcdParams": {
-              "AbilityId": 1,
-              "TimeThreshold": 0.5,
-              "TimeComparison": 1,
-              "IsEnabled": true
-            },
-            "CooldownParams": {
-              "AbilityId": 1,
-              "TimeThreshold": 0,
-              "TimeComparison": 2,
-              "CheckCharges": false,
-              "RequiredCharges": 1,
-              "IsEnabled": true
-            },
-            "ComboParams": {
-              "ComboId": 1,
-              "TimeRemaining": 0,
-              "TimeComparison": 3,
-              "IsEnabled": true
-            },
-            "MovementParams": {
-              "ExpectedState": true,
-              "IsEnabled": true
-            },
-            "ChannelingParams": {
-              "IsChanneling": true,
-              "SpecificAbilityId": 0,
-              "IsEnabled": true
-            },
-            "AggroParams": {
-              "HasAggro": true,
-              "AggroPosition": 1,
-              "PositionComparison": 2,
-              "IsEnabled": true
-            },
-            "AlwaysParams": {
-              "ExpectedState": true,
-              "IsEnabled": true
-            },
-            "InCombatParams": {
-              "ExpectedState": true,
-              "IsEnabled": true
-            },
-            "ActionHighlightedParams": {
-              "ActionId": 1,
-              "IsEnabled": true
-            },
-            "IsCastingParams": {
-              "IsCasting": true,
-              "SpecificActionId": 0,
-              "CheckSpecific": false,
-              "IsEnabled": true
-            },
-            "GcdTimeRemainingParams": {
-              "TimeThreshold": 2.5,
-              "Comparison": 1,
-              "IsEnabled": true
-            },
-            "CanInterruptParams": {
-              "CanInterrupt": true,
-              "IsEnabled": true
-            },
-            "EntityIdParams": {
-              "EntityId": 0,
-              "Comparison": 2,
-              "IsEnabled": true
-            },
-            "PartyHpAverageParams": {
-              "Percentage": 50,
-              "Comparison": 1,
-              "IsEnabled": true
-            },
-            "PartyHpLowestParams": {
-              "Percentage": 50,
-              "Comparison": 1,
-              "LowestMemberCount": 4,
-              "UseLowestMemberPercentage": false,
-              "LowestMemberPercentage": 50,
-              "IsEnabled": true
-            },
-            "PartyHpBandsParams": {
-              "CriticalThreshold": 30,
-              "LowThreshold": 50,
-              "ModerateThreshold": 70,
-              "RequiredCritical": 1,
-              "RequiredLow": 3,
-              "RequiredModerate": 5,
-              "BandLogic": 0,
-              "IsEnabled": true
-            },
-            "ActionChargesParams": {
-              "ActionId": 1,
-              "RequiredCharges": 1,
-              "Comparison": 3,
-              "CheckType": 0,
-              "TimeThreshold": 0,
-              "TimeComparison": 1,
-              "IsEnabled": true
-            },
-            "AggroCountParams": {
-              "RequiredCount": 1,
-              "CountComparison": 3,
-              "IsEnabled": true
-            },
-            "ShieldParams": {
-              "Percentage": 100,
-              "Comparison": 1,
-              "UseRawValue": false,
-              "RawValue": 1000,
-              "IsEnabled": true
-            },
-            "PartyShieldAverageParams": {
-              "Percentage": 20,
-              "Comparison": 3,
-              "IsEnabled": true
-            },
-            "VariableParams": {
-              "VariableName": "",
-              "VariableType": 0,
-              "ExpectedBoolValue": true,
-              "ExpectedStringValue": "",
-              "ExpectedNumberValue": 0,
-              "Comparison": 2,
-              "StringComparison": 0,
-              "InvertCheck": false,
-              "CheckExists": false,
-              "IsEnabled": true
-            },
-            "DataIdParams": {
-              "DataId": 0,
-              "Comparison": 2,
-              "IsEnabled": true
-            },
-            "TargetNameParams": {
-              "Name": "",
-              "Comparison": 0,
-              "IsEnabled": true
-            }
-          },
-          "RequiredTargetCount": 1,
-          "TargetCountComparison": 3,
-          "UsePercentageMode": false,
-          "RequiredTargetPercentage": 100,
-          "CreatedAt": "2026-08-20T22:00:00.000Z",
-          "ModifiedAt": "2026-08-20T22:00:00.000Z",
-          "ShouldUseTargetCount": false
-        }
-      ],
-      "CreatedAt": "2026-08-20T22:00:00.000Z",
-      "ModifiedAt": "2026-08-20T22:00:00.000Z",
+      "CreatedAt": "2026-08-21T23:30:00.000Z",
+      "ModifiedAt": "2026-08-21T23:30:00.000Z",
       "ExcludeFromTargetAccumulation": false
     }
   ],
   "Logics": [
     {
-      "Id": "50000000-0000-4000-8000-000000000001",
-      "Name": "DNC defaults",
-      "Description": "Core rotation controls only.",
+      "Id": "84000000-0000-4000-8000-000000000004",
+      "Name": "PCT rotation defaults",
+      "Description": "Opener and normal damage controls ON; Save CD untouched.",
       "LogicType": 1,
       "ConditionIds": [
-        "10000000-0000-4000-8000-000000000001"
+        "84000000-0000-4000-8000-000000000002"
       ],
       "ActionTriggers": [
         {
-          "Id": "30000000-0000-4000-8000-000000000001",
+          "Id": "84000000-0000-4000-9000-000000000001",
           "ActionId": 0,
           "SkillbarId": "UseOpener",
           "TTSText": "",
@@ -504,7 +274,7 @@
           "VariableOperation": 0
         },
         {
-          "Id": "30000000-0000-4000-8000-000000000002",
+          "Id": "84000000-0000-4000-9000-000000000002",
           "ActionId": 0,
           "SkillbarId": "UseAOE",
           "TTSText": "",
@@ -529,9 +299,9 @@
           "VariableOperation": 0
         },
         {
-          "Id": "30000000-0000-4000-8000-000000000003",
+          "Id": "84000000-0000-4000-9000-000000000003",
           "ActionId": 0,
-          "SkillbarId": "TechnicalStep",
+          "SkillbarId": "SmartAOE",
           "TTSText": "",
           "TriggerType": 1,
           "LogicOperator": 4,
@@ -554,9 +324,34 @@
           "VariableOperation": 0
         },
         {
-          "Id": "30000000-0000-4000-8000-000000000004",
+          "Id": "84000000-0000-4000-9000-000000000004",
           "ActionId": 0,
-          "SkillbarId": "StandardStep",
+          "SkillbarId": "Burn",
+          "TTSText": "",
+          "TriggerType": 1,
+          "LogicOperator": 8,
+          "TargetType": 1,
+          "TargetSelectionStrategy": 6,
+          "SkipBuffId": 0,
+          "TargetOperation": 0,
+          "TargetDataId": 0,
+          "TargetName": "",
+          "TargetX": 0,
+          "TargetY": 0,
+          "TargetZ": 0,
+          "OverlayText": "",
+          "OverlayDuration": 3,
+          "VariableName": "",
+          "VariableType": 0,
+          "VariableBoolValue": true,
+          "VariableStringValue": "",
+          "VariableNumberValue": 0,
+          "VariableOperation": 0
+        },
+        {
+          "Id": "84000000-0000-4000-9000-000000000005",
+          "ActionId": 0,
+          "SkillbarId": "Mortifs",
           "TTSText": "",
           "TriggerType": 1,
           "LogicOperator": 4,
@@ -579,9 +374,9 @@
           "VariableOperation": 0
         },
         {
-          "Id": "30000000-0000-4000-8000-000000000005",
+          "Id": "84000000-0000-4000-9000-000000000006",
           "ActionId": 0,
-          "SkillbarId": "Flourish",
+          "SkillbarId": "MortifsOutOfCombat",
           "TTSText": "",
           "TriggerType": 1,
           "LogicOperator": 4,
@@ -604,9 +399,9 @@
           "VariableOperation": 0
         },
         {
-          "Id": "30000000-0000-4000-8000-000000000006",
+          "Id": "84000000-0000-4000-9000-000000000007",
           "ActionId": 0,
-          "SkillbarId": "Devilment",
+          "SkillbarId": "StarryMuse",
           "TTSText": "",
           "TriggerType": 1,
           "LogicOperator": 4,
@@ -629,9 +424,9 @@
           "VariableOperation": 0
         },
         {
-          "Id": "30000000-0000-4000-8000-000000000007",
+          "Id": "84000000-0000-4000-9000-000000000008",
           "ActionId": 0,
-          "SkillbarId": "SaberDance",
+          "SkillbarId": "HammerMuse",
           "TTSText": "",
           "TriggerType": 1,
           "LogicOperator": 4,
@@ -654,9 +449,9 @@
           "VariableOperation": 0
         },
         {
-          "Id": "30000000-0000-4000-8000-000000000008",
+          "Id": "84000000-0000-4000-9000-000000000009",
           "ActionId": 0,
-          "SkillbarId": "Tillana",
+          "SkillbarId": "BeastMuse",
           "TTSText": "",
           "TriggerType": 1,
           "LogicOperator": 4,
@@ -679,9 +474,9 @@
           "VariableOperation": 0
         },
         {
-          "Id": "30000000-0000-4000-8000-000000000009",
+          "Id": "84000000-0000-4000-9000-000000000010",
           "ActionId": 0,
-          "SkillbarId": "StarFallDance",
+          "SkillbarId": "SubtractivePalette",
           "TTSText": "",
           "TriggerType": 1,
           "LogicOperator": 4,
@@ -704,9 +499,9 @@
           "VariableOperation": 0
         },
         {
-          "Id": "30000000-0000-4000-8000-000000000010",
+          "Id": "84000000-0000-4000-9000-000000000011",
           "ActionId": 0,
-          "SkillbarId": "FD4",
+          "SkillbarId": "RainbowDrip",
           "TTSText": "",
           "TriggerType": 1,
           "LogicOperator": 4,
@@ -729,9 +524,9 @@
           "VariableOperation": 0
         },
         {
-          "Id": "30000000-0000-4000-8000-000000000011",
+          "Id": "84000000-0000-4000-9000-000000000012",
           "ActionId": 0,
-          "SkillbarId": "Interrupt",
+          "SkillbarId": "SwiftMovement",
           "TTSText": "",
           "TriggerType": 1,
           "LogicOperator": 4,
@@ -754,9 +549,34 @@
           "VariableOperation": 0
         },
         {
-          "Id": "30000000-0000-4000-8000-000000000012",
+          "Id": "84000000-0000-4000-9000-000000000013",
           "ActionId": 0,
-          "SkillbarId": "HoldFans",
+          "SkillbarId": "StrikingMuseMovement",
+          "TTSText": "",
+          "TriggerType": 1,
+          "LogicOperator": 4,
+          "TargetType": 1,
+          "TargetSelectionStrategy": 6,
+          "SkipBuffId": 0,
+          "TargetOperation": 0,
+          "TargetDataId": 0,
+          "TargetName": "",
+          "TargetX": 0,
+          "TargetY": 0,
+          "TargetZ": 0,
+          "OverlayText": "",
+          "OverlayDuration": 3,
+          "VariableName": "",
+          "VariableType": 0,
+          "VariableBoolValue": true,
+          "VariableStringValue": "",
+          "VariableNumberValue": 0,
+          "VariableOperation": 0
+        },
+        {
+          "Id": "84000000-0000-4000-9000-000000000014",
+          "ActionId": 0,
+          "SkillbarId": "StarryMuseMovement",
           "TTSText": "",
           "TriggerType": 1,
           "LogicOperator": 4,
@@ -779,49 +599,9 @@
           "VariableOperation": 0
         }
       ],
-      "CreatedAt": "2026-08-20T22:00:00.000Z",
-      "ModifiedAt": "2026-08-20T22:00:00.000Z",
+      "CreatedAt": "2026-08-21T23:30:00.000Z",
+      "ModifiedAt": "2026-08-21T23:30:00.000Z",
       "ExecuteFirstOnly": false,
-      "Category": "Rotation"
-    },
-    {
-      "Id": "50000000-0000-4000-8000-000000000004",
-      "Name": "Hold 3 Fans - Spend 1 at 4",
-      "Description": "Uses Fan Dance once at four feathers.",
-      "LogicType": 1,
-      "ConditionIds": [
-        "20000000-0000-4000-8000-000000000004"
-      ],
-      "ActionTriggers": [
-        {
-          "Id": "60000000-0000-4000-8000-000000000004",
-          "ActionId": 16007,
-          "SkillbarId": "",
-          "TTSText": "",
-          "TriggerType": 0,
-          "LogicOperator": 0,
-          "TargetType": 1,
-          "TargetSelectionStrategy": 6,
-          "SkipBuffId": 0,
-          "TargetOperation": 0,
-          "TargetDataId": 0,
-          "TargetName": "",
-          "TargetX": 0,
-          "TargetY": 0,
-          "TargetZ": 0,
-          "OverlayText": "",
-          "OverlayDuration": 3,
-          "VariableName": "",
-          "VariableType": 0,
-          "VariableBoolValue": true,
-          "VariableStringValue": "",
-          "VariableNumberValue": 0,
-          "VariableOperation": 0
-        }
-      ],
-      "CreatedAt": "2026-08-20T22:00:00.000Z",
-      "ModifiedAt": "2026-08-20T22:00:00.000Z",
-      "ExecuteFirstOnly": true,
       "Category": "Rotation"
     }
   ],
@@ -831,25 +611,24 @@
     "NumberOfColumns": 1,
     "HorizontalSpacing": 0,
     "VerticalSpacing": 0,
-    "ButtonWidth": 190,
+    "ButtonWidth": 170,
     "ButtonHeight": 40,
     "Transparency": 255,
     "Items": [
       {
-        "Id": "70000000-0000-4000-8000-000000000001",
-        "Name": "Hold 3 Fans - Spend 1 at 4",
-        "Description": "Opener always enabled; Save CD is the only burst-delay control. Partner and utility stay manual.",
+        "Id": "84000000-0000-4000-8000-000000000005",
+        "Name": "PCT Core",
+        "Description": "Opener always enabled. Save CD is the only burst-delay control.",
         "EventIds": [
-          "40000000-0000-4000-8000-000000000001",
-          "40000000-0000-4000-8000-000000000004"
+          "84000000-0000-4000-8000-000000000001"
         ],
         "Enabled": true,
         "Position": 0
       }
     ],
     "ToggleStates": {
-      "70000000-0000-4000-8000-000000000001": true
+      "84000000-0000-4000-8000-000000000005": true
     }
   },
-  "Version": "1.0.1"
+  "Version": "1.0.0"
 }
