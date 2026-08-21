@@ -2,7 +2,7 @@
   "Id": "Maggie-AST-Complete",
   "Name": "Maggie AST Complete",
   "Description": "Complete Astrologian event profile based on Jasper's verified healing structure. Opener stays enabled and Save CD is never changed automatically. General healing, emergency recovery, mitigation, raises and cleanses complement fight-specific Timeline Reactions.",
-  "Version": "2.0.0",
+  "Version": "2.0.1",
   "AIOEventVersion": "2.0",
   "Events": [
     {
@@ -524,6 +524,22 @@
       "ModifiedAt": "2026-07-07T11:20:00.000Z",
       "ExecuteFirstOnly": false,
       "Category": "Toggles"
+    },
+    {
+      "Id": "maggie-ast-event-transcendent-safety",
+      "Name": "Resurrection Invulnerability Guard",
+      "Description": "Pauses AST actions after revival until Transcendent expires.",
+      "EventType": "OnTick",
+      "LogicId": "maggie-ast-logic-transcendent-safety",
+      "ThrottleSameEvent": 0.25,
+      "ThrottleAllEvents": 0,
+      "Timeout": 5,
+      "RecheckDuration": 0,
+      "Filters": {},
+      "CreatedAt": "2026-08-21T23:30:00.000Z",
+      "ModifiedAt": "2026-08-21T23:30:00.000Z",
+      "ExecuteFirstOnly": false,
+      "Category": "Safety"
     }
   ],
   "Conditions": [
@@ -7052,6 +7068,438 @@
       "CreatedAt": "2026-06-26T23:15:00.000Z",
       "ModifiedAt": "2026-06-26T23:15:00.000Z",
       "ExcludeFromTargetAccumulation": false
+    },
+    {
+      "Id": "maggie-ast-cond-no-transcendent",
+      "Name": "No Transcendent",
+      "Description": "Player does not have resurrection invulnerability.",
+      "SubConditions": [
+        {
+          "Id": "maggie-ast-cond-no-transcendent-sub",
+          "Name": "No Transcendent",
+          "Description": "",
+          "TargetType": 0,
+          "ConditionType": 5,
+          "Parameters": {
+            "BuffParams": {
+              "StatusId": 418,
+              "StatusIds": [],
+              "UseMultipleStatuses": false,
+              "StatusLogic": 1,
+              "CheckDuration": false,
+              "MinDuration": 0,
+              "DurationComparison": 3,
+              "CheckStacks": false,
+              "RequiredStacks": 1,
+              "StackComparison": 3,
+              "InvertCheck": true,
+              "RequiredBuffCount": 2,
+              "BuffCountComparison": 3,
+              "StatusTargetOverrides": {},
+              "IsEnabled": true
+            },
+            "HealthParams": {
+              "Percentage": 100,
+              "Comparison": 1,
+              "UseRawValue": false,
+              "RawValue": 1000,
+              "IsEnabled": true
+            },
+            "DistanceParams": {
+              "Distance": 0,
+              "Comparison": 1,
+              "CheckLineOfSight": false,
+              "IsEnabled": true
+            },
+            "GaugeParams": {
+              "PropertyName": "",
+              "ValueType": 0,
+              "NumericValue": 0,
+              "BooleanValue": false,
+              "StringValue": "",
+              "Comparison": 3,
+              "IsEnabled": true
+            },
+            "MpParams": {
+              "Percentage": 100,
+              "Comparison": 1,
+              "UseRawValue": false,
+              "RawValue": 1000,
+              "IsEnabled": true
+            },
+            "LastAbilityParams": {
+              "AbilityId": 1,
+              "TimeThreshold": 0.5,
+              "TimeComparison": 1,
+              "IsEnabled": true
+            },
+            "LastGcdParams": {
+              "AbilityId": 1,
+              "TimeThreshold": 0.5,
+              "TimeComparison": 1,
+              "IsEnabled": true
+            },
+            "CooldownParams": {
+              "AbilityId": 1,
+              "TimeThreshold": 0,
+              "TimeComparison": 2,
+              "CheckCharges": false,
+              "RequiredCharges": 1,
+              "IsEnabled": true
+            },
+            "ComboParams": {
+              "ComboId": 1,
+              "TimeRemaining": 0,
+              "TimeComparison": 3,
+              "IsEnabled": true
+            },
+            "MovementParams": {
+              "ExpectedState": true,
+              "IsEnabled": true
+            },
+            "ChannelingParams": {
+              "IsChanneling": true,
+              "SpecificAbilityId": 0,
+              "IsEnabled": true
+            },
+            "AggroParams": {
+              "HasAggro": true,
+              "AggroPosition": 1,
+              "PositionComparison": 2,
+              "IsEnabled": true
+            },
+            "AlwaysParams": {
+              "ExpectedState": true,
+              "IsEnabled": true
+            },
+            "InCombatParams": {
+              "ExpectedState": true,
+              "IsEnabled": true
+            },
+            "ActionHighlightedParams": {
+              "ActionId": 1,
+              "IsEnabled": true
+            },
+            "IsCastingParams": {
+              "IsCasting": true,
+              "SpecificActionId": 0,
+              "CheckSpecific": false,
+              "IsEnabled": true
+            },
+            "GcdTimeRemainingParams": {
+              "TimeThreshold": 2.5,
+              "Comparison": 1,
+              "IsEnabled": true
+            },
+            "CanInterruptParams": {
+              "CanInterrupt": true,
+              "IsEnabled": true
+            },
+            "EntityIdParams": {
+              "EntityId": 0,
+              "Comparison": 2,
+              "IsEnabled": true
+            },
+            "PartyHpAverageParams": {
+              "Percentage": 60,
+              "Comparison": 1,
+              "IsEnabled": true
+            },
+            "PartyHpLowestParams": {
+              "Percentage": 60,
+              "Comparison": 1,
+              "LowestMemberCount": 4,
+              "UseLowestMemberPercentage": false,
+              "LowestMemberPercentage": 50,
+              "IsEnabled": true
+            },
+            "PartyHpBandsParams": {
+              "CriticalThreshold": 30,
+              "LowThreshold": 50,
+              "ModerateThreshold": 70,
+              "RequiredCritical": 1,
+              "RequiredLow": 3,
+              "RequiredModerate": 5,
+              "BandLogic": 0,
+              "IsEnabled": true
+            },
+            "ActionChargesParams": {
+              "ActionId": 1,
+              "RequiredCharges": 1,
+              "Comparison": 3,
+              "CheckType": 0,
+              "TimeThreshold": 0,
+              "TimeComparison": 1,
+              "IsEnabled": true
+            },
+            "AggroCountParams": {
+              "RequiredCount": 1,
+              "CountComparison": 3,
+              "IsEnabled": true
+            },
+            "ShieldParams": {
+              "Percentage": 100,
+              "Comparison": 1,
+              "UseRawValue": false,
+              "RawValue": 1000,
+              "IsEnabled": true
+            },
+            "PartyShieldAverageParams": {
+              "Percentage": 20,
+              "Comparison": 3,
+              "IsEnabled": true
+            },
+            "VariableParams": {
+              "VariableName": "",
+              "VariableType": 0,
+              "ExpectedBoolValue": true,
+              "ExpectedStringValue": "",
+              "ExpectedNumberValue": 0,
+              "Comparison": 2,
+              "StringComparison": 0,
+              "InvertCheck": false,
+              "CheckExists": false,
+              "IsEnabled": true
+            },
+            "DataIdParams": {
+              "DataId": 0,
+              "Comparison": 2,
+              "IsEnabled": true
+            },
+            "TargetNameParams": {
+              "Name": "",
+              "Comparison": 0,
+              "IsEnabled": true
+            }
+          },
+          "RequiredTargetCount": 1,
+          "TargetCountComparison": 3,
+          "UsePercentageMode": true,
+          "RequiredTargetPercentage": 50,
+          "CreatedAt": "2025-06-08T18:16:39.247611Z",
+          "ModifiedAt": "2025-06-08T18:16:39.2476111Z",
+          "ShouldUseTargetCount": false
+        }
+      ],
+      "CreatedAt": "2026-08-21T23:30:00.000Z",
+      "ModifiedAt": "2026-08-21T23:30:00.000Z",
+      "ExcludeFromTargetAccumulation": false
+    },
+    {
+      "Id": "maggie-ast-cond-has-transcendent",
+      "Name": "Has Transcendent",
+      "Description": "Player has resurrection invulnerability; do not perform any action.",
+      "SubConditions": [
+        {
+          "Id": "maggie-ast-cond-has-transcendent-sub",
+          "Name": "Has Transcendent",
+          "Description": "",
+          "TargetType": 0,
+          "ConditionType": 5,
+          "Parameters": {
+            "BuffParams": {
+              "StatusId": 418,
+              "StatusIds": [],
+              "UseMultipleStatuses": false,
+              "StatusLogic": 1,
+              "CheckDuration": false,
+              "MinDuration": 0,
+              "DurationComparison": 3,
+              "CheckStacks": false,
+              "RequiredStacks": 1,
+              "StackComparison": 3,
+              "InvertCheck": false,
+              "RequiredBuffCount": 2,
+              "BuffCountComparison": 3,
+              "StatusTargetOverrides": {},
+              "IsEnabled": true
+            },
+            "HealthParams": {
+              "Percentage": 100,
+              "Comparison": 1,
+              "UseRawValue": false,
+              "RawValue": 1000,
+              "IsEnabled": true
+            },
+            "DistanceParams": {
+              "Distance": 0,
+              "Comparison": 1,
+              "CheckLineOfSight": false,
+              "IsEnabled": true
+            },
+            "GaugeParams": {
+              "PropertyName": "",
+              "ValueType": 0,
+              "NumericValue": 0,
+              "BooleanValue": false,
+              "StringValue": "",
+              "Comparison": 3,
+              "IsEnabled": true
+            },
+            "MpParams": {
+              "Percentage": 100,
+              "Comparison": 1,
+              "UseRawValue": false,
+              "RawValue": 1000,
+              "IsEnabled": true
+            },
+            "LastAbilityParams": {
+              "AbilityId": 1,
+              "TimeThreshold": 0.5,
+              "TimeComparison": 1,
+              "IsEnabled": true
+            },
+            "LastGcdParams": {
+              "AbilityId": 1,
+              "TimeThreshold": 0.5,
+              "TimeComparison": 1,
+              "IsEnabled": true
+            },
+            "CooldownParams": {
+              "AbilityId": 1,
+              "TimeThreshold": 0,
+              "TimeComparison": 2,
+              "CheckCharges": false,
+              "RequiredCharges": 1,
+              "IsEnabled": true
+            },
+            "ComboParams": {
+              "ComboId": 1,
+              "TimeRemaining": 0,
+              "TimeComparison": 3,
+              "IsEnabled": true
+            },
+            "MovementParams": {
+              "ExpectedState": true,
+              "IsEnabled": true
+            },
+            "ChannelingParams": {
+              "IsChanneling": true,
+              "SpecificAbilityId": 0,
+              "IsEnabled": true
+            },
+            "AggroParams": {
+              "HasAggro": true,
+              "AggroPosition": 1,
+              "PositionComparison": 2,
+              "IsEnabled": true
+            },
+            "AlwaysParams": {
+              "ExpectedState": true,
+              "IsEnabled": true
+            },
+            "InCombatParams": {
+              "ExpectedState": true,
+              "IsEnabled": true
+            },
+            "ActionHighlightedParams": {
+              "ActionId": 1,
+              "IsEnabled": true
+            },
+            "IsCastingParams": {
+              "IsCasting": true,
+              "SpecificActionId": 0,
+              "CheckSpecific": false,
+              "IsEnabled": true
+            },
+            "GcdTimeRemainingParams": {
+              "TimeThreshold": 2.5,
+              "Comparison": 1,
+              "IsEnabled": true
+            },
+            "CanInterruptParams": {
+              "CanInterrupt": true,
+              "IsEnabled": true
+            },
+            "EntityIdParams": {
+              "EntityId": 0,
+              "Comparison": 2,
+              "IsEnabled": true
+            },
+            "PartyHpAverageParams": {
+              "Percentage": 60,
+              "Comparison": 1,
+              "IsEnabled": true
+            },
+            "PartyHpLowestParams": {
+              "Percentage": 60,
+              "Comparison": 1,
+              "LowestMemberCount": 4,
+              "UseLowestMemberPercentage": false,
+              "LowestMemberPercentage": 50,
+              "IsEnabled": true
+            },
+            "PartyHpBandsParams": {
+              "CriticalThreshold": 30,
+              "LowThreshold": 50,
+              "ModerateThreshold": 70,
+              "RequiredCritical": 1,
+              "RequiredLow": 3,
+              "RequiredModerate": 5,
+              "BandLogic": 0,
+              "IsEnabled": true
+            },
+            "ActionChargesParams": {
+              "ActionId": 1,
+              "RequiredCharges": 1,
+              "Comparison": 3,
+              "CheckType": 0,
+              "TimeThreshold": 0,
+              "TimeComparison": 1,
+              "IsEnabled": true
+            },
+            "AggroCountParams": {
+              "RequiredCount": 1,
+              "CountComparison": 3,
+              "IsEnabled": true
+            },
+            "ShieldParams": {
+              "Percentage": 100,
+              "Comparison": 1,
+              "UseRawValue": false,
+              "RawValue": 1000,
+              "IsEnabled": true
+            },
+            "PartyShieldAverageParams": {
+              "Percentage": 20,
+              "Comparison": 3,
+              "IsEnabled": true
+            },
+            "VariableParams": {
+              "VariableName": "",
+              "VariableType": 0,
+              "ExpectedBoolValue": true,
+              "ExpectedStringValue": "",
+              "ExpectedNumberValue": 0,
+              "Comparison": 2,
+              "StringComparison": 0,
+              "InvertCheck": false,
+              "CheckExists": false,
+              "IsEnabled": true
+            },
+            "DataIdParams": {
+              "DataId": 0,
+              "Comparison": 2,
+              "IsEnabled": true
+            },
+            "TargetNameParams": {
+              "Name": "",
+              "Comparison": 0,
+              "IsEnabled": true
+            }
+          },
+          "RequiredTargetCount": 1,
+          "TargetCountComparison": 3,
+          "UsePercentageMode": true,
+          "RequiredTargetPercentage": 50,
+          "CreatedAt": "2025-06-08T18:16:39.247611Z",
+          "ModifiedAt": "2025-06-08T18:16:39.2476111Z",
+          "ShouldUseTargetCount": false
+        }
+      ],
+      "CreatedAt": "2026-08-21T23:30:00.000Z",
+      "ModifiedAt": "2026-08-21T23:30:00.000Z",
+      "ExcludeFromTargetAccumulation": false
     }
   ],
   "Logics": [
@@ -7062,7 +7510,8 @@
       "LogicType": 0,
       "ConditionIds": [
         "90a00000-0000-4000-8000-000000000033",
-        "90a00000-0000-4000-8000-000000000075"
+        "90a00000-0000-4000-8000-000000000075",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -7104,7 +7553,8 @@
       "ConditionIds": [
         "90a00000-0000-4000-8000-000000000039",
         "90a00000-0000-4000-8000-000000000041",
-        "90a00000-0000-4000-8000-000000000075"
+        "90a00000-0000-4000-8000-000000000075",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -7146,7 +7596,8 @@
       "ConditionIds": [
         "90a00000-0000-4000-8000-000000000031",
         "90a00000-0000-4000-8000-000000000035",
-        "90a00000-0000-4000-8000-000000000075"
+        "90a00000-0000-4000-8000-000000000075",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -7188,7 +7639,8 @@
       "ConditionIds": [
         "90a00000-0000-4000-8000-000000000029",
         "90a00000-0000-4000-8000-000000000041",
-        "90a00000-0000-4000-8000-000000000075"
+        "90a00000-0000-4000-8000-000000000075",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -7229,7 +7681,8 @@
       "LogicType": 0,
       "ConditionIds": [
         "90a00000-0000-4000-8000-000000000029",
-        "90a00000-0000-4000-8000-000000000075"
+        "90a00000-0000-4000-8000-000000000075",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -7271,7 +7724,8 @@
       "ConditionIds": [
         "90a00000-0000-4000-8000-000000000047",
         "90a00000-0000-4000-8000-000000000075",
-        "90a00000-0000-4000-8000-000000000073"
+        "90a00000-0000-4000-8000-000000000073",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -7313,7 +7767,8 @@
       "ConditionIds": [
         "90a00000-0000-4000-8000-000000000049",
         "90a00000-0000-4000-8000-000000000075",
-        "90a00000-0000-4000-8000-000000000073"
+        "90a00000-0000-4000-8000-000000000073",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -7354,7 +7809,8 @@
       "LogicType": 0,
       "ConditionIds": [
         "90a00000-0000-4000-8000-000000000045",
-        "90a00000-0000-4000-8000-000000000075"
+        "90a00000-0000-4000-8000-000000000075",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -7395,7 +7851,8 @@
       "LogicType": 0,
       "ConditionIds": [
         "90a00000-0000-4000-8000-000000000053",
-        "90a00000-0000-4000-8000-000000000075"
+        "90a00000-0000-4000-8000-000000000075",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -7436,7 +7893,8 @@
       "LogicType": 0,
       "ConditionIds": [
         "90a00000-0000-4000-8000-000000000059",
-        "90a00000-0000-4000-8000-000000000075"
+        "90a00000-0000-4000-8000-000000000075",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -7478,7 +7936,8 @@
       "ConditionIds": [
         "90a00000-0000-4000-8000-000000000043",
         "90a00000-0000-4000-8000-000000000075",
-        "90a00000-0000-4000-8000-000000000057"
+        "90a00000-0000-4000-8000-000000000057",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -7521,7 +7980,8 @@
         "90a00000-0000-4000-8000-000000000065",
         "90a00000-0000-4000-8000-000000000035",
         "90a00000-0000-4000-8000-000000000051",
-        "90a00000-0000-4000-8000-000000000075"
+        "90a00000-0000-4000-8000-000000000075",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -7563,7 +8023,8 @@
       "ConditionIds": [
         "90a00000-0000-4000-8000-000000000063",
         "90a00000-0000-4000-8000-000000000075",
-        "90a00000-0000-4000-8000-000000000051"
+        "90a00000-0000-4000-8000-000000000051",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -7605,7 +8066,8 @@
       "ConditionIds": [
         "90a00000-0000-4000-8000-000000000045",
         "90a00000-0000-4000-8000-000000000063",
-        "90a00000-0000-4000-8000-000000000075"
+        "90a00000-0000-4000-8000-000000000075",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -7647,7 +8109,8 @@
       "ConditionIds": [
         "90a00000-0000-4000-8000-000000000047",
         "90a00000-0000-4000-8000-000000000063",
-        "90a00000-0000-4000-8000-000000000075"
+        "90a00000-0000-4000-8000-000000000075",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -7689,7 +8152,8 @@
       "ConditionIds": [
         "90a00000-0000-4000-8000-000000000043",
         "90a00000-0000-4000-8000-000000000061",
-        "90a00000-0000-4000-8000-000000000075"
+        "90a00000-0000-4000-8000-000000000075",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -7731,7 +8195,8 @@
       "ConditionIds": [
         "90a00000-0000-4000-8000-000000000049",
         "90a00000-0000-4000-8000-000000000061",
-        "90a00000-0000-4000-8000-000000000075"
+        "90a00000-0000-4000-8000-000000000075",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -7773,7 +8238,8 @@
       "ConditionIds": [
         "90a00000-0000-4000-8000-000000000035",
         "90a00000-0000-4000-8000-000000000065",
-        "90a00000-0000-4000-8000-000000000075"
+        "90a00000-0000-4000-8000-000000000075",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -7814,7 +8280,8 @@
       "LogicType": 0,
       "ConditionIds": [
         "90a00000-0000-4000-8000-000000000075",
-        "90a00000-0000-4000-8000-000000000069"
+        "90a00000-0000-4000-8000-000000000069",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -7856,7 +8323,8 @@
       "ConditionIds": [
         "90a00000-0000-4000-8000-000000000071",
         "90a00000-0000-4000-8000-000000000069",
-        "90a00000-0000-4000-8000-000000000075"
+        "90a00000-0000-4000-8000-000000000075",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -7898,7 +8366,8 @@
       "ConditionIds": [
         "90a00000-0000-4000-8000-000000000065",
         "90a00000-0000-4000-8000-000000000031",
-        "90a00000-0000-4000-8000-000000000075"
+        "90a00000-0000-4000-8000-000000000075",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -7940,7 +8409,8 @@
       "ConditionIds": [
         "90a00000-0000-4000-8000-000000000037",
         "90a00000-0000-4000-8000-000000000065",
-        "90a00000-0000-4000-8000-000000000075"
+        "90a00000-0000-4000-8000-000000000075",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -7982,7 +8452,8 @@
       "ConditionIds": [
         "90a00000-0000-4000-8000-000000000037",
         "90a00000-0000-4000-8000-000000000065",
-        "90a00000-0000-4000-8000-000000000075"
+        "90a00000-0000-4000-8000-000000000075",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -8024,7 +8495,8 @@
       "ConditionIds": [
         "90a00000-0000-4000-8000-000000000033",
         "90a00000-0000-4000-8000-000000000065",
-        "90a00000-0000-4000-8000-000000000075"
+        "90a00000-0000-4000-8000-000000000075",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -8065,7 +8537,8 @@
       "LogicType": 0,
       "ConditionIds": [
         "90a00000-0000-4000-8000-000000000055",
-        "90a00000-0000-4000-8000-000000000077"
+        "90a00000-0000-4000-8000-000000000077",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -8106,7 +8579,8 @@
       "LogicType": 0,
       "ConditionIds": [
         "90a00000-0000-4000-8000-000000000067",
-        "90a00000-0000-4000-8000-000000000075"
+        "90a00000-0000-4000-8000-000000000075",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -8147,7 +8621,8 @@
       "LogicType": 0,
       "ConditionIds": [
         "90a00000-0000-4000-8000-000000000067",
-        "90a00000-0000-4000-8000-000000000075"
+        "90a00000-0000-4000-8000-000000000075",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -8187,7 +8662,8 @@
       "Description": "Low-level cleanse fallback for duty finder and synced content.",
       "LogicType": 0,
       "ConditionIds": [
-        "jps-ast-cond-esuna"
+        "jps-ast-cond-esuna",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -8228,7 +8704,8 @@
       "LogicType": 0,
       "ConditionIds": [
         "90a00000-0000-4000-8000-000000000079",
-        "90a00000-0000-4000-8000-000000000081"
+        "90a00000-0000-4000-8000-000000000081",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -8269,7 +8746,8 @@
       "LogicType": 0,
       "ConditionIds": [
         "jps-ast-cond-mt-no-intersection",
-        "90a00000-0000-4000-8000-000000000075"
+        "90a00000-0000-4000-8000-000000000075",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -8311,7 +8789,8 @@
       "ConditionIds": [
         "90a00000-0000-4000-8000-000000000055",
         "90a00000-0000-4000-8000-000000000057",
-        "90a00000-0000-4000-8000-000000000075"
+        "90a00000-0000-4000-8000-000000000075",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -8353,7 +8832,8 @@
       "ConditionIds": [
         "jps-ast-cond-mt-no-intersection",
         "90a00000-0000-4000-8000-000000000057",
-        "90a00000-0000-4000-8000-000000000075"
+        "90a00000-0000-4000-8000-000000000075",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -8884,7 +9364,8 @@
       "LogicType": 0,
       "ConditionIds": [
         "90a00000-0000-4000-8000-000000000075",
-        "jps-ast-cond-mt-hp-70"
+        "jps-ast-cond-mt-hp-70",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -8924,7 +9405,8 @@
       "Description": "Maintains Astrologian damage, healing, raise, movement, and resource toggles in combat so imported or held states cannot leave the job passive.",
       "LogicType": 0,
       "ConditionIds": [
-        "90a00000-0000-4000-8000-000000000075"
+        "90a00000-0000-4000-8000-000000000075",
+        "maggie-ast-cond-no-transcendent"
       ],
       "ActionTriggers": [
         {
@@ -9382,10 +9864,475 @@
       "ModifiedAt": "2026-07-07T11:20:00.000Z",
       "ExecuteFirstOnly": false,
       "Category": "Toggles"
+    },
+    {
+      "Id": "maggie-ast-logic-transcendent-safety",
+      "Name": "Resurrection Invulnerability Safety",
+      "Description": "Turns AST automation toggles off while Transcendent is active so no action removes resurrection protection.",
+      "LogicType": 0,
+      "ConditionIds": [
+        "maggie-ast-cond-has-transcendent"
+      ],
+      "ActionTriggers": [
+        {
+          "Id": "maggie-ast-transcendent-off-01",
+          "ActionId": 0,
+          "SkillbarId": "HardRaise",
+          "TTSText": "",
+          "TriggerType": 1,
+          "LogicOperator": 8,
+          "TargetType": 1,
+          "TargetSelectionStrategy": 6,
+          "SkipBuffId": 0,
+          "TargetOperation": 0,
+          "TargetDataId": 0,
+          "TargetName": "",
+          "TargetX": 0,
+          "TargetY": 0,
+          "TargetZ": 0,
+          "OverlayText": "",
+          "OverlayDuration": 3,
+          "VariableName": "",
+          "VariableType": 0,
+          "VariableBoolValue": true,
+          "VariableStringValue": "",
+          "VariableNumberValue": 0,
+          "VariableOperation": 0
+        },
+        {
+          "Id": "maggie-ast-transcendent-off-02",
+          "ActionId": 0,
+          "SkillbarId": "LockFace",
+          "TTSText": "",
+          "TriggerType": 1,
+          "LogicOperator": 8,
+          "TargetType": 1,
+          "TargetSelectionStrategy": 6,
+          "SkipBuffId": 0,
+          "TargetOperation": 0,
+          "TargetDataId": 0,
+          "TargetName": "",
+          "TargetX": 0,
+          "TargetY": 0,
+          "TargetZ": 0,
+          "OverlayText": "",
+          "OverlayDuration": 3,
+          "VariableName": "",
+          "VariableType": 0,
+          "VariableBoolValue": true,
+          "VariableStringValue": "",
+          "VariableNumberValue": 0,
+          "VariableOperation": 0
+        },
+        {
+          "Id": "maggie-ast-transcendent-off-03",
+          "ActionId": 0,
+          "SkillbarId": "UseAOE",
+          "TTSText": "",
+          "TriggerType": 1,
+          "LogicOperator": 8,
+          "TargetType": 1,
+          "TargetSelectionStrategy": 6,
+          "SkipBuffId": 0,
+          "TargetOperation": 0,
+          "TargetDataId": 0,
+          "TargetName": "",
+          "TargetX": 0,
+          "TargetY": 0,
+          "TargetZ": 0,
+          "OverlayText": "",
+          "OverlayDuration": 3,
+          "VariableName": "",
+          "VariableType": 0,
+          "VariableBoolValue": true,
+          "VariableStringValue": "",
+          "VariableNumberValue": 0,
+          "VariableOperation": 0
+        },
+        {
+          "Id": "maggie-ast-transcendent-off-04",
+          "ActionId": 0,
+          "SkillbarId": "SmartAOE",
+          "TTSText": "",
+          "TriggerType": 1,
+          "LogicOperator": 8,
+          "TargetType": 1,
+          "TargetSelectionStrategy": 6,
+          "SkipBuffId": 0,
+          "TargetOperation": 0,
+          "TargetDataId": 0,
+          "TargetName": "",
+          "TargetX": 0,
+          "TargetY": 0,
+          "TargetZ": 0,
+          "OverlayText": "",
+          "OverlayDuration": 3,
+          "VariableName": "",
+          "VariableType": 0,
+          "VariableBoolValue": true,
+          "VariableStringValue": "",
+          "VariableNumberValue": 0,
+          "VariableOperation": 0
+        },
+        {
+          "Id": "maggie-ast-transcendent-off-05",
+          "ActionId": 0,
+          "SkillbarId": "EarthlyStar",
+          "TTSText": "",
+          "TriggerType": 1,
+          "LogicOperator": 8,
+          "TargetType": 1,
+          "TargetSelectionStrategy": 6,
+          "SkipBuffId": 0,
+          "TargetOperation": 0,
+          "TargetDataId": 0,
+          "TargetName": "",
+          "TargetX": 0,
+          "TargetY": 0,
+          "TargetZ": 0,
+          "OverlayText": "",
+          "OverlayDuration": 3,
+          "VariableName": "",
+          "VariableType": 0,
+          "VariableBoolValue": true,
+          "VariableStringValue": "",
+          "VariableNumberValue": 0,
+          "VariableOperation": 0
+        },
+        {
+          "Id": "maggie-ast-transcendent-off-06",
+          "ActionId": 0,
+          "SkillbarId": "Lightspeed",
+          "TTSText": "",
+          "TriggerType": 1,
+          "LogicOperator": 8,
+          "TargetType": 1,
+          "TargetSelectionStrategy": 6,
+          "SkipBuffId": 0,
+          "TargetOperation": 0,
+          "TargetDataId": 0,
+          "TargetName": "",
+          "TargetX": 0,
+          "TargetY": 0,
+          "TargetZ": 0,
+          "OverlayText": "",
+          "OverlayDuration": 3,
+          "VariableName": "",
+          "VariableType": 0,
+          "VariableBoolValue": true,
+          "VariableStringValue": "",
+          "VariableNumberValue": 0,
+          "VariableOperation": 0
+        },
+        {
+          "Id": "maggie-ast-transcendent-off-07",
+          "ActionId": 0,
+          "SkillbarId": "Draw",
+          "TTSText": "",
+          "TriggerType": 1,
+          "LogicOperator": 8,
+          "TargetType": 1,
+          "TargetSelectionStrategy": 6,
+          "SkipBuffId": 0,
+          "TargetOperation": 0,
+          "TargetDataId": 0,
+          "TargetName": "",
+          "TargetX": 0,
+          "TargetY": 0,
+          "TargetZ": 0,
+          "OverlayText": "",
+          "OverlayDuration": 3,
+          "VariableName": "",
+          "VariableType": 0,
+          "VariableBoolValue": true,
+          "VariableStringValue": "",
+          "VariableNumberValue": 0,
+          "VariableOperation": 0
+        },
+        {
+          "Id": "maggie-ast-transcendent-off-08",
+          "ActionId": 0,
+          "SkillbarId": "DoTs",
+          "TTSText": "",
+          "TriggerType": 1,
+          "LogicOperator": 8,
+          "TargetType": 1,
+          "TargetSelectionStrategy": 6,
+          "SkipBuffId": 0,
+          "TargetOperation": 0,
+          "TargetDataId": 0,
+          "TargetName": "",
+          "TargetX": 0,
+          "TargetY": 0,
+          "TargetZ": 0,
+          "OverlayText": "",
+          "OverlayDuration": 3,
+          "VariableName": "",
+          "VariableType": 0,
+          "VariableBoolValue": true,
+          "VariableStringValue": "",
+          "VariableNumberValue": 0,
+          "VariableOperation": 0
+        },
+        {
+          "Id": "maggie-ast-transcendent-off-09",
+          "ActionId": 0,
+          "SkillbarId": "SmartDot",
+          "TTSText": "",
+          "TriggerType": 1,
+          "LogicOperator": 8,
+          "TargetType": 1,
+          "TargetSelectionStrategy": 6,
+          "SkipBuffId": 0,
+          "TargetOperation": 0,
+          "TargetDataId": 0,
+          "TargetName": "",
+          "TargetX": 0,
+          "TargetY": 0,
+          "TargetZ": 0,
+          "OverlayText": "",
+          "OverlayDuration": 3,
+          "VariableName": "",
+          "VariableType": 0,
+          "VariableBoolValue": true,
+          "VariableStringValue": "",
+          "VariableNumberValue": 0,
+          "VariableOperation": 0
+        },
+        {
+          "Id": "maggie-ast-transcendent-off-10",
+          "ActionId": 0,
+          "SkillbarId": "PlayLord",
+          "TTSText": "",
+          "TriggerType": 1,
+          "LogicOperator": 8,
+          "TargetType": 1,
+          "TargetSelectionStrategy": 6,
+          "SkipBuffId": 0,
+          "TargetOperation": 0,
+          "TargetDataId": 0,
+          "TargetName": "",
+          "TargetX": 0,
+          "TargetY": 0,
+          "TargetZ": 0,
+          "OverlayText": "",
+          "OverlayDuration": 3,
+          "VariableName": "",
+          "VariableType": 0,
+          "VariableBoolValue": true,
+          "VariableStringValue": "",
+          "VariableNumberValue": 0,
+          "VariableOperation": 0
+        },
+        {
+          "Id": "maggie-ast-transcendent-off-11",
+          "ActionId": 0,
+          "SkillbarId": "Divination",
+          "TTSText": "",
+          "TriggerType": 1,
+          "LogicOperator": 8,
+          "TargetType": 1,
+          "TargetSelectionStrategy": 6,
+          "SkipBuffId": 0,
+          "TargetOperation": 0,
+          "TargetDataId": 0,
+          "TargetName": "",
+          "TargetX": 0,
+          "TargetY": 0,
+          "TargetZ": 0,
+          "OverlayText": "",
+          "OverlayDuration": 3,
+          "VariableName": "",
+          "VariableType": 0,
+          "VariableBoolValue": true,
+          "VariableStringValue": "",
+          "VariableNumberValue": 0,
+          "VariableOperation": 0
+        },
+        {
+          "Id": "maggie-ast-transcendent-off-12",
+          "ActionId": 0,
+          "SkillbarId": "PlayCards",
+          "TTSText": "",
+          "TriggerType": 1,
+          "LogicOperator": 8,
+          "TargetType": 1,
+          "TargetSelectionStrategy": 6,
+          "SkipBuffId": 0,
+          "TargetOperation": 0,
+          "TargetDataId": 0,
+          "TargetName": "",
+          "TargetX": 0,
+          "TargetY": 0,
+          "TargetZ": 0,
+          "OverlayText": "",
+          "OverlayDuration": 3,
+          "VariableName": "",
+          "VariableType": 0,
+          "VariableBoolValue": true,
+          "VariableStringValue": "",
+          "VariableNumberValue": 0,
+          "VariableOperation": 0
+        },
+        {
+          "Id": "maggie-ast-transcendent-off-13",
+          "ActionId": 0,
+          "SkillbarId": "Burn",
+          "TTSText": "",
+          "TriggerType": 1,
+          "LogicOperator": 8,
+          "TargetType": 1,
+          "TargetSelectionStrategy": 6,
+          "SkipBuffId": 0,
+          "TargetOperation": 0,
+          "TargetDataId": 0,
+          "TargetName": "",
+          "TargetX": 0,
+          "TargetY": 0,
+          "TargetZ": 0,
+          "OverlayText": "",
+          "OverlayDuration": 3,
+          "VariableName": "",
+          "VariableType": 0,
+          "VariableBoolValue": true,
+          "VariableStringValue": "",
+          "VariableNumberValue": 0,
+          "VariableOperation": 0
+        },
+        {
+          "Id": "maggie-ast-transcendent-off-14",
+          "ActionId": 0,
+          "SkillbarId": "LucidDreaming",
+          "TTSText": "",
+          "TriggerType": 1,
+          "LogicOperator": 8,
+          "TargetType": 1,
+          "TargetSelectionStrategy": 6,
+          "SkipBuffId": 0,
+          "TargetOperation": 0,
+          "TargetDataId": 0,
+          "TargetName": "",
+          "TargetX": 0,
+          "TargetY": 0,
+          "TargetZ": 0,
+          "OverlayText": "",
+          "OverlayDuration": 3,
+          "VariableName": "",
+          "VariableType": 0,
+          "VariableBoolValue": true,
+          "VariableStringValue": "",
+          "VariableNumberValue": 0,
+          "VariableOperation": 0
+        },
+        {
+          "Id": "maggie-ast-transcendent-off-15",
+          "ActionId": 0,
+          "SkillbarId": "SwiftRaise",
+          "TTSText": "",
+          "TriggerType": 1,
+          "LogicOperator": 8,
+          "TargetType": 1,
+          "TargetSelectionStrategy": 6,
+          "SkipBuffId": 0,
+          "TargetOperation": 0,
+          "TargetDataId": 0,
+          "TargetName": "",
+          "TargetX": 0,
+          "TargetY": 0,
+          "TargetZ": 0,
+          "OverlayText": "",
+          "OverlayDuration": 3,
+          "VariableName": "",
+          "VariableType": 0,
+          "VariableBoolValue": true,
+          "VariableStringValue": "",
+          "VariableNumberValue": 0,
+          "VariableOperation": 0
+        },
+        {
+          "Id": "maggie-ast-transcendent-off-16",
+          "ActionId": 0,
+          "SkillbarId": "Attack",
+          "TTSText": "",
+          "TriggerType": 1,
+          "LogicOperator": 8,
+          "TargetType": 1,
+          "TargetSelectionStrategy": 6,
+          "SkipBuffId": 0,
+          "TargetOperation": 0,
+          "TargetDataId": 0,
+          "TargetName": "",
+          "TargetX": 0,
+          "TargetY": 0,
+          "TargetZ": 0,
+          "OverlayText": "",
+          "OverlayDuration": 3,
+          "VariableName": "",
+          "VariableType": 0,
+          "VariableBoolValue": true,
+          "VariableStringValue": "",
+          "VariableNumberValue": 0,
+          "VariableOperation": 0
+        },
+        {
+          "Id": "maggie-ast-transcendent-off-17",
+          "ActionId": 0,
+          "SkillbarId": "Oracle",
+          "TTSText": "",
+          "TriggerType": 1,
+          "LogicOperator": 8,
+          "TargetType": 1,
+          "TargetSelectionStrategy": 6,
+          "SkipBuffId": 0,
+          "TargetOperation": 0,
+          "TargetDataId": 0,
+          "TargetName": "",
+          "TargetX": 0,
+          "TargetY": 0,
+          "TargetZ": 0,
+          "OverlayText": "",
+          "OverlayDuration": 3,
+          "VariableName": "",
+          "VariableType": 0,
+          "VariableBoolValue": true,
+          "VariableStringValue": "",
+          "VariableNumberValue": 0,
+          "VariableOperation": 0
+        },
+        {
+          "Id": "maggie-ast-transcendent-off-18",
+          "ActionId": 0,
+          "SkillbarId": "SwiftMovement",
+          "TTSText": "",
+          "TriggerType": 1,
+          "LogicOperator": 8,
+          "TargetType": 1,
+          "TargetSelectionStrategy": 6,
+          "SkipBuffId": 0,
+          "TargetOperation": 0,
+          "TargetDataId": 0,
+          "TargetName": "",
+          "TargetX": 0,
+          "TargetY": 0,
+          "TargetZ": 0,
+          "OverlayText": "",
+          "OverlayDuration": 3,
+          "VariableName": "",
+          "VariableType": 0,
+          "VariableBoolValue": true,
+          "VariableStringValue": "",
+          "VariableNumberValue": 0,
+          "VariableOperation": 0
+        }
+      ],
+      "CreatedAt": "2026-08-21T23:30:00.000Z",
+      "ModifiedAt": "2026-08-21T23:30:00.000Z",
+      "ExecuteFirstOnly": false,
+      "Category": "Safety"
     }
   ],
   "CreatedAt": "2026-06-25T07:45:00.000Z",
-  "ModifiedAt": "2026-08-21T23:59:30.000Z",
+  "ModifiedAt": "2026-08-21T23:30:00.000Z",
   "QTBarConfig": {
     "BarEnabled": true,
     "LockBar": false,
