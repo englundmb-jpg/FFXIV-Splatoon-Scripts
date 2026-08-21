@@ -2,7 +2,7 @@
   "Id": "m11s",
   "Name": "m11s",
   "Description": "AST M11S — The Tyrant Savage",
-  "Version": "1.0.0",
+  "Version": "1.0.1",
   "AIOTimelineVersion": "2.0",
   "Timelines": {
     "AacHeavyweightM3Savage": {
@@ -2694,5 +2694,5 @@
   "Conditions": [],
   "Logics": [],
   "CreatedAt": "2026-02-21T02:06:28.3689993Z",
-  "ModifiedAt": "2026-02-21T03:20:36.5040701Z"
+  "ModifiedAt": "2026-08-21T23:30:00.000Z"
 }
