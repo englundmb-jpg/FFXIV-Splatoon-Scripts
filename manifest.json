@@ -1,8 +1,8 @@
 {
   "timelines/Bard/BRD_ULTI.json": "1.1.1",
   "timelines/Bard/UCOB.json": "1.0.1",
-  "timelines/Astrologian/M9S.json": "1.0.0",
-  "timelines/Astrologian/M11S.json": "1.0.0",
+  "timelines/Astrologian/M9S.json": "1.0.1",
+  "timelines/Astrologian/M11S.json": "1.0.1",
   "events/Dancer/Maggie_DNC_R1_Reactions.json": "2.0.0",
   "events/Bard/Maggie_BRD_R1_Reactions.json": "2.0.0",
   "events/Machinist/Maggie_MCH_R1_Reactions.json": "2.0.0",
@@ -19,5 +19,5 @@
   "timelines/Viper/Maggie_VPR_M9S-M11S.json": "2.0.0",
   "timelines/Warrior/Maggie_WAR_M9S-M11S.json": "2.0.0",
   "timelines/Paladin/Maggie_PLD_M9S-M11S.json": "2.0.0",
-  "events/Astrologian/Maggie_AST_Complete.json": "2.0.0"
+  "events/Astrologian/Maggie_AST_Complete.json": "2.0.1"
 }
