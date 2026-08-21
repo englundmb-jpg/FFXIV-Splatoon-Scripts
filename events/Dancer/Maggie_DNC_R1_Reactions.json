@@ -1,14 +1,14 @@
-{
+
   "Id": "Maggie-DNC-R1",
   "Name": "Maggie DNC R1",
-  "Description": "Dancer R1 control profile. Preserves manual Dance Partner, Save CD, Opener, healing and shielding. Enables core rotation controls and automatic interrupt. Pools three feathers, releases at four, then returns to holding three.",
+  "Description": "Dancer R1 control profile. Opener stays enabled and burst repeats normally; Save CD is the only manual burst-delay control. Preserves manual Dance Partner, healing and shielding. Enables core rotation controls and automatic interrupt. Pools three feathers and spends one at four.",
   "CreatedAt": "2026-08-20T22:00:00.000Z",
   "ModifiedAt": "2026-08-20T22:00:00.000Z",
   "Events": [
     {
       "Id": "40000000-0000-4000-8000-000000000001",
       "Name": "Set DNC defaults out of combat",
-      "Description": "Does not touch Save CD, Opener, Auto Partner, healing or shielding.",
+      "Description": "Keeps Opener enabled. Does not touch Save CD, Auto Partner, healing or shielding.",
       "EventType": "OnTick",
       "LogicId": "50000000-0000-4000-8000-000000000001",
       "ThrottleSameEvent": 0.5,
@@ -481,7 +481,7 @@
         {
           "Id": "30000000-0000-4000-8000-000000000001",
           "ActionId": 0,
-          "SkillbarId": "UseAOE",
+          "SkillbarId": "UseOpener",
           "TTSText": "",
           "TriggerType": 1,
           "LogicOperator": 4,
@@ -506,7 +506,7 @@
         {
           "Id": "30000000-0000-4000-8000-000000000002",
           "ActionId": 0,
-          "SkillbarId": "TechnicalStep",
+          "SkillbarId": "UseAOE",
           "TTSText": "",
           "TriggerType": 1,
           "LogicOperator": 4,
@@ -531,7 +531,7 @@
         {
           "Id": "30000000-0000-4000-8000-000000000003",
           "ActionId": 0,
-          "SkillbarId": "StandardStep",
+          "SkillbarId": "TechnicalStep",
           "TTSText": "",
           "TriggerType": 1,
           "LogicOperator": 4,
@@ -556,7 +556,7 @@
         {
           "Id": "30000000-0000-4000-8000-000000000004",
           "ActionId": 0,
-          "SkillbarId": "Flourish",
+          "SkillbarId": "StandardStep",
           "TTSText": "",
           "TriggerType": 1,
           "LogicOperator": 4,
@@ -581,7 +581,7 @@
         {
           "Id": "30000000-0000-4000-8000-000000000005",
           "ActionId": 0,
-          "SkillbarId": "Devilment",
+          "SkillbarId": "Flourish",
           "TTSText": "",
           "TriggerType": 1,
           "LogicOperator": 4,
@@ -606,7 +606,7 @@
         {
           "Id": "30000000-0000-4000-8000-000000000006",
           "ActionId": 0,
-          "SkillbarId": "SaberDance",
+          "SkillbarId": "Devilment",
           "TTSText": "",
           "TriggerType": 1,
           "LogicOperator": 4,
@@ -631,7 +631,7 @@
         {
           "Id": "30000000-0000-4000-8000-000000000007",
           "ActionId": 0,
-          "SkillbarId": "Tillana",
+          "SkillbarId": "SaberDance",
           "TTSText": "",
           "TriggerType": 1,
           "LogicOperator": 4,
@@ -656,7 +656,7 @@
         {
           "Id": "30000000-0000-4000-8000-000000000008",
           "ActionId": 0,
-          "SkillbarId": "StarFallDance",
+          "SkillbarId": "Tillana",
           "TTSText": "",
           "TriggerType": 1,
           "LogicOperator": 4,
@@ -681,7 +681,7 @@
         {
           "Id": "30000000-0000-4000-8000-000000000009",
           "ActionId": 0,
-          "SkillbarId": "FD4",
+          "SkillbarId": "StarFallDance",
           "TTSText": "",
           "TriggerType": 1,
           "LogicOperator": 4,
@@ -706,7 +706,7 @@
         {
           "Id": "30000000-0000-4000-8000-000000000010",
           "ActionId": 0,
-          "SkillbarId": "Interrupt",
+          "SkillbarId": "FD4",
           "TTSText": "",
           "TriggerType": 1,
           "LogicOperator": 4,
@@ -730,6 +730,31 @@
         },
         {
           "Id": "30000000-0000-4000-8000-000000000011",
+          "ActionId": 0,
+          "SkillbarId": "Interrupt",
+          "TTSText": "",
+          "TriggerType": 1,
+          "LogicOperator": 4,
+          "TargetType": 1,
+          "TargetSelectionStrategy": 6,
+          "SkipBuffId": 0,
+          "TargetOperation": 0,
+          "TargetDataId": 0,
+          "TargetName": "",
+          "TargetX": 0,
+          "TargetY": 0,
+          "TargetZ": 0,
+          "OverlayText": "",
+          "OverlayDuration": 3,
+          "VariableName": "",
+          "VariableType": 0,
+          "VariableBoolValue": true,
+          "VariableStringValue": "",
+          "VariableNumberValue": 0,
+          "VariableOperation": 0
+        },
+        {
+          "Id": "30000000-0000-4000-8000-000000000012",
           "ActionId": 0,
           "SkillbarId": "HoldFans",
           "TTSText": "",
@@ -813,7 +838,7 @@
       {
         "Id": "70000000-0000-4000-8000-000000000001",
         "Name": "Hold 3 Fans - Spend 1 at 4",
-        "Description": "Core rotation, interrupt and feather control. Partner, Save CD, opener and utility stay manual.",
+        "Description": "Opener always enabled; Save CD is the only burst-delay control. Partner and utility stay manual.",
         "EventIds": [
           "40000000-0000-4000-8000-000000000001",
           "40000000-0000-4000-8000-000000000004"
@@ -826,5 +851,5 @@
       "70000000-0000-4000-8000-000000000001": true
     }
   },
-  "Version": "1.0.0"
+  "Version": "1.0.1"
 }
