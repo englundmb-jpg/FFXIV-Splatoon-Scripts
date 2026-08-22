@@ -1,195 +1,152 @@
-using Dalamud.Game.ClientState.Objects.Types;
-using ECommons.DalamudServices;
+﻿using ECommons.Hooks.ActionEffectTypes;
+using ECommons.Logging;
+using ECommons.MathHelpers;
+using ECommons.Throttlers;
+using Splatoon.Data;
+using Splatoon.Memory;
 using Splatoon.SplatoonScripting;
+using Splatoon.Utility;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
 
-namespace MaggieScripts.Duties.Dawntrail;
+using ECommons.DalamudServices;
+using ECommons.DalamudServices.Legacy;
 
-public sealed class M9S_Sanguine_Scratch_Accessible : SplatoonScript
+namespace SplatoonScriptsOfficial.Duties.Dawntrail;
+
+public class M9S_Sanguine_Scratch_Accessible : SplatoonScript
 {
-    private const uint SanguineScratchCastId = 45989;
-    private const uint BreakdownDropCastId = 45992;
-    private const uint BreakwingBeatCastId = 45994;
+    public override Metadata Metadata { get; } = new(2, "Maggie - based on NightmareXIV Sanguine Scratch v2");
+    public override HashSet<uint>? ValidTerritories { get; } = [1321];
 
-    private static readonly Vector3 Center =
-        new(100.0f, 0.0f, 100.0f);
+    const float CenterX = 100f;
+    const float CenterZ = 100f;
+    const float Radius = 12f;
 
-    private const float SafeStep = MathF.PI / 8.0f;     // 22.5 degrees
-    private const float ProteanStep = MathF.PI / 4.0f; // 45 degrees
-
-    private bool active;
-    private float baseDangerRotation;
-    private long startedAt;
-    private int stage;
-
-    public override HashSet<uint>? ValidTerritories { get; } =
-        [1321];
-
-    public override Metadata? Metadata =>
-        new(2, "Maggie");
+    int CastNum = 0;
+    float BaseRotation = 0f;
 
     public override void OnSetup()
     {
         Controller.RegisterElementFromCode(
-            "Sanguine_Current",
-            """{"Name":"CURRENT","Enabled":false,"radius":2.5,"Donut":0.35,"color":4278255360,"thicc":8.0,"tether":true}"""
+            "CURRENT",
+            """{"Name":"CURRENT","Enabled":false,"refX":100.0,"refY":100.0,"radius":2.5,"Donut":0.35,"color":4278255360,"thicc":8.0,"tether":true,"overlayText":"CURRENT","overlayBGColor":4278190080,"overlayTextColor":4294967295,"overlayFScale":1.5}"""
         );
 
         Controller.RegisterElementFromCode(
-            "Sanguine_Next",
-            """{"Name":"NEXT","Enabled":false,"radius":2.2,"Donut":0.35,"color":4294967040,"thicc":8.0,"tether":true}"""
+            "NEXT",
+            """{"Name":"NEXT","Enabled":false,"refX":100.0,"refY":100.0,"radius":2.2,"Donut":0.35,"color":4294967040,"thicc":8.0,"tether":true,"overlayText":"NEXT","overlayBGColor":4278190080,"overlayTextColor":4294967295,"overlayFScale":1.5}"""
         );
-
-        OnReset();
     }
 
-    public override void OnStartingCast(uint source, uint castId)
+    public override unsafe void OnStartingCast(uint sourceId, PacketActorCast* packet)
     {
-        if (castId == BreakdownDropCastId ||
-            castId == BreakwingBeatCastId)
+        if(packet->ActionDescriptor == new Splatoon.Data.ActionDescriptor(FFXIVClientStructs.FFXIV.Client.Game.ActionType.Action, 45989))
         {
-            OnReset();
-            return;
+            CastNum = 0;
+            BaseRotation = packet->Rotation;
+            UpdateMarkers();
         }
 
-        if (castId != SanguineScratchCastId || active)
-            return;
-
-        var caster = Svc.Objects
-            .FirstOrDefault(x => x.EntityId == source);
-
-        if (caster == null)
-            return;
-
-        active = true;
-        startedAt = Environment.TickCount64;
-        stage = 0;
-        baseDangerRotation = caster.Rotation;
-
-        ShowMarkers(stage);
-    }
-
-    public override void OnUpdate()
-    {
-        if (!active)
-            return;
-
-        var elapsed = Environment.TickCount64 - startedAt;
-
-        // Conservative timing progression for the five rotating scratches.
-        // First live test is only to verify the script loads and CURRENT
-        // appears in the correct safe lane. Timing can then be tuned exactly.
-        var newStage = stage;
-
-        if (elapsed >= 1800) newStage = 1;
-        if (elapsed >= 3600) newStage = 2;
-        if (elapsed >= 5400) newStage = 3;
-        if (elapsed >= 7200) newStage = 4;
-
-        if (newStage != stage)
+        if(packet->ActionDescriptor == new ActionDescriptor(FFXIVClientStructs.FFXIV.Client.Game.ActionType.Action, 45992) ||
+           packet->ActionDescriptor == new ActionDescriptor(FFXIVClientStructs.FFXIV.Client.Game.ActionType.Action, 45994))
         {
-            stage = newStage;
-            ShowMarkers(stage);
+            this.Controller.Reset();
         }
-
-        if (elapsed >= 9000)
-            OnReset();
     }
 
     public override void OnReset()
     {
-        active = false;
-        baseDangerRotation = 0.0f;
-        startedAt = 0;
-        stage = 0;
+        CastNum = 0;
+        BaseRotation = 0f;
 
-        DisableMarkers();
+        if(Controller.TryGetElementByName("CURRENT", out var current))
+            current.Enabled = false;
+
+        if(Controller.TryGetElementByName("NEXT", out var next))
+            next.Enabled = false;
     }
 
-    private void ShowMarkers(int currentStage)
+    public override void OnUpdate()
+    {
+        Controller.Hide();
+
+        if(CastNum.InRange(0, 4))
+            UpdateMarkers();
+    }
+
+    public override void OnActionEffectEvent(ActionEffectSet set)
+    {
+        if(set.Action?.RowId == 45989 || set.Action?.RowId == 45991)
+        {
+            if(EzThrottler.Throttle(this.InternalData.FullName + "Cast", 250))
+            {
+                CastNum++;
+
+                if(CastNum >= 5)
+                {
+                    if(Controller.TryGetElementByName("CURRENT", out var current))
+                        current.Enabled = false;
+
+                    if(Controller.TryGetElementByName("NEXT", out var next))
+                        next.Enabled = false;
+
+                    return;
+                }
+
+                UpdateMarkers();
+            }
+        }
+    }
+
+    void UpdateMarkers()
     {
         var player = Svc.ClientState.LocalPlayer;
-
-        if (player == null)
-        {
-            DisableMarkers();
+        if(player == null)
             return;
-        }
 
-        var playerPosition = player.Position;
-        var radius = Math.Clamp(
-            HorizontalDistance(playerPosition, Center),
-            8.0f,
-            18.0f
-        );
+        // NightmareXIV v2 rotates the danger pattern by 22.5 degrees per hit.
+        // The safe lane is halfway between the 30-degree danger cones.
+        float dangerRotation = BaseRotation + (CastNum * 22.5f).DegToRad();
+        float currentSafeRotation = dangerRotation + 22.5f.DegToRad();
+        float nextSafeRotation = currentSafeRotation + 22.5f.DegToRad();
 
-        var currentFamily =
-            baseDangerRotation +
-            (currentStage + 1) * SafeStep;
+        var currentPos = NearestSafePoint(currentSafeRotation, player.Position);
+        var nextPos = NearestSafePoint(nextSafeRotation, player.Position);
 
-        var nextFamily =
-            baseDangerRotation +
-            (currentStage + 2) * SafeStep;
-
-        var currentPosition =
-            NearestLanePosition(
-                currentFamily,
-                radius,
-                playerPosition
-            );
-
-        var nextPosition =
-            NearestLanePosition(
-                nextFamily,
-                radius,
-                playerPosition
-            );
-
-        if (Controller.TryGetElementByName(
-                "Sanguine_Current",
-                out var current))
+        if(Controller.TryGetElementByName("CURRENT", out var current))
         {
-            current.SetRefPosition(currentPosition);
+            current.SetRefPosition(currentPos);
             current.Enabled = true;
         }
 
-        if (Controller.TryGetElementByName(
-                "Sanguine_Next",
-                out var next))
+        if(Controller.TryGetElementByName("NEXT", out var next))
         {
-            next.SetRefPosition(nextPosition);
-            next.Enabled = true;
+            next.SetRefPosition(nextPos);
+            next.Enabled = CastNum < 4;
         }
     }
 
-    private static Vector3 NearestLanePosition(
-        float familyRotation,
-        float radius,
-        Vector3 playerPosition)
+    Vector3 NearestSafePoint(float baseRotation, Vector3 playerPos)
     {
-        var best = Center;
-        var bestDistance = float.MaxValue;
+        Vector3 best = new(CenterX, playerPos.Y, CenterZ);
+        float bestDistance = float.MaxValue;
 
-        for (var i = 0; i < 8; i++)
+        for(int i = 0; i < 8; i++)
         {
-            var angle =
-                familyRotation +
-                i * ProteanStep;
-
-            var candidate = new Vector3(
-                Center.X + MathF.Sin(angle) * radius,
-                playerPosition.Y,
-                Center.Z + MathF.Cos(angle) * radius
+            float angle = baseRotation + (i * 45f).DegToRad();
+            Vector3 candidate = new(
+                CenterX + MathF.Sin(angle) * Radius,
+                playerPos.Y,
+                CenterZ + MathF.Cos(angle) * Radius
             );
 
-            var dx = candidate.X - playerPosition.X;
-            var dz = candidate.Z - playerPosition.Z;
-            var distance = dx * dx + dz * dz;
+            float dx = candidate.X - playerPos.X;
+            float dz = candidate.Z - playerPos.Z;
+            float distance = dx * dx + dz * dz;
 
-            if (distance < bestDistance)
+            if(distance < bestDistance)
             {
                 bestDistance = distance;
                 best = candidate;
@@ -197,28 +154,5 @@ public sealed class M9S_Sanguine_Scratch_Accessible : SplatoonScript
         }
 
         return best;
-    }
-
-    private static float HorizontalDistance(
-        Vector3 a,
-        Vector3 b)
-    {
-        var dx = a.X - b.X;
-        var dz = a.Z - b.Z;
-
-        return MathF.Sqrt(dx * dx + dz * dz);
-    }
-
-    private void DisableMarkers()
-    {
-        if (Controller.TryGetElementByName(
-                "Sanguine_Current",
-                out var current))
-            current.Enabled = false;
-
-        if (Controller.TryGetElementByName(
-                "Sanguine_Next",
-                out var next))
-            next.Enabled = false;
     }
 }
