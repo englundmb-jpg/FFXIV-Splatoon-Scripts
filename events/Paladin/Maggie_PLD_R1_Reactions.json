@@ -2,7 +2,7 @@
   "Id": "Maggie-PLD-Complete",
   "Name": "Maggie PLD Complete",
   "Description": "Complete Paladin event profile based on Jasper's dungeon-and-raid structure and checked against BossMod priorities. Opener stays enabled; Save CD is manual only; Fight or Flight, Requiescat, Confiteor, Atonement, interrupts and mitigation remain enabled.",
-  "Version": "2.0.0",
+  "Version": "2.0.1",
   "AIOEventVersion": "2.0",
   "Events": [
     {
@@ -9941,6 +9941,31 @@
         "98c00000-0000-4000-8000-000000000054"
       ],
       "ActionTriggers": [
+        {
+          "Id": "maggie-pld-reset-savecd-off",
+          "ActionId": 0,
+          "SkillbarId": "SaveCD",
+          "TTSText": "",
+          "TriggerType": 1,
+          "LogicOperator": 8,
+          "TargetType": 1,
+          "TargetSelectionStrategy": 6,
+          "SkipBuffId": 0,
+          "TargetOperation": 0,
+          "TargetDataId": 0,
+          "TargetName": "",
+          "TargetX": 0,
+          "TargetY": 0,
+          "TargetZ": 0,
+          "OverlayText": "",
+          "OverlayDuration": 3,
+          "VariableName": "",
+          "VariableType": 0,
+          "VariableBoolValue": true,
+          "VariableStringValue": "",
+          "VariableNumberValue": 0,
+          "VariableOperation": 0
+        },
         {
           "Id": "98c00000-0000-4000-8000-000000000119",
           "ActionId": 0,
