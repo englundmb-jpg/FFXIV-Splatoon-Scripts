@@ -10912,6 +10912,31 @@
       ],
       "ActionTriggers": [
         {
+          "Id": "maggie-war-reset-savecd-off",
+          "ActionId": 0,
+          "SkillbarId": "SaveCD",
+          "TTSText": "",
+          "TriggerType": 1,
+          "LogicOperator": 8,
+          "TargetType": 1,
+          "TargetSelectionStrategy": 6,
+          "SkipBuffId": 0,
+          "TargetOperation": 0,
+          "TargetDataId": 0,
+          "TargetName": "",
+          "TargetX": 0,
+          "TargetY": 0,
+          "TargetZ": 0,
+          "OverlayText": "",
+          "OverlayDuration": 3,
+          "VariableName": "",
+          "VariableType": 0,
+          "VariableBoolValue": true,
+          "VariableStringValue": "",
+          "VariableNumberValue": 0,
+          "VariableOperation": 0
+        },
+        {
           "Id": "97a00000-0000-4000-8000-000000000128",
           "ActionId": 0,
           "SkillbarId": "UseOpener",
@@ -12638,5 +12663,5 @@
       "jps-war-qt-stance-mt": true
     }
   },
-  "Version": "2.0.0"
+  "Version": "2.0.1"
 }
