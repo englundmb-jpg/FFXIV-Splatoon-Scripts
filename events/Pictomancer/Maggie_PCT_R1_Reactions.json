@@ -2,7 +2,7 @@
   "Id": "Maggie-PCT-Complete",
   "Name": "Maggie PCT Complete",
   "Description": "Complete Pictomancer event profile based on Jasper's public-duty structure and checked against BossMod priorities. Opener stays enabled; Save CD is manual only; motifs, muses, palette, movement helpers and beneficial AoE remain enabled.",
-  "Version": "2.0.0",
+  "Version": "2.0.1",
   "AIOEventVersion": "2.0",
   "Events": [
     {
@@ -3069,6 +3069,31 @@
         "95e00000-0000-4000-8000-000000000006"
       ],
       "ActionTriggers": [
+        {
+          "Id": "maggie-pct-reset-savecd-off",
+          "ActionId": 0,
+          "SkillbarId": "SaveCD",
+          "TTSText": "",
+          "TriggerType": 1,
+          "LogicOperator": 8,
+          "TargetType": 1,
+          "TargetSelectionStrategy": 6,
+          "SkipBuffId": 0,
+          "TargetOperation": 0,
+          "TargetDataId": 0,
+          "TargetName": "",
+          "TargetX": 0,
+          "TargetY": 0,
+          "TargetZ": 0,
+          "OverlayText": "",
+          "OverlayDuration": 3,
+          "VariableName": "",
+          "VariableType": 0,
+          "VariableBoolValue": true,
+          "VariableStringValue": "",
+          "VariableNumberValue": 0,
+          "VariableOperation": 0
+        },
         {
           "Id": "95e00000-0000-4000-8000-000000000034",
           "ActionId": 0,
