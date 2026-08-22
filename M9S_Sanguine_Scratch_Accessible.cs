@@ -8,49 +8,41 @@ using Splatoon.SplatoonScripting;
 using Splatoon.Utility;
 using System;
 using System.Collections.Generic;
-using System.Numerics;
+using System.Text;
 
-using ECommons.DalamudServices;
 using ECommons.DalamudServices.Legacy;
 
 namespace SplatoonScriptsOfficial.Duties.Dawntrail;
 
 public class M9S_Sanguine_Scratch_Accessible : SplatoonScript
 {
-    public override Metadata Metadata { get; } = new(2, "Maggie - based on NightmareXIV Sanguine Scratch v2");
+    public override Metadata Metadata { get; } = new(2, "Maggie test - NightmareXIV v2 exact structure");
     public override HashSet<uint>? ValidTerritories { get; } = [1321];
-
-    const float CenterX = 100f;
-    const float CenterZ = 100f;
-    const float Radius = 12f;
-
-    int CastNum = 0;
-    float BaseRotation = 0f;
 
     public override void OnSetup()
     {
-        Controller.RegisterElementFromCode(
-            "CURRENT",
-            """{"Name":"CURRENT","Enabled":false,"refX":100.0,"refY":100.0,"radius":2.5,"Donut":0.35,"color":4278255360,"thicc":8.0,"tether":true,"overlayText":"CURRENT","overlayBGColor":4278190080,"overlayTextColor":4294967295,"overlayFScale":1.5}"""
-        );
-
-        Controller.RegisterElementFromCode(
-            "NEXT",
-            """{"Name":"NEXT","Enabled":false,"refX":100.0,"refY":100.0,"radius":2.2,"Donut":0.35,"color":4294967040,"thicc":8.0,"tether":true,"overlayText":"NEXT","overlayBGColor":4278190080,"overlayTextColor":4294967295,"overlayFScale":1.5}"""
-        );
+        for(int i = 0; i < 8; i++)
+        {
+            Controller.RegisterElementFromCode($"{i}", """{"Name":"","type":5,"refX":100.0,"refY":100.0,"radius":30.0,"coneAngleMin":-15,"coneAngleMax":15,"refActorNPCNameID":14300,"refActorRequireCast":true,"refActorCastId":[45989],"refActorComparisonType":6,"includeRotation":true}""");
+        }
     }
+
+    int CastNum = 0;
+    int ElementNum = 0;
 
     public override unsafe void OnStartingCast(uint sourceId, PacketActorCast* packet)
     {
         if(packet->ActionDescriptor == new Splatoon.Data.ActionDescriptor(FFXIVClientStructs.FFXIV.Client.Game.ActionType.Action, 45989))
         {
             CastNum = 0;
-            BaseRotation = packet->Rotation;
-            UpdateMarkers();
+            if(Controller.TryGetElementByName($"{ElementNum}", out var e))
+            {
+                e.AdditionalRotation = packet->Rotation;
+                PluginLog.Information($"Rotation: {e.AdditionalRotation}");
+            }
+            ElementNum++;
         }
-
-        if(packet->ActionDescriptor == new ActionDescriptor(FFXIVClientStructs.FFXIV.Client.Game.ActionType.Action, 45992) ||
-           packet->ActionDescriptor == new ActionDescriptor(FFXIVClientStructs.FFXIV.Client.Game.ActionType.Action, 45994))
+        if(packet->ActionDescriptor == new ActionDescriptor(FFXIVClientStructs.FFXIV.Client.Game.ActionType.Action, 45992) || packet->ActionDescriptor == new ActionDescriptor(FFXIVClientStructs.FFXIV.Client.Game.ActionType.Action, 45994))
         {
             this.Controller.Reset();
         }
@@ -59,21 +51,23 @@ public class M9S_Sanguine_Scratch_Accessible : SplatoonScript
     public override void OnReset()
     {
         CastNum = 0;
-        BaseRotation = 0f;
-
-        if(Controller.TryGetElementByName("CURRENT", out var current))
-            current.Enabled = false;
-
-        if(Controller.TryGetElementByName("NEXT", out var next))
-            next.Enabled = false;
+        ElementNum = 0;
+        foreach(var x in Controller.GetRegisteredElements())
+        {
+            x.Value.AdditionalRotation = 0;
+        }
     }
 
     public override void OnUpdate()
     {
         Controller.Hide();
-
-        if(CastNum.InRange(0, 4))
-            UpdateMarkers();
+        if(CastNum.InRange(1, 5))
+        {
+            foreach(var x in Controller.GetRegisteredElements())
+            {
+                x.Value.Enabled = true;
+            }
+        }
     }
 
     public override void OnActionEffectEvent(ActionEffectSet set)
@@ -83,76 +77,12 @@ public class M9S_Sanguine_Scratch_Accessible : SplatoonScript
             if(EzThrottler.Throttle(this.InternalData.FullName + "Cast", 250))
             {
                 CastNum++;
-
-                if(CastNum >= 5)
+                foreach(var x in Controller.GetRegisteredElements())
                 {
-                    if(Controller.TryGetElementByName("CURRENT", out var current))
-                        current.Enabled = false;
-
-                    if(Controller.TryGetElementByName("NEXT", out var next))
-                        next.Enabled = false;
-
-                    return;
+                    x.Value.AdditionalRotation += (22.5f).DegToRad();
                 }
-
-                UpdateMarkers();
+                PluginLog.Information($"CastNum: {CastNum}");
             }
         }
-    }
-
-    void UpdateMarkers()
-    {
-        var player = Svc.ClientState.LocalPlayer;
-        if(player == null)
-            return;
-
-        // NightmareXIV v2 rotates the danger pattern by 22.5 degrees per hit.
-        // The safe lane is halfway between the 30-degree danger cones.
-        float dangerRotation = BaseRotation + (CastNum * 22.5f).DegToRad();
-        float currentSafeRotation = dangerRotation + 22.5f.DegToRad();
-        float nextSafeRotation = currentSafeRotation + 22.5f.DegToRad();
-
-        var currentPos = NearestSafePoint(currentSafeRotation, player.Position);
-        var nextPos = NearestSafePoint(nextSafeRotation, player.Position);
-
-        if(Controller.TryGetElementByName("CURRENT", out var current))
-        {
-            current.SetRefPosition(currentPos);
-            current.Enabled = true;
-        }
-
-        if(Controller.TryGetElementByName("NEXT", out var next))
-        {
-            next.SetRefPosition(nextPos);
-            next.Enabled = CastNum < 4;
-        }
-    }
-
-    Vector3 NearestSafePoint(float baseRotation, Vector3 playerPos)
-    {
-        Vector3 best = new(CenterX, playerPos.Y, CenterZ);
-        float bestDistance = float.MaxValue;
-
-        for(int i = 0; i < 8; i++)
-        {
-            float angle = baseRotation + (i * 45f).DegToRad();
-            Vector3 candidate = new(
-                CenterX + MathF.Sin(angle) * Radius,
-                playerPos.Y,
-                CenterZ + MathF.Cos(angle) * Radius
-            );
-
-            float dx = candidate.X - playerPos.X;
-            float dz = candidate.Z - playerPos.Z;
-            float distance = dx * dx + dz * dz;
-
-            if(distance < bestDistance)
-            {
-                bestDistance = distance;
-                best = candidate;
-            }
-        }
-
-        return best;
     }
 }
