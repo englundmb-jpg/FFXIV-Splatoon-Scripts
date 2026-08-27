@@ -79,6 +79,15 @@ public sealed class UCOB_Adds_D3_Hatch_Accessible : SplatoonScript
 
     public override void OnUpdate()
     {
+        // Never display positional guidance before the pull or after a wipe.
+        if (!Svc.Condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.InCombat])
+        {
+            if (active)
+                OnReset();
+
+            return;
+        }
+
         var twin = Svc.Objects
             .OfType<IBattleNpc>()
             .FirstOrDefault(x =>
