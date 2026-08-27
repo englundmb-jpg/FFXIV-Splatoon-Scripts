@@ -74,6 +74,15 @@ public sealed class UCOB_Blackfire_Accessible : SplatoonScript
 
     public override void OnUpdate()
     {
+        // Never display positional guidance before the pull or after a wipe.
+        if (!Svc.Condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.InCombat])
+        {
+            if (active)
+                OnReset();
+
+            return;
+        }
+
         var nael = Svc.Objects
             .OfType<IBattleNpc>()
             .FirstOrDefault(x =>
