@@ -19,7 +19,7 @@ public sealed class UCOB_Nael_Dive_Accessible : SplatoonScript
         [733];
 
     public override Metadata? Metadata =>
-        new(2, "Maggie");
+        new(3, "Maggie");
 
     public override void OnSetup()
     {
