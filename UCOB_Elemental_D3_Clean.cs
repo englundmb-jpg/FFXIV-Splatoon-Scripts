@@ -25,20 +25,20 @@ public sealed class UCOB_Elemental_D3_Clean : SplatoonScript
 
     private uint phase;
     private long phaseStarted;
-    private bool markerShown;
+    private bool octetCalculated;
 
     public override HashSet<uint>? ValidTerritories { get; } = [733];
 
     public override Metadata? Metadata =>
-        new(2, "Maggie — Tuufless Elemental D3");
+        new(3, "Maggie — Tuufless Elemental D3");
 
     public override void OnSetup()
     {
         Controller.RegisterElementFromCode(
-            "D3_Destination",
+            "CURRENT",
             """
             {
-              "Name":"D3 DESTINATION",
+              "Name":"CURRENT",
               "Enabled":false,
               "radius":2.5,
               "Donut":0.35,
@@ -47,7 +47,28 @@ public sealed class UCOB_Elemental_D3_Clean : SplatoonScript
               "FillStep":1.0,
               "tether":true,
               "LegacyFill":true,
-              "overlayText":"D3",
+              "overlayText":"CURRENT",
+              "overlayBGColor":4278190080,
+              "overlayTextColor":4294967295,
+              "overlayFScale":1.5
+            }
+            """
+        );
+
+        Controller.RegisterElementFromCode(
+            "NEXT",
+            """
+            {
+              "Name":"NEXT",
+              "Enabled":false,
+              "radius":2.2,
+              "Donut":0.35,
+              "color":4294902015,
+              "thicc":8.0,
+              "FillStep":1.0,
+              "tether":false,
+              "LegacyFill":true,
+              "overlayText":"NEXT",
               "overlayBGColor":4278190080,
               "overlayTextColor":4294967295,
               "overlayFScale":1.5
@@ -65,8 +86,8 @@ public sealed class UCOB_Elemental_D3_Clean : SplatoonScript
 
         phase = castId;
         phaseStarted = Environment.TickCount64;
-        markerShown = false;
-        HideMarker();
+        octetCalculated = false;
+        HideMarkers();
     }
 
     public override void OnUpdate()
@@ -87,43 +108,49 @@ public sealed class UCOB_Elemental_D3_Clean : SplatoonScript
         {
             case Quickmarch:
                 // Elemental: orient north toward the trio; D3/D4 spread opposite.
-                ShowOppositeTrio("D3 — OPPOSITE TRIO", 14.5f);
+                ShowOppositeTrio("CURRENT — D3 BOTTOM", 14.5f);
                 if (elapsed > 18000)
-                    HideMarker();
+                    HideMarkers();
                 break;
 
             case Blackfire:
                 // Elemental D3 shares the H1(stack) tower.  The exact tower is
                 // player-relative, so this clean build marks only the safe regroup.
-                ShowMarker(Center, "D3 — CENTER REGROUP");
+                ShowMarker(Center, "CURRENT — CENTER / 4");
                 if (elapsed > 10500)
-                    HideMarker();
+                    HideMarkers();
                 break;
 
             case Fellruin:
                 // Elemental spread: D3/D4 are at the bottom, opposite Nael.
-                ShowOppositeNael("D3 — OPPOSITE NAEL", 10.5f);
+                ShowOppositeNael("CURRENT — D3 BOTTOM", 10.5f);
                 if (elapsed > 19000)
-                    HideMarker();
+                    HideMarkers();
                 break;
 
             case Heavensfall:
                 // Elemental: both ranged are opposite Nael.
-                ShowOppositeNael("D3 — OPPOSITE NAEL", 15.5f);
+                ShowOppositeNael("CURRENT — OPPOSITE NAEL", 15.5f);
                 if (elapsed > 19000)
-                    HideMarker();
+                    HideMarkers();
                 break;
 
             case Tenstrike:
                 // Tuufless Elemental uses the SOUTH 3-waymark as the safe Neurolink.
-                ShowMarker(SouthNeurolink, "D3 — SOUTH SAFE");
+                ShowMarker(SouthNeurolink, "CURRENT — SOUTH 3 SAFE");
                 if (elapsed > 19000)
-                    HideMarker();
+                    HideMarkers();
                 break;
 
             case GrandOctet:
-                // Octet is marker/order dependent.  Do not display a guessed spot.
-                HideMarker();
+                // Cactbot-confirmed rule: start opposite Bahamut.  Rotate CCW
+                // when Bahamut is cardinal and CW when it is intercardinal.
+                // If Nael occupies that start sector, shift one sector in the
+                // rotation direction.  Boss positions settle about 4.8s in.
+                if (elapsed >= 4800 && !octetCalculated)
+                    CalculateGrandOctet();
+                if (elapsed > 20000)
+                    HideMarkers();
                 break;
         }
 
@@ -135,8 +162,8 @@ public sealed class UCOB_Elemental_D3_Clean : SplatoonScript
     {
         phase = 0;
         phaseStarted = 0;
-        markerShown = false;
-        HideMarker();
+        octetCalculated = false;
+        HideMarkers();
     }
 
     private void ShowOppositeNael(string label, float distance)
@@ -188,20 +215,68 @@ public sealed class UCOB_Elemental_D3_Clean : SplatoonScript
 
     private void ShowMarker(Vector3 position, string label)
     {
-        if (!Controller.TryGetElementByName("D3_Destination", out var marker))
+        if (!Controller.TryGetElementByName("CURRENT", out var marker))
             return;
 
         marker.SetOffPosition(position);
         marker.overlayText = label;
         marker.Enabled = true;
-        markerShown = true;
     }
 
-    private void HideMarker()
+    private void CalculateGrandOctet()
     {
-        if (Controller.TryGetElementByName("D3_Destination", out var marker))
-            marker.Enabled = false;
+        var bosses = Svc.Objects.OfType<IBattleNpc>().ToArray();
+        var bahamut = bosses.FirstOrDefault(x => x.Name.TextValue.Contains(
+            "Bahamut", StringComparison.OrdinalIgnoreCase));
+        var nael = bosses.FirstOrDefault(x => x.Name.TextValue.Contains(
+            "Nael", StringComparison.OrdinalIgnoreCase));
+        if (bahamut == null || nael == null)
+            return;
 
-        markerShown = false;
+        var bahamutSector = Sector(bahamut.Position);
+        var naelSector = Sector(nael.Position);
+        var cardinal = (bahamutSector & 1) == 0;
+        var rotationStep = cardinal ? -1 : 1; // screen/world sectors: -1 CCW, +1 CW
+        var startSector = (bahamutSector + 4) & 7;
+        if (startSector == naelSector)
+            startSector = (startSector + rotationStep + 8) & 7;
+
+        var nextSector = (startSector + rotationStep + 8) & 7;
+        ShowMarker(PointAtSector(startSector, 17.5f),
+            cardinal ? "CURRENT — START / ROTATE CCW" : "CURRENT — START / ROTATE CW");
+
+        if (Controller.TryGetElementByName("NEXT", out var next))
+        {
+            next.SetOffPosition(PointAtSector(nextSector, 17.5f));
+            next.overlayText = "NEXT";
+            next.Enabled = true;
+        }
+
+        octetCalculated = true;
+    }
+
+    private static int Sector(Vector3 position)
+    {
+        // 0=N, 1=NE, 2=E ... 7=NW.
+        var radians = Math.Atan2(position.X, -position.Z);
+        return ((int)Math.Round(radians / (Math.PI / 4.0)) + 8) & 7;
+    }
+
+    private static Vector3 PointAtSector(int sector, float radius)
+    {
+        var radians = sector * Math.PI / 4.0;
+        return new Vector3(
+            (float)Math.Sin(radians) * radius,
+            0.0f,
+            (float)-Math.Cos(radians) * radius);
+    }
+
+    private void HideMarkers()
+    {
+        if (Controller.TryGetElementByName("CURRENT", out var current))
+            current.Enabled = false;
+        if (Controller.TryGetElementByName("NEXT", out var next))
+            next.Enabled = false;
+
     }
 }
