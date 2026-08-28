@@ -94,7 +94,9 @@ public sealed class UCOB_Nael_Dive_Accessible : SplatoonScript
                     "Nael",
                     StringComparison.OrdinalIgnoreCase));
 
-        if (nael == null)
+        // Nael is preloaded invisibly during Twintania.
+        // Require the real, targetable Nael phase before showing markers.
+        if (nael == null || !nael.IsTargetable)
         {
             if (active)
                 OnReset();
