@@ -11,7 +11,7 @@ namespace MaggieScripts.Duties.Stormblood;
 // Minimal D3 positional guide for the Tuufless Elemental UCoB strategy.
 // One phase-triggered marker is shown at a time.  This intentionally replaces
 // the older bundle whose separate scripts all activated from boss presence.
-public sealed class UCOB_Elemental_D3_Clean : SplatoonScript
+public sealed class UCOB_Elemental_D3_Clean_v3 : SplatoonScript
 {
     private const uint Quickmarch = 0x26E2;
     private const uint Blackfire = 0x26E3;
