@@ -1,5 +1,8 @@
 using Dalamud.Game.ClientState.Objects.SubKinds;
+using Dalamud.Game.ClientState.Objects.Types;
 using ECommons.DalamudServices;
+using Splatoon.Data;
+using Splatoon.Memory;
 using Splatoon.SplatoonScripting;
 using System;
 using System.Collections.Generic;
