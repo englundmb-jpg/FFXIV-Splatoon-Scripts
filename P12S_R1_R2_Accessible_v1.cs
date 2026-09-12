@@ -1,4 +1,5 @@
 using Dalamud.Game.ClientState.Objects.SubKinds;
+using Dalamud.Game.ClientState.Objects.Types;
 using ECommons.DalamudServices;
 using ECommons.GameHelpers;
 using Splatoon.Data;
@@ -13,8 +14,11 @@ namespace MaggieScripts.Duties.Endwalker;
 
 public sealed class P12S_R1_R2_Accessible_v1 : SplatoonScript
 {
-        public override HashSet<uint>? ValidTerritories { get; } = [1154];
-        public override Metadata? Metadata => new(1, "Memoria — P12S ranged accessibility");
+        public override HashSet<uint>? ValidTerritories { get; } =
+            [1154];
+
+        public override Metadata? Metadata =>
+            new(1, "Maggie");
 
         private const uint Green = 4278255360;
         private const uint Cyan = 4294967040;
@@ -45,12 +49,65 @@ public sealed class P12S_R1_R2_Accessible_v1 : SplatoonScript
 
         public override void OnSetup()
         {
-            Controller.RegisterElementFromCode("CURRENT",
-                "{\"Name\":\"CURRENT\",\"Enabled\":false,\"radius\":2.5,\"Donut\":0.35,\"color\":4278255360,\"thicc\":8.0,\"FillStep\":1.0,\"tether\":true,\"LegacyFill\":true,\"overlayBGColor\":4278190080,\"overlayTextColor\":4294967295,\"overlayFScale\":1.5,\"overlayText\":\"CURRENT\"}");
-            Controller.RegisterElementFromCode("NEXT",
-                "{\"Name\":\"NEXT\",\"Enabled\":false,\"radius\":2.2,\"Donut\":0.35,\"color\":4294967040,\"thicc\":8.0,\"FillStep\":1.0,\"tether\":true,\"LegacyFill\":true,\"overlayBGColor\":4278190080,\"overlayTextColor\":4294967295,\"overlayFScale\":1.5,\"overlayText\":\"NEXT\"}");
-            Controller.RegisterElementFromCode("ROLE",
-                "{\"Name\":\"ROLE\",\"Enabled\":false,\"radius\":0.0,\"thicc\":0.0,\"refActorType\":1,\"overlayBGColor\":4278190080,\"overlayTextColor\":4294967295,\"overlayVOffset\":2.7,\"overlayFScale\":1.5,\"overlayText\":\"AUTO ROLE\"}");
+            Controller.RegisterElementFromCode(
+                "CURRENT",
+                """
+                {
+                  "Name":"CURRENT",
+                  "Enabled":false,
+                  "radius":2.5,
+                  "Donut":0.35,
+                  "color":4278255360,
+                  "thicc":8.0,
+                  "FillStep":1.0,
+                  "tether":true,
+                  "LegacyFill":true,
+                  "overlayText":"CURRENT",
+                  "overlayBGColor":4278190080,
+                  "overlayTextColor":4294967295,
+                  "overlayFScale":1.5
+                }
+                """
+            );
+
+            Controller.RegisterElementFromCode(
+                "NEXT",
+                """
+                {
+                  "Name":"NEXT",
+                  "Enabled":false,
+                  "radius":2.2,
+                  "Donut":0.35,
+                  "color":4294967040,
+                  "thicc":8.0,
+                  "FillStep":1.0,
+                  "tether":true,
+                  "LegacyFill":true,
+                  "overlayText":"NEXT",
+                  "overlayBGColor":4278190080,
+                  "overlayTextColor":4294967295,
+                  "overlayFScale":1.5
+                }
+                """
+            );
+
+            Controller.RegisterElementFromCode(
+                "ROLE",
+                """
+                {
+                  "Name":"ROLE",
+                  "Enabled":false,
+                  "radius":0.0,
+                  "thicc":0.0,
+                  "refActorType":1,
+                  "overlayText":"AUTO ROLE",
+                  "overlayBGColor":4278190080,
+                  "overlayTextColor":4294967295,
+                  "overlayVOffset":2.7,
+                  "overlayFScale":1.5
+                }
+                """
+            );
 
             OnReset();
         }
