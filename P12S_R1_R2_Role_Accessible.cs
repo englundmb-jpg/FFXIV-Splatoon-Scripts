@@ -1,5 +1,6 @@
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using ECommons.DalamudServices;
+using ECommons.GameHelpers;
 using Splatoon.SplatoonScripting;
 using System;
 using System.Collections.Generic;
@@ -75,7 +76,7 @@ public sealed class P12S_R1_R2_Role_Accessible : SplatoonScript
 
     private static string DetectRole()
     {
-        var player = Svc.ClientState.LocalPlayer;
+        var player = Player.Object;
 
         if (player == null)
             return "WAITING";
