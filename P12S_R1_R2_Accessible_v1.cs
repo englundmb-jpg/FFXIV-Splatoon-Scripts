@@ -1,9 +1,5 @@
 using Dalamud.Game.ClientState.Objects.SubKinds;
-using Dalamud.Game.ClientState.Objects.Types;
 using ECommons.DalamudServices;
-using ECommons.GameHelpers;
-using Splatoon.Data;
-using Splatoon.Memory;
 using Splatoon.SplatoonScripting;
 using System;
 using System.Collections.Generic;
@@ -148,13 +144,11 @@ public sealed class P12S_R1_R2_Accessible_v1 : SplatoonScript
             }
         }
 
-        public override unsafe void OnStartingCast(
-            uint sourceId,
-            PacketActorCast* packet)
+        public override void OnStartingCast(
+            uint source,
+            uint castId)
         {
-            var castId = packet->ActionDescriptor;
-
-            if (castId == Action(Paradeigma))
+            if (castId == Paradeigma)
             {
                 phase = 1;
                 paradeigmaCount++;
@@ -167,58 +161,53 @@ public sealed class P12S_R1_R2_Accessible_v1 : SplatoonScript
                     ShowAt(RoleClock(), $"CURRENT: {ResolvedRole()} CLOCK", RolePair(), "NEXT: TETHER / TOWER", 14500);
                 }
             }
-            else if (castId == Action(EngravementOfSouls) && phase == 1 && paradeigmaCount == 2)
+            else if (castId == EngravementOfSouls && phase == 1 && paradeigmaCount == 2)
             {
                 ShowAt(RoleClock(), $"CURRENT: {ResolvedRole()} START", RolePair(), "NEXT: CHECK YOUR DEBUFF", 13500);
             }
-            else if (castId == Action(SuperchainTheory1))
+            else if (castId == SuperchainTheory1)
             {
                 phase = 1;
                 ShowAt(RoleClock(), $"CURRENT: {ResolvedRole()} CLOCK", RolePair(), "NEXT: PAIR WITH HEALER", 19000);
             }
-            else if (castId == Action(Apodialogos))
+            else if (castId == Apodialogos)
             {
                 ShowAt(new Vector2(100, 100), "CURRENT: PARTY IN", new Vector2(100, 108), "NEXT: PARTY OUT", 7500);
             }
-            else if (castId == Action(Peridialogos))
+            else if (castId == Peridialogos)
             {
                 ShowAt(new Vector2(100, 108), "CURRENT: PARTY OUT", new Vector2(100, 100), "NEXT: PARTY IN", 7500);
             }
-            else if (castId == Action(Gaiaochos))
+            else if (castId == Gaiaochos)
             {
                 phase = 2;
                 ShowAt(new Vector2(100, 95), "CURRENT: STACK IN", new Vector2(100, 90), "NEXT: SMALL ARENA", 14500);
             }
-            else if (castId == Action(SummonDarkness) && phase == 2)
+            else if (castId == SummonDarkness && phase == 2)
             {
                 ShowAt(new Vector2(100, 90), "CURRENT: WAIT FOR CHAIN", new Vector2(108, 90), "NEXT: DPS SAFE SIDE", 14500);
             }
-            else if (castId == Action(GeocentrismVertical))
+            else if (castId == GeocentrismVertical)
             {
                 ShowAt(VerticalSpot(), $"CURRENT: {ResolvedRole()} VERTICAL", QSpreadSpot(), "NEXT: Q SPREAD", 10500);
             }
-            else if (castId == Action(GeocentrismHorizontal))
+            else if (castId == GeocentrismHorizontal)
             {
                 ShowAt(HorizontalSpot(), $"CURRENT: {ResolvedRole()} HORIZONTAL", QSpreadSpot(), "NEXT: Q SPREAD", 10500);
             }
-            else if (castId == Action(GeocentrismCircle))
+            else if (castId == GeocentrismCircle)
             {
                 ShowAt(QSpreadSpot(), $"CURRENT: {ResolvedRole()} TIGHT", QSpreadSpot(), "NEXT: HOLD", 10500);
             }
-            else if (castId == Action(ClassicalConcepts))
+            else if (castId == ClassicalConcepts)
             {
                 ShowAt(new Vector2(100, 95), "CURRENT: FIND SYMBOL PARTNER", new Vector2(100, 92), ClassicalNextText(), 18000);
             }
-            else if (castId == Action(CrushHelm))
+            else if (castId == CrushHelm)
             {
                 HidePositions();
             }
         }
-
-        private static ActionDescriptor Action(uint actionId) =>
-            new(
-                FFXIVClientStructs.FFXIV.Client.Game.ActionType.Action,
-                actionId);
 
         private string ClassicalNextText()
         {
@@ -231,7 +220,7 @@ public sealed class P12S_R1_R2_Accessible_v1 : SplatoonScript
 
         private string DetectRole()
         {
-            var player = Player.Object;
+            var player = Svc.ClientState.LocalPlayer;
             if (player == null) return "NOT FOUND";
 
             uint[] rangedJobs = [23, 25, 27, 31, 35, 38, 42];
