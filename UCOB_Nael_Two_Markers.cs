@@ -10,10 +10,13 @@ namespace MaggieScripts.Duties.Stormblood;
 public sealed class UCOB_Nael_Two_Markers : SplatoonScript
 {
     private const uint Quickmarch = 0x26E2;
+    private const uint Heavensfall = 0x26E5;
     private const uint GrandOctet = 0x26E7;
     private static readonly Vector3 SouthNeurolink = new(0.0f, 0.0f, 8.75f);
+    private static readonly Vector3 Center = new(0.0f, 0.0f, 0.0f);
 
     private bool phaseActive;
+    private long heavensfallStarted;
     private long grandOctetStarted;
 
     public override HashSet<uint>? ValidTerritories { get; } = [733];
@@ -60,6 +63,27 @@ public sealed class UCOB_Nael_Two_Markers : SplatoonScript
             """
         );
 
+        Controller.RegisterElementFromCode(
+            "Heavensfall_Center",
+            """
+            {
+              "Name":"HEAVENSFALL — CENTER",
+              "Enabled":false,
+              "radius":2.5,
+              "Donut":0.35,
+              "color":4278255360,
+              "thicc":8.0,
+              "FillStep":1.0,
+              "tether":false,
+              "LegacyFill":true,
+              "overlayText":"CENTER",
+              "overlayBGColor":4278190080,
+              "overlayTextColor":4294967295,
+              "overlayFScale":1.5
+            }
+            """
+        );
+
         OnReset();
     }
 
@@ -68,8 +92,13 @@ public sealed class UCOB_Nael_Two_Markers : SplatoonScript
         if (castId == Quickmarch)
         {
             phaseActive = true;
+            heavensfallStarted = 0;
             grandOctetStarted = 0;
             ShowPhaseMarkers();
+        }
+        else if (castId == Heavensfall && phaseActive)
+        {
+            heavensfallStarted = Environment.TickCount64;
         }
         else if (castId == GrandOctet && phaseActive)
         {
@@ -91,6 +120,22 @@ public sealed class UCOB_Nael_Two_Markers : SplatoonScript
 
         ShowPhaseMarkers();
 
+        if (heavensfallStarted != 0 &&
+            Environment.TickCount64 - heavensfallStarted <= 19000)
+        {
+            if (Controller.TryGetElementByName(
+                    "Heavensfall_Center",
+                    out var center))
+            {
+                center.SetOffPosition(Center);
+                center.Enabled = true;
+            }
+        }
+        else
+        {
+            SetEnabled("Heavensfall_Center", false);
+        }
+
         if (grandOctetStarted != 0 &&
             Environment.TickCount64 - grandOctetStarted > 30000)
         {
@@ -101,9 +146,11 @@ public sealed class UCOB_Nael_Two_Markers : SplatoonScript
     public override void OnReset()
     {
         phaseActive = false;
+        heavensfallStarted = 0;
         grandOctetStarted = 0;
         SetEnabled("Nael_Red_Line", false);
         SetEnabled("South_Neurolink_Yellow", false);
+        SetEnabled("Heavensfall_Center", false);
     }
 
     private void ShowPhaseMarkers()
