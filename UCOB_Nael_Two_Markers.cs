@@ -1,72 +1,60 @@
-using Dalamud.Game.ClientState.Objects.SubKinds;
+using Dalamud.Game.ClientState.Conditions;
 using ECommons.DalamudServices;
 using Splatoon.SplatoonScripting;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Numerics;
 
 namespace MaggieScripts.Duties.Stormblood;
 
-// Clean Nael-only replacement for the old bundle.
-// The old bundle contained seven scripts that all activated from boss presence.
 public sealed class UCOB_Nael_Two_Markers : SplatoonScript
 {
-    private bool active;
-    private long activatedAt;
+    private const uint Quickmarch = 0x26E2;
+    private const uint GrandOctet = 0x26E7;
+    private static readonly Vector3 SouthNeurolink = new(0.0f, 0.0f, 8.75f);
 
-    public override HashSet<uint>? ValidTerritories { get; } =
-        [733];
+    private bool phaseActive;
+    private long grandOctetStarted;
 
-    public override Metadata? Metadata =>
-        new(3, "Maggie");
+    public override HashSet<uint>? ValidTerritories { get; } = [733];
+    public override Metadata? Metadata => new(4, "Maggie");
 
     public override void OnSetup()
     {
         Controller.RegisterElementFromCode(
-            "NaelTwo_Current",
+            "Nael_Red_Line",
             """
             {
-              "Name":"CURRENT",
+              "Name":"NAEL — RED LINE",
               "Enabled":false,
-              "type":3,
-              "offX":15.0,
-              "offY":15.0,
-              "radius":2.5,
-              "color":4278255360,
+              "type":1,
+              "radius":1.5,
+              "color":4278190335,
               "thicc":8.0,
               "refActorNPCID":2617,
               "refActorComparisonType":4,
-              "includeRotation":true,
               "tether":true,
-              "LegacyFill":true,
-              "overlayText":"CURRENT",
-              "overlayBGColor":4278190080,
-              "overlayTextColor":4294967295,
-              "overlayFScale":1.5
+              "LegacyFill":false
             }
             """
         );
 
         Controller.RegisterElementFromCode(
-            "NaelTwo_Next",
+            "South_Neurolink_Yellow",
             """
             {
-              "Name":"NEXT",
+              "Name":"SOUTH NEUROLINK — YELLOW",
               "Enabled":false,
-              "type":3,
-              "offX":-15.0,
-              "offY":15.0,
-              "radius":2.2,
-              "color":4294902015,
+              "radius":2.5,
+              "Donut":0.35,
+              "color":4278255615,
               "thicc":8.0,
-              "refActorNPCID":2617,
-              "refActorComparisonType":4,
-              "includeRotation":true,
-              "tether":true,
+              "FillStep":1.0,
+              "tether":false,
               "LegacyFill":true,
-              "overlayText":"NEXT",
+              "overlayText":"NEUROLINK",
               "overlayBGColor":4278190080,
-              "overlayTextColor":4294967295,
+              "overlayTextColor":4278255615,
               "overlayFScale":1.5
             }
             """
@@ -75,37 +63,36 @@ public sealed class UCOB_Nael_Two_Markers : SplatoonScript
         OnReset();
     }
 
+    public override void OnStartingCast(uint source, uint castId)
+    {
+        if (castId == Quickmarch)
+        {
+            phaseActive = true;
+            grandOctetStarted = 0;
+            ShowPhaseMarkers();
+        }
+        else if (castId == GrandOctet && phaseActive)
+        {
+            grandOctetStarted = Environment.TickCount64;
+        }
+    }
+
     public override void OnUpdate()
     {
-        if (!Svc.Condition[
-                Dalamud.Game.ClientState.Conditions.ConditionFlag.InCombat])
+        if (!Svc.Condition[ConditionFlag.InCombat])
         {
-            if (active)
+            if (phaseActive)
                 OnReset();
-
             return;
         }
 
-        var nael = Svc.Objects
-            .OfType<IBattleNpc>()
-            .FirstOrDefault(x =>
-                x.Name.TextValue.Contains(
-                    "Nael",
-                    StringComparison.OrdinalIgnoreCase));
-
-        if (nael == null)
-        {
-            if (active)
-                OnReset();
-
+        if (!phaseActive)
             return;
-        }
 
-        if (!active)
-            Activate();
+        ShowPhaseMarkers();
 
-        if (active &&
-            Environment.TickCount64 - activatedAt > 10000)
+        if (grandOctetStarted != 0 &&
+            Environment.TickCount64 - grandOctetStarted > 30000)
         {
             OnReset();
         }
@@ -113,45 +100,28 @@ public sealed class UCOB_Nael_Two_Markers : SplatoonScript
 
     public override void OnReset()
     {
-        active = false;
-        activatedAt = 0;
-        HideMarkers();
+        phaseActive = false;
+        grandOctetStarted = 0;
+        SetEnabled("Nael_Red_Line", false);
+        SetEnabled("South_Neurolink_Yellow", false);
     }
 
-    private void Activate()
+    private void ShowPhaseMarkers()
     {
-        active = true;
-        activatedAt = Environment.TickCount64;
+        SetEnabled("Nael_Red_Line", true);
 
         if (Controller.TryGetElementByName(
-                "NaelTwo_Current",
-                out var current))
+                "South_Neurolink_Yellow",
+                out var neurolink))
         {
-            current.Enabled = true;
-        }
-
-        if (Controller.TryGetElementByName(
-                "NaelTwo_Next",
-                out var next))
-        {
-            next.Enabled = true;
+            neurolink.SetOffPosition(SouthNeurolink);
+            neurolink.Enabled = true;
         }
     }
 
-    private void HideMarkers()
+    private void SetEnabled(string name, bool enabled)
     {
-        if (Controller.TryGetElementByName(
-                "NaelTwo_Current",
-                out var current))
-        {
-            current.Enabled = false;
-        }
-
-        if (Controller.TryGetElementByName(
-                "NaelTwo_Next",
-                out var next))
-        {
-            next.Enabled = false;
-        }
+        if (Controller.TryGetElementByName(name, out var element))
+            element.Enabled = enabled;
     }
 }
