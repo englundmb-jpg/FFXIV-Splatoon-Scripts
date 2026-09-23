@@ -16,7 +16,7 @@ public sealed class UCOB_Thunder_Accessible_v2 : SplatoonScript
         [733];
 
     public override Metadata? Metadata =>
-        new(3, "Maggie");
+        new(4, "Maggie");
 
     public override void OnSetup()
     {
@@ -27,8 +27,8 @@ public sealed class UCOB_Thunder_Accessible_v2 : SplatoonScript
               "Name":"THUNDER",
               "Enabled":true,
               "type":1,
-              "radius":0.0,
-              "Donut":0.0,
+              "radius":5.0,
+              "Donut":0.35,
               "color":4278255360,
               "thicc":8.0,
               "FillStep":1.0,
@@ -36,8 +36,8 @@ public sealed class UCOB_Thunder_Accessible_v2 : SplatoonScript
               "refActorRequireBuff":true,
               "refActorBuffId":[466],
               "refActorComparisonType":2,
-              "tether":false,
-              "LegacyFill":false,
+              "tether":true,
+              "LegacyFill":true,
               "overlayText":"THUNDER",
               "overlayBGColor":4278190080,
               "overlayTextColor":4294967295,

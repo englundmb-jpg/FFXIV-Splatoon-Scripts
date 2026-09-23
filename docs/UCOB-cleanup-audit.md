@@ -6,7 +6,7 @@ Audited all 28 UCOB C# scripts at repository commit `0558649a39aba94e267536aa962
 
 - Preserves `UCOB_Nael_Two_Markers.cs` byte-for-byte, including the user-confirmed red line, yellow marker, and center marker.
 - Retires seven unreliable drawing implementations and the old duplicate Thunder implementation. Retirement preserves each class identity, raises its metadata version, and registers no drawings. It does not implement replacement safe spots for those mechanics.
-- Keeps Thunder status detection (466), but displays its text over the character without the large green ring or tether.
+- Keeps Thunder status detection (466), and preserves the original large green circle and THUNDER label as requested by the user. Triggernometry remains responsible for the existing speech callouts.
 - Restores `UCOB_Heavensfall_Towers_Accessible.cs` with one cyan tether to the assigned tower, no additional circles. Counts the tower closest to Bahamut as 1 and takes the fourth counterclockwise. A tower directly at Bahamut is therefore 1. Identifies the real Bahamut by DataId 0x1FE8.
 
 ## Verified defects
@@ -74,4 +74,4 @@ Not performed: compilation against the user's installed Splatoon/Dalamud assembl
 | `UCOB_Tenstrike_Accessible.cs` | Retired; no drawings |
 | `UCOB_Tenstrike_Accessible_v2.cs` | Retired; no drawings |
 | `UCOB_Thunder_Accessible.cs` | Retired; no drawings |
-| `UCOB_Thunder_Accessible_v2.cs` | Personal Thunder text; ring removed |
+| `UCOB_Thunder_Accessible_v2.cs` | Original large personal Thunder circle retained |
