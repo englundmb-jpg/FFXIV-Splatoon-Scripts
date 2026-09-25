@@ -20,7 +20,7 @@ public sealed class UCOB_Nael_Two_Markers : SplatoonScript
     private long grandOctetStarted;
 
     public override HashSet<uint>? ValidTerritories { get; } = [733];
-    public override Metadata? Metadata => new(4, "Maggie");
+    public override Metadata? Metadata => new(5, "Maggie");
 
     public override void OnSetup()
     {
@@ -34,7 +34,7 @@ public sealed class UCOB_Nael_Two_Markers : SplatoonScript
               "radius":1.5,
               "color":4278190335,
               "thicc":8.0,
-              "refActorNPCID":2617,
+              "refActorNPCID":2612,
               "refActorComparisonType":4,
               "tether":true,
               "LegacyFill":false
