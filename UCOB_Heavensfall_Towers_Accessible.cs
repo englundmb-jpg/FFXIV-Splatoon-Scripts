@@ -16,9 +16,11 @@ public sealed class UCOB_Heavensfall_Towers_Accessible : SplatoonScript
     private const uint BahamutDataId = 0x1FE8;
     private uint? selectedTower;
     private bool knockbackDone;
+    private bool heavensfallActive;
+    private Vector2? bahamutDivePosition;
 
     public override HashSet<uint>? ValidTerritories { get; } = [733];
-    public override Metadata? Metadata => new(102, "Maggie");
+    public override Metadata? Metadata => new(103, "Maggie");
 
     public override void OnSetup()
     {
@@ -28,11 +30,13 @@ public sealed class UCOB_Heavensfall_Towers_Accessible : SplatoonScript
             {
               "Name":"YOUR TOWER — FOURTH COUNTERCLOCKWISE",
               "Enabled":false,
-              "radius":0.0,
+              "radius":0.7,
+              "Donut":0.25,
+              "FillStep":1.0,
               "color":4294967040,
               "thicc":8.0,
               "tether":true,
-              "LegacyFill":false
+              "LegacyFill":true
             }
             """
         );
@@ -72,9 +76,25 @@ public sealed class UCOB_Heavensfall_Towers_Accessible : SplatoonScript
         OnReset();
     }
 
+    public override void OnStartingCast(uint source, uint castId)
+    {
+        if (castId == 9957)
+        {
+            OnReset();
+            heavensfallActive = true;
+        }
+        else if (heavensfallActive && castId == 9953)
+        {
+            var bahamut = Svc.Objects.OfType<IBattleChara>()
+                .FirstOrDefault(x => x.EntityId == source && x.DataId == BahamutDataId);
+            if (bahamut != null)
+                bahamutDivePosition = Floor(bahamut.Position);
+        }
+    }
+
     public override void OnActionEffectEvent(ActionEffectSet set)
     {
-        if (selectedTower != null && set.Action is { RowId: 9912 })
+        if (heavensfallActive && set.Action is { RowId: 9912 })
             knockbackDone = true;
         if (set.Action is { RowId: TowerCast })
             OnReset();
@@ -96,24 +116,26 @@ public sealed class UCOB_Heavensfall_Towers_Accessible : SplatoonScript
             return;
         }
 
+        if (!heavensfallActive)
+            return;
+
         // Published Splatoon resolver: exactly eight actors casting Megaflare Tower.
         var towers = Svc.Objects.OfType<IBattleChara>()
             .Where(x => x.IsCasting && x.CastActionId == TowerCast).ToArray();
         if (towers.Length != 8)
-        {
-            OnReset();
             return;
-        }
 
         if (selectedTower == null)
         {
-            var bosses = Svc.Objects.OfType<IBattleChara>()
-                .Where(x => x.DataId == BahamutDataId).ToArray();
-            if (bosses.Length != 1)
+            if (bahamutDivePosition is not Vector2 bahamut || bahamut.LengthSquared() < 1f)
+            {
+                if (instruction != null)
+                {
+                    instruction.overlayText = "TOWER NOT IDENTIFIED — FOLLOW PARTY";
+                    instruction.Enabled = true;
+                }
                 return;
-            var bahamut = Floor(bosses[0].Position);
-            if (bahamut.LengthSquared() < 1f)
-                return;
+            }
             var nearest = towers.OrderBy(x => Vector2.DistanceSquared(Floor(x.Position), bahamut)).ToArray();
             // Do not choose arbitrarily if two towers are effectively equally close.
             if (MathF.Abs(Vector2.DistanceSquared(Floor(nearest[0].Position), bahamut)
@@ -134,7 +156,9 @@ public sealed class UCOB_Heavensfall_Towers_Accessible : SplatoonScript
         var position = Floor(tower.Position);
         if (position.LengthSquared() < 1f)
             return;
-        line.SetOffPosition(tower.Position);
+        // The tower has radius 3; mark its inward-facing edge.
+        var front = position - Vector2.Normalize(position) * 3f;
+        line.SetOffPosition(new Vector3(front.X, tower.Position.Y, front.Y));
         line.color = knockbackDone ? 4278255360u : 4294967040u;
         line.Enabled = true;
         if (!knockbackDone && stand != null)
@@ -147,8 +171,8 @@ public sealed class UCOB_Heavensfall_Towers_Accessible : SplatoonScript
         if (instruction != null)
         {
             instruction.overlayText = knockbackDone
-                ? "GO TO YOUR TOWER — GREEN LINE"
-                : "STAND ON GREEN — CYAN LINE IS YOUR TOWER";
+                ? "ENTER YOUR TOWER — GREEN CIRCLE"
+                : "STAND ON GREEN — CYAN CIRCLE MARKS YOUR TOWER";
             instruction.Enabled = true;
         }
     }
@@ -157,6 +181,8 @@ public sealed class UCOB_Heavensfall_Towers_Accessible : SplatoonScript
     {
         selectedTower = null;
         knockbackDone = false;
+        heavensfallActive = false;
+        bahamutDivePosition = null;
         SetEnabled("Your_Tower", false);
         SetEnabled("Knockback_Stand", false);
         SetEnabled("Instruction", false);
