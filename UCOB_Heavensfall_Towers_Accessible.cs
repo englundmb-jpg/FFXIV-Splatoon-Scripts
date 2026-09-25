@@ -1,6 +1,9 @@
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Objects.Types;
 using ECommons.DalamudServices;
+using ECommons.GameFunctions;
+using ECommons.MathHelpers;
+using ECommons.DalamudServices.Legacy;
 using ECommons.Hooks.ActionEffectTypes;
 using Splatoon.SplatoonScripting;
 using System;
@@ -13,14 +16,12 @@ namespace MaggieScripts.Duties.Stormblood;
 public sealed class UCOB_Heavensfall_Towers_Accessible : SplatoonScript
 {
     private const uint TowerCast = 9951;
-    private const uint BahamutDataId = 0x1FE8;
     private uint? selectedTower;
     private bool knockbackDone;
     private bool heavensfallActive;
-    private Vector2? bahamutDivePosition;
 
     public override HashSet<uint>? ValidTerritories { get; } = [733];
-    public override Metadata? Metadata => new(103, "Maggie");
+    public override Metadata? Metadata => new(104, "Maggie");
 
     public override void OnSetup()
     {
@@ -28,12 +29,12 @@ public sealed class UCOB_Heavensfall_Towers_Accessible : SplatoonScript
             "Your_Tower",
             """
             {
-              "Name":"YOUR TOWER — FOURTH COUNTERCLOCKWISE",
+              "Name":"YOUR TOWER — FIFTH CLOCKWISE FROM NAEL",
               "Enabled":false,
               "radius":0.7,
               "Donut":0.25,
               "FillStep":1.0,
-              "color":4294967040,
+              "color":4278190335,
               "thicc":8.0,
               "tether":true,
               "LegacyFill":true
@@ -83,13 +84,7 @@ public sealed class UCOB_Heavensfall_Towers_Accessible : SplatoonScript
             OnReset();
             heavensfallActive = true;
         }
-        else if (heavensfallActive && castId == 9953)
-        {
-            var bahamut = Svc.Objects.OfType<IBattleChara>()
-                .FirstOrDefault(x => x.EntityId == source && x.DataId == BahamutDataId);
-            if (bahamut != null)
-                bahamutDivePosition = Floor(bahamut.Position);
-        }
+
     }
 
     public override void OnActionEffectEvent(ActionEffectSet set)
@@ -127,24 +122,15 @@ public sealed class UCOB_Heavensfall_Towers_Accessible : SplatoonScript
 
         if (selectedTower == null)
         {
-            if (bahamutDivePosition is not Vector2 bahamut || bahamut.LengthSquared() < 1f)
-            {
-                if (instruction != null)
-                {
-                    instruction.overlayText = "TOWER NOT IDENTIFIED — FOLLOW PARTY";
-                    instruction.Enabled = true;
-                }
+            var nael = Svc.Objects.OfType<IBattleChara>()
+                .FirstOrDefault(x => x.NameId == 2612 && x.IsCharacterVisible());
+            if (nael == null)
                 return;
-            }
-            var nearest = towers.OrderBy(x => Vector2.DistanceSquared(Floor(x.Position), bahamut)).ToArray();
-            // Do not choose arbitrarily if two towers are effectively equally close.
-            if (MathF.Abs(Vector2.DistanceSquared(Floor(nearest[0].Position), bahamut)
-                - Vector2.DistanceSquared(Floor(nearest[1].Position), bahamut)) < 0.01f)
-                return;
-            // X points east and Z points south: descending angle runs counterclockwise.
-            var ordered = towers.OrderByDescending(x => MathF.Atan2(x.Position.Z, x.Position.X)).ToArray();
-            var first = Array.IndexOf(ordered, nearest[0]);
-            selectedTower = ordered[(first + 3) % 8].EntityId;
+            var zeroAngle = (int)(MathHelper.GetRelativeAngle(Vector2.Zero,
+                new Vector2(nael.Position.X, nael.Position.Z)) - 3 + 360) % 360;
+            var ordered = towers.OrderBy(x => (int)(MathHelper.GetRelativeAngle(Vector2.Zero,
+                new Vector2(x.Position.X, x.Position.Z)) - zeroAngle + 360) % 360).ToArray();
+            selectedTower = ordered[4].EntityId;
         }
 
         var tower = towers.FirstOrDefault(x => x.EntityId == selectedTower);
@@ -159,7 +145,7 @@ public sealed class UCOB_Heavensfall_Towers_Accessible : SplatoonScript
         // The tower has radius 3; mark its inward-facing edge.
         var front = position - Vector2.Normalize(position) * 3f;
         line.SetOffPosition(new Vector3(front.X, tower.Position.Y, front.Y));
-        line.color = knockbackDone ? 4278255360u : 4294967040u;
+        line.color = 4278190335u;
         line.Enabled = true;
         if (!knockbackDone && stand != null)
         {
@@ -171,8 +157,8 @@ public sealed class UCOB_Heavensfall_Towers_Accessible : SplatoonScript
         if (instruction != null)
         {
             instruction.overlayText = knockbackDone
-                ? "ENTER YOUR TOWER — GREEN CIRCLE"
-                : "STAND ON GREEN — CYAN CIRCLE MARKS YOUR TOWER";
+                ? "ENTER YOUR TOWER — RED LINE"
+                : "STAND ON GREEN — RED LINE MARKS YOUR TOWER";
             instruction.Enabled = true;
         }
     }
@@ -182,7 +168,6 @@ public sealed class UCOB_Heavensfall_Towers_Accessible : SplatoonScript
         selectedTower = null;
         knockbackDone = false;
         heavensfallActive = false;
-        bahamutDivePosition = null;
         SetEnabled("Your_Tower", false);
         SetEnabled("Knockback_Stand", false);
         SetEnabled("Instruction", false);
@@ -196,3 +181,4 @@ public sealed class UCOB_Heavensfall_Towers_Accessible : SplatoonScript
 
     private static Vector2 Floor(Vector3 position) => new(position.X, position.Z);
 }
+
