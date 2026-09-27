@@ -1,0 +1,6 @@
+PASS: 64 Ifrit nail-order/Awoken combinations and invalid-order rejection.
+ACT sample rotation 0: first <108.32905, 0, 82.92291>, next <108.32905, 0, 82.92291>, move 0.00y
+ACT sample rotation 1: first <82.92291, 0, 91.67095>, next <82.92291, 0, 91.67095>, move 0.00y
+ACT sample rotation 2: first <91.67095, 0, 117.07709>, next <91.67095, 0, 117.07709>, move 0.00y
+ACT sample rotation 3: first <117.07709, 0, 108.329056>, next <117.07709, 0, 108.329056>, move 0.00y
+PASS: four rotations, geometry exclusions, travel-distance bound, invalid-geometry rejection.
