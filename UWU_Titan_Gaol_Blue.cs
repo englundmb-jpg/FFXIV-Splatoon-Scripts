@@ -15,7 +15,7 @@ namespace MaggieScripts.Duties.Stormblood;
 public sealed class UWU_Titan_Gaol_Blue : SplatoonScript
 {
     public override HashSet<uint>? ValidTerritories { get; } = new();
-    public override Metadata? Metadata => new(1, "Maggie - log checked, compilation pending");
+    public override Metadata? Metadata => new(2, "Maggie - blue circle movement cue");
 
     private static readonly Vector3 Center = new(100f, 0f, 100f);
     private readonly HashSet<ulong> selected = new();
@@ -30,7 +30,7 @@ public sealed class UWU_Titan_Gaol_Blue : SplatoonScript
     {
         Controller.RegisterElementFromCode("JailSpot",
             """
-            {"Name":"Your jail destination","Enabled":false,"type":0,"radius":0.6,"Filled":false,"color":4294940979,"thicc":8.0}
+            {"Name":"Your jail destination","Enabled":false,"type":0,"radius":0.6,"Filled":false,"color":4294940979,"thicc":3.0}
             """);
         Controller.RegisterElementFromCode("JailText",
             """
@@ -91,7 +91,8 @@ public sealed class UWU_Titan_Gaol_Blue : SplatoonScript
 
         if (previewUntil > Environment.TickCount64)
         {
-            Show(player.Position, "TEST BLUE CIRCLE");
+            Show(player.Position, "TEST BLUE CIRCLE",
+                previewUntil - Environment.TickCount64 <= 2500);
             return;
         }
 
@@ -137,14 +138,17 @@ public sealed class UWU_Titan_Gaol_Blue : SplatoonScript
         var destination = Center + towardTitan * ((1 - index) * 6.5f);
         Show(destination, landslideResolved
             ? $"JAIL {index + 1} — IN"
-            : $"JAIL {index + 1} — DODGE FIRST");
+            : $"JAIL {index + 1} — DODGE FIRST", landslideResolved);
     }
 
-    private void Show(Vector3 position, string message)
+    private void Show(Vector3 position, string message, bool moveIn)
     {
         if (Controller.TryGetElementByName("JailSpot", out var spot))
         {
             spot.SetOffPosition(position);
+            spot.Filled = moveIn;
+            spot.fillIntensity = 0.65f;
+            spot.thicc = moveIn ? 10f : 3f;
             spot.Enabled = true;
         }
         ShowText(message);
@@ -179,7 +183,7 @@ public sealed class UWU_Titan_Gaol_Blue : SplatoonScript
 
     public override void OnSettingsDraw()
     {
-        ImGui.TextWrapped("Compilation and in-game validation are pending. Test the circle before relying on this script.");
+        ImGui.TextWrapped("Version 2: outline before the first Landslide resolves; thick filled blue circle after it resolves. Fight timing has not been tested in game.");
         if (ImGui.Button("TEST BLUE CIRCLE (5 seconds)"))
         {
             OnReset();
@@ -187,6 +191,6 @@ public sealed class UWU_Titan_Gaol_Blue : SplatoonScript
         }
         if (ImGui.Button("HIDE TEST"))
             OnReset();
-        ImGui.TextWrapped("Blue is your final jail destination. Dodge the first Landslide before moving onto its center. This script does not guide the knockback or choose a Landslide dodge path.");
+        ImGui.TextWrapped("The test shows an outline for 2.5 seconds, then a filled circle for 2.5 seconds at your feet. In the fight, be beside your destination outside the first Landslide; the fill cues the final step in. This script does not guide the knockback or choose a Landslide dodge path.");
     }
 }
