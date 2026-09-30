@@ -21,7 +21,7 @@ public sealed class UCOB_Heavensfall_Towers_Accessible : SplatoonScript
     private bool heavensfallActive;
 
     public override HashSet<uint>? ValidTerritories { get; } = [733];
-    public override Metadata? Metadata => new(104, "Maggie");
+    public override Metadata? Metadata => new(105, "Maggie");
 
     public override void OnSetup()
     {
@@ -34,7 +34,7 @@ public sealed class UCOB_Heavensfall_Towers_Accessible : SplatoonScript
               "radius":0.7,
               "Donut":0.25,
               "FillStep":1.0,
-              "color":4278190335,
+              "color":4278255360,
               "thicc":8.0,
               "tether":true,
               "LegacyFill":true
@@ -145,7 +145,7 @@ public sealed class UCOB_Heavensfall_Towers_Accessible : SplatoonScript
         // The tower has radius 3; mark its inward-facing edge.
         var front = position - Vector2.Normalize(position) * 3f;
         line.SetOffPosition(new Vector3(front.X, tower.Position.Y, front.Y));
-        line.color = 4278190335u;
+        line.color = 4278255360u;
         line.Enabled = true;
         if (!knockbackDone && stand != null)
         {
@@ -157,8 +157,8 @@ public sealed class UCOB_Heavensfall_Towers_Accessible : SplatoonScript
         if (instruction != null)
         {
             instruction.overlayText = knockbackDone
-                ? "ENTER YOUR TOWER — RED LINE"
-                : "STAND ON GREEN — RED LINE MARKS YOUR TOWER";
+                ? "ENTER YOUR TOWER — GREEN LINE"
+                : "STAND ON GREEN — GREEN LINE MARKS YOUR TOWER";
             instruction.Enabled = true;
         }
     }
