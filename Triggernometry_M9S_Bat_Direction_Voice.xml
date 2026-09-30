@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TriggernometryExport PluginVersion="1.2.0.6">
+  <ExportedFolder Id="a20a46a9-0462-473d-ab70-f5d9068eb59c" Name="Maggie - M9S Bat Direction Voice" Enabled="true">
+    <Folders />
+    <Triggers>
+      <Trigger Enabled="true" Source="Endpoint" Name="Sanguine Scratch - Clockwise" Id="46b88e05-5422-45cf-891c-ba34d2284dfb" RegularExpression="^MAGGIE_M9S_BATS\|CW$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Clockwise" ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="0" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Sanguine Scratch - Counterclockwise" Id="8f1283e1-d40b-4fcf-9967-c65f8ce04b91" RegularExpression="^MAGGIE_M9S_BATS\|CCW$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Counterclockwise" ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="0" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+    </Triggers>
+  </ExportedFolder>
+</TriggernometryExport>
