@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TriggernometryExport PluginVersion="1.2.0.6">
+  <ExportedFolder Id="09876052-d7f3-4fe7-b772-ece7e9ee7825" Name="Maggie - Two Minute Burst Reminder" Enabled="true">
+    <Folders />
+    <Triggers>
+      <Trigger Enabled="true" Source="FFXIVNetwork" Name="Burst countdown - starts on Engage" Id="ff683630-171d-4268-861d-fba271d4953a" RegularExpression="^00\|[^|]*\|0039\|\|Engage!\|" PrevActions="Interrupt" Sequential="False">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Loop" ExecutionDelayExpression="0" LoopDelayExpression="0" LoopInitExpression="0" LoopIncrExpression="1">
+            <LoopCondition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="1" ExpressionTypeL="Numeric" ExpressionR="1" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+            </LoopCondition>
+            <LoopActions>
+              <Action OrderNumber="1" ActionType="UseTTS" ExecutionDelayExpression="115000 + ${_loopiterator} * 120000 - ${_sincems}" UseTTSTextExpression="Burst in" UseTTSRateExpression="0" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+                <Condition Enabled="false" Grouping="And" />
+              </Action>
+              <Action OrderNumber="2" ActionType="UseTTS" ExecutionDelayExpression="2000" UseTTSTextExpression="Three" UseTTSRateExpression="0" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+                <Condition Enabled="false" Grouping="And" />
+              </Action>
+              <Action OrderNumber="3" ActionType="UseTTS" ExecutionDelayExpression="1000" UseTTSTextExpression="Two" UseTTSRateExpression="0" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+                <Condition Enabled="false" Grouping="And" />
+              </Action>
+              <Action OrderNumber="4" ActionType="UseTTS" ExecutionDelayExpression="1000" UseTTSTextExpression="One" UseTTSRateExpression="0" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+                <Condition Enabled="false" Grouping="And" />
+              </Action>
+              <Action OrderNumber="5" ActionType="UseTTS" ExecutionDelayExpression="1000" UseTTSTextExpression="Burst" UseTTSRateExpression="0" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+                <Condition Enabled="false" Grouping="And" />
+              </Action>
+            </LoopActions>
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="FFXIVNetwork" Name="Stop burst timer - wipe clear zone or new countdown" Id="bc1fd9b6-84b0-4133-8d73-bc298ce059ff" RegularExpression="^(?:33\|[^|]*\|[A-F0-9]{8}\|4000000[3F]\||01\||00\|[^|]*\|0(?:0B9|[012]39)\|\|Battle commencing in \d+ seconds!)">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Trigger" TriggerOp="CancelTrigger" TriggerId="ff683630-171d-4268-861d-fba271d4953a" ExecutionDelayExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+    </Triggers>
+  </ExportedFolder>
+</TriggernometryExport>
