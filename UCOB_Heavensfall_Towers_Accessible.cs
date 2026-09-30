@@ -21,7 +21,7 @@ public sealed class UCOB_Heavensfall_Towers_Accessible : SplatoonScript
     private bool heavensfallActive;
 
     public override HashSet<uint>? ValidTerritories { get; } = [733];
-    public override Metadata? Metadata => new(104, "Maggie");
+    public override Metadata? Metadata => new(105, "Maggie");
 
     public override void OnSetup()
     {
@@ -31,12 +31,11 @@ public sealed class UCOB_Heavensfall_Towers_Accessible : SplatoonScript
             {
               "Name":"YOUR TOWER — FIFTH CLOCKWISE FROM NAEL",
               "Enabled":false,
-              "radius":0.7,
-              "Donut":0.25,
-              "FillStep":1.0,
-              "color":4278190335,
+              "type":2,
+              "radius":0.0,
+              "color":4278255360,
               "thicc":8.0,
-              "tether":true,
+              "tether":false,
               "LegacyFill":true
             }
             """
@@ -51,7 +50,7 @@ public sealed class UCOB_Heavensfall_Towers_Accessible : SplatoonScript
               "Donut":0.35,
               "color":4278255360,
               "thicc":8.0,
-              "tether":true,
+              "tether":false,
               "FillStep":1.0,
               "LegacyFill":true
             }
@@ -142,23 +141,25 @@ public sealed class UCOB_Heavensfall_Towers_Accessible : SplatoonScript
         var position = Floor(tower.Position);
         if (position.LengthSquared() < 1f)
             return;
-        // The tower has radius 3; mark its inward-facing edge.
-        var front = position - Vector2.Normalize(position) * 3f;
-        line.SetOffPosition(new Vector3(front.X, tower.Position.Y, front.Y));
-        line.color = 4278190335u;
+        // BossMod P3HeavensfallTowers uses radius 9 toward the assigned tower.
+        var spot = Vector2.Normalize(position) * 9f;
+        var startingPosition = new Vector3(spot.X, tower.Position.Y, spot.Y);
+        // Fixed endpoints: knockback starting circle to the assigned tower.
+        line.SetRefPosition(startingPosition);
+        line.SetOffPosition(tower.Position);
+        line.color = 4278255360u;
         line.Enabled = true;
         if (!knockbackDone && stand != null)
         {
-            // BossMod P3HeavensfallTowers uses radius 9 toward the assigned tower.
-            var spot = Vector2.Normalize(position) * 9f;
-            stand.SetOffPosition(new Vector3(spot.X, 0f, spot.Y));
+            stand.SetRefPosition(startingPosition);
+            stand.SetOffPosition(Vector3.Zero);
             stand.Enabled = true;
         }
         if (instruction != null)
         {
             instruction.overlayText = knockbackDone
-                ? "ENTER YOUR TOWER — RED LINE"
-                : "STAND ON GREEN — RED LINE MARKS YOUR TOWER";
+                ? "ENTER YOUR TOWER — GREEN LINE"
+                : "STAND ON GREEN — GREEN LINE TO YOUR TOWER";
             instruction.Enabled = true;
         }
     }
