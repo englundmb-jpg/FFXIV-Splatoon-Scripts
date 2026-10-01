@@ -2,6 +2,14 @@
 
 These are standalone Splatoon scripts for territory 733. They compile against Splatoon 3.9.2.25 and Dalamud API 15. They have not been exercised in an in-game replay or live pull. Disable older copies covering the same mechanic before testing these. UWU Annihilation is unchanged.
 
+## Grand Octet revision 2 — 2026-10-01 (supersedes Grand Octet notes below)
+
+Maggie confirmed the Tank LB3 strategy and requested a bait spot halfway between N and NW when Twintania is north. The bait destination now rotates 22.5 degrees counterclockwise from Twintania, retaining the previous radius of 20. This is a user-selected location, not a newly measured or log-verified safe coordinate.
+
+The personal bait arrow remains until Twintania's icon locks the dive. The normal stack branch is removed: other players receive FILL AN OPEN TOWER, regardless of stack icons. After the bait locks, the bait player also receives that prompt. Tower positions are not drawn or assigned. The script assumes the party uses Tank LB3; it does not detect that mitigation. Existing encounter triggers, early Octet guidance, death/missing-icon safeguards and tower-resolution Twister prompt are unchanged.
+
+Validation for this revision: reviewed the narrow diff and checked the 22.5-degree CCW geometry in all eight orientations. No current compilation, ACT replay or in-game validation was possible. The older compilation and 85 assertions below apply only to the original revision; the old normal-stack test expectations have not been updated. This remains a draft, not a verified release.
+
 ## Install / first check
 
 Install each v3 `.cs` raw GitHub URL through Splatoon's script installer. Open the script's settings while out of combat and press **Show display test for 5 seconds**. Grand Octet and Tenstrike show a red arrow; Exaflare shows a green circle. Each also shows large text over your character. This only checks rendering, not encounter correctness.
