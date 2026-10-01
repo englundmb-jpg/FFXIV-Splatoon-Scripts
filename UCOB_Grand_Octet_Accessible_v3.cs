@@ -29,7 +29,7 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-// Review build: API-compiled; not verified in an in-game UCOB replay.
+// Revision 2: user-selected bait offset and Tank LB3 instructions; not compiled or replay-tested.
 // Mechanic references and limits: validation/UCOB-accessibility.md.
 using System;
 using System.Collections.Generic;
@@ -45,7 +45,7 @@ namespace MaggieScripts.Duties.Stormblood;
 public sealed class UCOB_Grand_Octet_Accessible_v3 : SplatoonScript
 {
     public override HashSet<uint>? ValidTerritories { get; } = [733];
-    public override Metadata Metadata => new(1, "Maggie");
+    public override Metadata Metadata => new(2, "Maggie");
     private const bool TestGreen = false;
     private enum Step { Off, Center, Opposite, Run, BahaCenter, Twin, Twisters }
     private Step step;
@@ -133,12 +133,10 @@ public sealed class UCOB_Grand_Octet_Accessible_v3 : SplatoonScript
         if (twin is not { } t) { Draw("FIND TWINTANIA - POSITION UNKNOWN"); return; }
         bool bait = !dives.Contains(player.EntityId);
         if (bait && !twinLocked)
-        { Draw("BAIT TWINTANIA - CCW WALL", At(Angle(t) - MathF.PI / 4, 20)); return; }
-        if (stacks.Contains(player.EntityId))
-        { Draw("STACK - CW OF TWINTANIA", At(Angle(t) + MathF.PI / 4, 20)); return; }
-        if (stacks.Count < 4) { Draw("WAIT FOR STACK MARKS"); return; }
-        // A non-stack player must choose an unoccupied tower. No invented tower assignment.
-        Draw(bait ? "TAKE CLOSEST TOWER - MOVE FOR TWISTERS" : "TAKE OPEN TOWER - MOVE FOR TWISTERS");
+        { Draw("BAIT TWINTANIA - CCW WALL", At(Angle(t) - MathF.PI / 8, 20)); return; }
+        // User-selected Tank LB3 strategy: stack markers do not change the instruction.
+        // Tower selection stays manual; no tower is claimed as personally assigned.
+        Draw(bait ? "DIVE LOCKED - FILL AN OPEN TOWER\nMOVE FOR TWISTERS" : "TANK LB3 STRATEGY - FILL AN OPEN TOWER\nMOVE FOR TWISTERS");
     }
     public override void OnReset()
     {
@@ -148,7 +146,7 @@ public sealed class UCOB_Grand_Octet_Accessible_v3 : SplatoonScript
     }
     public override void OnSettingsDraw()
     {
-        ImGui.TextWrapped("Tessan PF normal resolution (stack CW / Twin bait CCW). Not the Tank LB3 variant. Red arrow + large player text. Wall targets use adjacent 45-degree sectors at radius 20; adjust with the party. Run arrow is a direction cue. Tower assignment is manual. Untested in combat.");
+        ImGui.TextWrapped("Tessan PF Tank LB3 strategy. Twin bait arrow: 22.5 degrees counterclockwise of Twin at the existing radius 20 (user-selected placement). With Twin north, this is halfway between north and northwest. Stack markers are ignored; fill open towers manually. Requires the party to use Tank LB3; this script does not detect LB use. Run arrow is a direction cue. This revision is not compiled or combat-tested.");
         TestButton();
     }
 
