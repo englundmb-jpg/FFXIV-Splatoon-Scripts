@@ -231,17 +231,35 @@ using System.Numerics;
 namespace MaggieScripts.Duties.Stormblood;
 public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
 {
+    // v5, 2026-10-06: arbitrary Awoken nail orders; non-Awoken live-layout route.
+    // Evidence: Maggie's Network_30301_20261005.log (four complete dash sequences).
+    // Geometry: awgil/ffxiv_bossmod, BossMod.Ultimate/Stormblood/Ultimate/UWU/
+    // P2CrimsonCyclone.cs: main half-width 9, cross half-width 5.
+    // Awoken cross axes are +/-45 degrees from the real Ifrit's dash.
+    // Motion model: straight chord, Sprint 7.8y/s (BossMod FRUAI.cs).
+    // 0.7s is a DESIGN allowance for response/acceleration, NOT a mechanic timer.
+    // Forecast spacing 1.4s / cross +2.1s is checked against this log. The MOVE
+    // cue NEVER uses that forecast: it requires the selected dash's action effect.
+    // Validation: 120/120 order/status geometry cases and all four complete
+    // October 5 sequences, including SW,N,E,SE and the non-Awoken layout.
+    // Syntax parsed; full Dalamud/Splatoon compilation and live play not tested.
     public override HashSet<uint>? ValidTerritories { get; } = [777];
-    public override Metadata Metadata => new(4, "Maggie");
+    public override Metadata Metadata => new(5, "Maggie");
     private const string Current = "IfritDash_Current", Next = "IfritDash_Next";
     private static readonly Vector3 Center = new(100, 0, 100);
     private readonly Dictionary<uint, Vector3> nailPositions = new();
     private readonly List<uint> deathOrder = new();
-    private readonly HashSet<uint> resolvedDashes = new();
-    private bool armed, drawn, crossSeen, finished;
-    private uint firstCaster;
+    private readonly HashSet<uint> resolvedDashes = new(), crossSources = new();
+    private readonly Dictionary<uint, int> dashAxes = new();
+    private readonly List<uint> casts = new();
+    private bool armed, drawn, finished, moved, awoken, firstEffectSeen;
+    private uint realIfrit, moveCaster;
+    private int[] plannedAxes = [];
+    private int moveIndex;
     private Vector3 destination;
     private long expires;
+    private string diagnostic = "Waiting for Ifrit.";
+
     public override void OnSetup() { SetupMarkers(Current, Next); OnReset(); }
     public override void OnUpdate()
     {
@@ -249,11 +267,12 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
         UpdateNotice();
         if (finished) return;
         foreach (var actor in Svc.Objects.Where(x => x.DataId == 0x221B))
-            nailPositions[actor.EntityId] = actor.Position;
+            if (!deathOrder.Contains(actor.EntityId)) nailPositions[actor.EntityId] = actor.Position;
+        // Retry actor/position availability. Do not require everything to exist on
+        // the single frame of OnStartingCast. Never start a plan after dash 1 hit.
+        if (armed && !drawn && !firstEffectSeen) TryInitialize();
         if (drawn && Environment.TickCount64 > expires)
-        {
-            Hide(Current); Hide(Next); drawn = false; armed = false; finished = true;
-        }
+            Stop("IFRIT: DISPLAY EXPIRED - WATCH DASHES");
     }
     public override void OnActionEffectEvent(ActionEffectSet set)
     {
@@ -261,95 +280,201 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
         var action = set.Action?.RowId;
         if (action == 0x2B58 && set.Source is { DataId: 0x221B } nail)
         {
-            nailPositions[nail.EntityId] = nail.Position;
-            if (!deathOrder.Contains(nail.EntityId)) deathOrder.Add(nail.EntityId);
-        }
-        // The four-dash jump follows Flaming Crush, not the earlier cardinal dashes.
-        if (action == 0x2B5D && set.Source?.DataId == 0x221A && deathOrder.Count == 4)
-            armed = true;
-        if (!drawn) return;
-        if (action == 0x2B5F && set.Source?.DataId == 0x221A)
-        {
-            if (!resolvedDashes.Add(set.Source.EntityId)) return;
-            if (set.Source.EntityId == firstCaster)
+            if (!deathOrder.Contains(nail.EntityId))
             {
-                Place(Current, destination); Hide(Next);
-                Say("SPRINT — MOVE CURRENT", 4000);
+                nailPositions[nail.EntityId] = nail.Position;
+                deathOrder.Add(nail.EntityId);
             }
         }
-        if (action == 0x2B60) crossSeen = true;
-        if (resolvedDashes.Count == 4 && crossSeen)
+        if (action == 0x2B5D && set.Source is { DataId: 0x221A } boss)
         {
-            Hide(Current); Hide(Next); drawn = false; armed = false; finished = true;
-            noticeUntil = 0;
+            // Flaming Crush is the phase gate; nail completeness is checked only
+            // for Awoken prediction, not for the non-Awoken layout-based route.
+            realIfrit = boss.EntityId;
+            armed = true;
+            diagnostic = "Flaming Crush seen; waiting for dash layout.";
         }
+        if (!armed) return;
+        if (action == 0x2B5F && set.Source is { DataId: 0x221A } caster)
+        {
+            if (!resolvedDashes.Add(caster.EntityId)) return;
+            firstEffectSeen = true;
+            if (!drawn) { Stop("IFRIT: DATA MISSING - WATCH DASHES"); return; }
+            if (!dashAxes.ContainsKey(caster.EntityId))
+            { Stop("IFRIT: DASH MISMATCH - WATCH DASHES"); return; }
+            if (awoken && (resolvedDashes.Count > plannedAxes.Length ||
+                dashAxes[caster.EntityId] != plannedAxes[resolvedDashes.Count - 1]))
+            { Stop("IFRIT: ORDER CHANGED - WATCH DASHES"); return; }
+            if (!moved && caster.EntityId == moveCaster)
+            {
+                moved = true;
+                Place(Current, destination); Hide(Next);
+                Say("SPRINT - STRAIGHT TO GREEN", 4000);
+            }
+        }
+        if (drawn && action == 0x2B60 && set.Source is { DataId: 0x233C } helper)
+        {
+            if (!awoken) { Stop("IFRIT: UNEXPECTED CROSS - WATCH DASHES"); return; }
+            crossSources.Add(helper.EntityId);
+        }
+        // Non-Awoken Ifrit has no cross to wait for. Awoken has two helpers.
+        if (drawn && resolvedDashes.Count == 4 && (!awoken || crossSources.Count >= 2))
+            Stop();
     }
     public override void OnStartingCast(uint source, uint castId)
     {
         var caster = Actor(source);
         if ((castId == 0x2CFD && caster?.DataId == 0x2217) || caster?.DataId == 0x221E)
-        {
-            Hide(Current); Hide(Next); armed = drawn = false; finished = true; noticeUntil = 0;
-            return;
-        }
-        if (finished || !armed || drawn || castId != 0x2B5F || caster?.DataId != 0x221A) return;
-        if (!TryNailOrder(out var first, out var rotation))
-        {
-            Say("IFRIT: NAIL ORDER NOT CONFIRMED"); return;
-        }
-        var woken = Svc.Objects.OfType<IBattleChara>()
-            .Where(x => x.DataId == 0x221A && x.StatusList.Any(s => s.StatusId == 1529)).ToArray();
-        if (woken.Length != 1 || Distance(woken[0].Position, Center) < 18 ||
-            Distance(woken[0].Position, Center) > 21 || Direction(caster.Position) % 4 != first % 4)
-        {
-            Say("IFRIT: DASH PATTERN NOT CONFIRMED"); return;
-        }
-        int start = (first - rotation + 8) % 8;
-        int wokenAxis = Direction(woken[0].Position) % 4;
-        int dash = 0;
-        for (int i = 1; i <= 4; i++)
-            if ((start + i * rotation + 16) % 4 == wokenAxis) { dash = i; break; }
-        if (dash == 0) return;
-        // Both sides are valid; retain the side nearest the player's party position.
-        if (Svc.Objects.LocalPlayer is { } player &&
-            Distance(Point((start + 4) % 8), player.Position) < Distance(Point(start), player.Position))
-            start = (start + 4) % 8;
-        int move = dash % 2 == 1 ? 1 : 2;
-        destination = Point((start + rotation * move + 16) % 8);
-        Place(Current, Point(start)); Place(Next, destination);
-        firstCaster = source; drawn = true; crossSeen = false; resolvedDashes.Clear();
-        expires = Environment.TickCount64 + 15000;
-        Say((rotation == 1 ? "CLOCKWISE" : "COUNTERCLOCKWISE") +
-            (move == 1 ? " 45°" : " 90°") + (dash <= 2 ? " FAST" : "") + " — WAIT FOR FIRST DASH", 5000);
+        { Stop(); return; }
+        if (finished || !armed || castId != 0x2B5F || caster?.DataId != 0x221A) return;
+        if (casts.Contains(source)) return;
+        casts.Add(source);
+        if (!drawn) TryInitialize();
+        if (!drawn) return;
+        int axis = Direction(caster.Position) % 4;
+        if (!dashAxes.TryGetValue(source, out var expected) || expected != axis ||
+            (awoken && (casts.Count > 4 || axis != plannedAxes[casts.Count - 1])))
+            Stop("IFRIT: CAST MISMATCH - WATCH DASHES");
     }
-    private bool TryNailOrder(out int first, out int rotation)
+    private void TryInitialize()
     {
-        first = rotation = 0;
-        if (deathOrder.Count != 4 || deathOrder.Any(x => !nailPositions.ContainsKey(x))) return false;
-        var directions = deathOrder.Select(x => Direction(nailPositions[x])).ToArray();
-        first = directions[0];
-        for (int i = 1; i < directions.Length; i++)
+        if (Svc.Objects.LocalPlayer is not { } player || Actor(realIfrit) is not IBattleChara boss) return;
+        var actors = Svc.Objects.OfType<IBattleChara>().Where(x => x.DataId == 0x221A).ToArray();
+        if (actors.Length != 4 || actors.Any(x => Distance(x.Position, Center) < 18 || Distance(x.Position, Center) > 21)) return;
+        var axes = actors.Select(x => Direction(x.Position) % 4).ToArray();
+        if (axes.Distinct().Count() != 4) return;
+        awoken = boss.StatusList.Any(s => s.StatusId == 1529);
+        // Never infer non-Awoken from a missing boss object or an incomplete layout.
+        if (actors.Any(x => x.EntityId != realIfrit && x.StatusList.Any(s => s.StatusId == 1529))) return;
+        Route? route;
+        if (awoken)
         {
-            var delta = (directions[i] - directions[i - 1] + 8) % 4;
-            int r = delta == 1 ? 1 : delta == 3 ? -1 : 0;
-            if (r == 0 || (rotation != 0 && r != rotation)) return false;
-            rotation = r;
+            if (deathOrder.Count != 4 || deathOrder.Any(x => !nailPositions.ContainsKey(x)))
+            { diagnostic = "Awoken: waiting for all four nail deaths."; return; }
+            plannedAxes = deathOrder.Select(x => Direction(nailPositions[x]) % 4).ToArray();
+            if (plannedAxes.Distinct().Count() != 4)
+            { diagnostic = "Awoken: nail axes incomplete."; return; }
+            if (casts.Count > 4 || casts.Where((id, i) => Actor(id) is not { } a || Direction(a.Position) % 4 != plannedAxes[i]).Any())
+            { Stop("IFRIT: ORDER MISMATCH - WATCH DASHES"); return; }
+            int wokenIndex = Array.IndexOf(plannedAxes, Direction(boss.Position) % 4);
+            route = ChooseRoute(plannedAxes, wokenIndex, player.Position);
+        }
+        else
+        {
+            // In the supplied non-Awoken pull the dash order did NOT match nails.
+            // Use dash 1's actual caster; check the route against all six possible
+            // permutations of the other three axes, without predicting their order.
+            if (casts.Count == 0 || Actor(casts[0]) is not { } first) return;
+            plannedAxes = [];
+            route = ChooseNonAwokenRoute(Direction(first.Position) % 4, player.Position);
+        }
+        if (route == null)
+        { diagnostic = "No route passed the movement checks."; Say("IFRIT: NO VERIFIED PATH - WATCH DASHES"); return; }
+        dashAxes.Clear();
+        foreach (var actor in actors) dashAxes[actor.EntityId] = Direction(actor.Position) % 4;
+        moveIndex = route.Cue;
+        moveCaster = awoken ? actors.Single(x => dashAxes[x.EntityId] == plannedAxes[moveIndex]).EntityId : casts[0];
+        destination = Point(route.End);
+        Place(Current, Point(route.Start)); Place(Next, destination);
+        drawn = true; moved = false;
+        expires = Environment.TickCount64 + 15000; // display watchdog, not a mechanic trigger
+        diagnostic = (awoken ? "Awoken" : "Non-Awoken") + $"; move after dash {moveIndex + 1}.";
+        Say("SPRINT READY - WAIT AT GREEN", 5000);
+    }
+
+    private sealed class Route(float start, float end, int cue, float score)
+    {
+        public float Start = start, End = end;
+        public int Cue = cue;
+        public float Score = score;
+    }
+    private static Route? ChooseRoute(int[] order, int wokenIndex, Vector3 player)
+    {
+        Route? best = null;
+        for (int cue = 0; cue < 4; cue++)
+            for (int start = 0; start < 8; start++)
+                for (int end = 0; end < 8; end++)
+                {
+                    int steps = Math.Min((start - end + 8) % 8, (end - start + 8) % 8);
+                    if (steps == 0 || steps > 2 || !CheckRoute(order, wokenIndex, start, end, cue, 1.4f)) continue;
+                    float score = Distance(player, Point(start)) + Distance(Point(start), Point(end)) * 0.1f;
+                    if (best == null || score < best.Score) best = new(start, end, cue, score);
+                }
+        return best;
+    }
+    private static Route? ChooseNonAwokenRoute(int firstAxis, Vector3 player)
+    {
+        Route? best = null;
+        // Put the holding point 10y laterally from dash 1's centre line:
+        // verified 9y half-width + 1y positioning allowance, on the 19y circle.
+        // This is calculated geometry, not a hardcoded world safe spot.
+        float offset = MathF.Asin(10f / 19f) / (MathF.PI / 4);
+        foreach (int end in new[] { firstAxis, firstAxis + 4 })
+            foreach (float start in new[] { end - offset, end + offset })
+            {
+                bool valid = true;
+                for (int a = 0; a < 4; a++)
+                    for (int b = 0; b < 4; b++)
+                        for (int c = 0; c < 4; c++)
+                        {
+                            int[] order = [firstAxis, a, b, c];
+                            if (order.Distinct().Count() != 4) continue;
+                            // Non-Awoken log: effect gaps 2.048, 2.010, 2.010s.
+                            // Test ALL six orders at 2.0s plus timing cushions.
+                            if (!CheckRoute(order, -1, start, end, 0, 2.0f)) valid = false;
+                        }
+                if (!valid) continue;
+                float score = Distance(player, Point(start));
+                if (best == null || score < best.Score) best = new(start, end, 0, score);
+            }
+        return best;
+    }
+    private static bool CheckRoute(int[] order, int wokenIndex, float start, float end, int cue, float spacing)
+    {
+        for (int i = 0; i < 4; i++)
+            if (!ClearDuringEvent(start, end, (i - cue) * spacing, order[i], 9)) return false;
+        if (wokenIndex >= 0)
+        {
+            float t = (wokenIndex - cue) * spacing + 2.1f;
+            if (!ClearDuringEvent(start, end, t, (order[wokenIndex] + 1) % 4, 5) ||
+                !ClearDuringEvent(start, end, t, (order[wokenIndex] + 3) % 4, 5)) return false;
         }
         return true;
     }
+    private static bool ClearDuringEvent(float start, float end, float timeAfterCue, int axis, float halfWidth)
+    {
+        Vector3 a = Point(start) - Center, b = Point(end) - Center;
+        float distance = Distance(a, b);
+        // Check the entire possible segment at the hit, not just its endpoints.
+        // Timing cushions cover observed cast/effect offsets and cadence variation.
+        float lo = timeAfterCue <= 0 ? 0 : Math.Clamp((timeAfterCue - 0.35f - 0.7f) * 7.8f / distance, 0, 1);
+        float hi = timeAfterCue <= 0 ? 0 : Math.Clamp((timeAfterCue + 0.2f) * 7.8f / distance, 0, 1);
+        float angle = axis * MathF.PI / 4;
+        Vector3 normal = new(MathF.Cos(angle), 0, MathF.Sin(angle));
+        float d0 = Vector3.Dot(Vector3.Lerp(a, b, lo), normal);
+        float d1 = Vector3.Dot(Vector3.Lerp(a, b, hi), normal);
+        return d0 * d1 > 0 && MathF.Min(MathF.Abs(d0), MathF.Abs(d1)) >= halfWidth + 0.6f;
+    }
     private static int Direction(Vector3 p) =>
         ((int)MathF.Round(MathF.Atan2(p.X - 100, 100 - p.Z) / (MathF.PI / 4)) + 8) % 8;
-    // The 19y dodge circle stays inside the 20y arena and outside the dash edges.
-    private static Vector3 Point(int direction)
+    private static Vector3 Point(float direction)
     {
-        var angle = direction * MathF.PI / 4;
+        float angle = direction * MathF.PI / 4;
         return Center + new Vector3(MathF.Sin(angle), 0, -MathF.Cos(angle)) * 19;
+    }
+    private void Stop(string message = "")
+    {
+        Hide(Current); Hide(Next); Hide("PlayerNotice");
+        armed = drawn = false; finished = true; noticeUntil = 0;
+        if (message.Length > 0) { diagnostic = message; Say(message); }
     }
     public override void OnReset()
     {
-        nailPositions.Clear(); deathOrder.Clear(); resolvedDashes.Clear();
-        armed = drawn = crossSeen = finished = false; firstCaster = 0;
-        expires = noticeUntil = testUntil = 0;
+        nailPositions.Clear(); deathOrder.Clear(); resolvedDashes.Clear(); crossSources.Clear();
+        dashAxes.Clear(); casts.Clear(); plannedAxes = [];
+        armed = drawn = finished = moved = awoken = firstEffectSeen = false;
+        realIfrit = moveCaster = 0; moveIndex = 0;
+        expires = noticeUntil = testUntil = 0; diagnostic = "Waiting for Ifrit.";
         Hide(Current); Hide(Next); Hide("PlayerNotice");
     }
 
@@ -414,7 +539,8 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
     }
     public override void OnSettingsDraw()
     {
-        ImGui.TextWrapped("Green CURRENT, cyan NEXT. The display test checks visibility only, not fight correctness.");
+        ImGui.TextWrapped("v5: Green CURRENT, cyan NEXT. Have Sprint ready. Wait at green; when cyan turns green, sprint straight along the tether to it (do not run around the rim). Supports arbitrary Awoken nail orders and non-Awoken dashes. Display test checks visibility only.");
+        ImGui.TextWrapped(diagnostic);
         if (Svc.Condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.InCombat]) return;
         if (ImGui.Button("Show display test for 5 seconds"))
         {
@@ -427,3 +553,4 @@ public sealed class UWU_Ifrit_Dash_Accessible : SplatoonScript
     private static IGameObject? Actor(uint id) => Svc.Objects.FirstOrDefault(x => x.EntityId == id);
     private static float Distance(Vector3 a, Vector3 b) => Vector2.Distance(new(a.X, a.Z), new(b.X, b.Z));
 }
+
