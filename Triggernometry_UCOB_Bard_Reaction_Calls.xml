@@ -1,0 +1,741 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TriggernometryExport PluginVersion="1.2.0.6">
+  <ExportedFolder Id="da359f41-0dbf-45fd-a922-1007e8612724" Name="Maggie - UCOB Bard reaction calls v1" Enabled="true" FFXIVZoneFilterEnabled="True" FfxivZoneFilterRegularExpression="^733$">
+    <Folders />
+    <Triggers>
+      <Trigger Id="69ed9e47-2247-5da8-b641-2c472761001c" Name="VOICE - five second preparation and countdown" Enabled="true" Source="None" RegularExpression="(?!)" Sequential="False" PrevActions="Interrupt">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" ExecutionDelayExpression="0" UseTTSTextExpression="Burst in five" UseTTSRateExpression="0" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_hold}" ExpressionTypeL="Numeric" ExpressionR="0" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="0" ExpressionTypeR="Numeric" ConditionType="NumericGreater" />
+            </Condition>
+          </Action>
+          <Action OrderNumber="2" ActionType="UseTTS" ExecutionDelayExpression="2000" UseTTSTextExpression="Three" UseTTSRateExpression="0" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_hold}" ExpressionTypeL="Numeric" ExpressionR="0" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="0" ExpressionTypeR="Numeric" ConditionType="NumericGreater" />
+            </Condition>
+          </Action>
+          <Action OrderNumber="3" ActionType="UseTTS" ExecutionDelayExpression="1000" UseTTSTextExpression="Two" UseTTSRateExpression="0" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_hold}" ExpressionTypeL="Numeric" ExpressionR="0" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="0" ExpressionTypeR="Numeric" ConditionType="NumericGreater" />
+            </Condition>
+          </Action>
+          <Action OrderNumber="4" ActionType="UseTTS" ExecutionDelayExpression="1000" UseTTSTextExpression="One" UseTTSRateExpression="0" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_hold}" ExpressionTypeL="Numeric" ExpressionR="0" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="0" ExpressionTypeR="Numeric" ConditionType="NumericGreater" />
+            </Condition>
+          </Action>
+          <Action OrderNumber="5" ActionType="UseTTS" ExecutionDelayExpression="1000" UseTTSTextExpression="Burst" UseTTSRateExpression="0" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_hold}" ExpressionTypeL="Numeric" ExpressionR="0" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="0" ExpressionTypeR="Numeric" ConditionType="NumericGreater" />
+            </Condition>
+          </Action>
+        </Actions>
+        <Condition Enabled="true" Grouping="And">
+          <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="0" ExpressionTypeR="Numeric" ConditionType="NumericGreater" />
+          <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_hold}" ExpressionTypeL="Numeric" ExpressionR="0" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+          <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_rs}" ExpressionTypeL="Numeric" ExpressionR="${_systemtimems}+5000" ExpressionTypeR="Numeric" ConditionType="NumericLessEqual" />
+          <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_bv}" ExpressionTypeL="Numeric" ExpressionR="${_systemtimems}+5000" ExpressionTypeR="Numeric" ConditionType="NumericLessEqual" />
+        </Condition>
+      </Trigger>
+      <Trigger Id="60ee29c8-b952-5ead-a69f-23d9610d2992" Name="VOICE - conditional Pitch reminder" Enabled="true" Source="None" RegularExpression="(?!)" Sequential="False" PrevActions="Interrupt">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" ExecutionDelayExpression="0" UseTTSTextExpression="Spend Pitch if you have it" UseTTSRateExpression="0" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Id="6f237c4c-64eb-5364-a9dc-88146269ed95" Name="TRACK - your Raging Strikes" Enabled="true" Source="FFXIVNetwork" RegularExpression="^(?:21|22)\|[^|]*\|[0-9A-F]+\|(?&lt;player&gt;[^|]+)\|0*65\|" Sequential="False" PrevActions="Interrupt" PeriodRefire="Deny" RefirePeriodExpression="1000">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_rs" VariableExpression="${_systemtimems}+120000">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="2" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="69ed9e47-2247-5da8-b641-2c472761001c">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="true" Grouping="And">
+          <ConditionSingle Enabled="true" ExpressionL="${player}" ExpressionTypeL="String" ExpressionR="${_ffxivplayer}" ExpressionTypeR="String" ConditionType="StringEqualCase" />
+        </Condition>
+      </Trigger>
+      <Trigger Id="57321af1-33f8-564e-9ddf-956773595050" Name="TRACK - your Battle Voice" Enabled="true" Source="FFXIVNetwork" RegularExpression="^(?:21|22)\|[^|]*\|[0-9A-F]+\|(?&lt;player&gt;[^|]+)\|0*76\|" Sequential="False" PrevActions="Interrupt" PeriodRefire="Deny" RefirePeriodExpression="1000">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_bv" VariableExpression="${_systemtimems}+120000">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="2" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="69ed9e47-2247-5da8-b641-2c472761001c">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="true" Grouping="And">
+          <ConditionSingle Enabled="true" ExpressionL="${player}" ExpressionTypeL="String" ExpressionR="${_ffxivplayer}" ExpressionTypeR="String" ConditionType="StringEqualCase" />
+        </Condition>
+      </Trigger>
+      <Trigger Id="4a6632c0-39c6-5a0f-b94f-f132fe93e78c" Name="Golden - reminder before your next actual cooldown" Enabled="true" Source="FFXIVNetwork" RegularExpression="^(?:21|22)\|[^|]*\|[0-9A-F]+\|(?&lt;player&gt;[^|]+)\|65\|" Sequential="False" PrevActions="Interrupt" PeriodRefire="Deny" RefirePeriodExpression="1000">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Trigger" ExecutionDelayExpression="115000" TriggerOp="FireTrigger" TriggerId="69ed9e47-2247-5da8-b641-2c472761001c">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="5" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+            </Condition>
+          </Action>
+        </Actions>
+        <Condition Enabled="true" Grouping="And">
+          <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="5" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+          <ConditionSingle Enabled="true" ExpressionL="${player}" ExpressionTypeL="String" ExpressionR="${_ffxivplayer}" ExpressionTypeR="String" ConditionType="StringEqualCase" />
+        </Condition>
+      </Trigger>
+      <Trigger Id="73e429c3-36cc-5b68-b913-7ffacc42a77d" Name="Nael entry - prepare during Heavensfall" Enabled="true" Source="FFXIVNetwork" RegularExpression="^(?:21|22)\|[^|]*\|[0-9A-F]+\|Ragnarok\|26B8\|" Sequential="False" PrevActions="Interrupt" PeriodRefire="Deny" RefirePeriodExpression="3000">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_phase" VariableExpression="2">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="2" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_hold" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="3" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="69ed9e47-2247-5da8-b641-2c472761001c">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="4" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_low" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="5" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="b3a395ba-552c-5bf5-acee-92f0e83bdede">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="6" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="6512ed12-050f-52de-b03e-768ab4ccd2bf">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="7" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="251e0977-344a-5ce3-80da-aeff9af09dff">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="8" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="fc9aebb0-a3be-5a1f-bd46-18e50b495cd1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="9" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="e865c149-efc0-5119-8db2-dae4b56fc6a5">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="10" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="dc5e176d-e9d4-5f95-8ff4-1d175c87f4cf">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="11" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="dd9dc02d-d3cd-5aba-9839-f52a3c7696ce">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="12" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="ca9f0a7b-f19c-5153-bcc5-ae0fda5944d4">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="13" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="4a6632c0-39c6-5a0f-b94f-f132fe93e78c">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="14" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="69ed9e47-2247-5da8-b641-2c472761001c">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="15" ActionType="Trigger" ExecutionDelayExpression="9000" TriggerOp="FireTrigger" TriggerId="69ed9e47-2247-5da8-b641-2c472761001c">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="2" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_low}" ExpressionTypeL="Numeric" ExpressionR="0" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+            </Condition>
+          </Action>
+        </Actions>
+        <Condition Enabled="true" Grouping="And">
+          <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="1" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+        </Condition>
+      </Trigger>
+      <Trigger Id="b3a395ba-552c-5bf5-acee-92f0e83bdede" Name="Bahamut entry - prepare during transition" Enabled="true" Source="FFXIVNetwork" RegularExpression="^(?:21|22)\|[^|]*\|[0-9A-F]+\|Bahamut Prime\|26D1\|" Sequential="False" PrevActions="Interrupt" PeriodRefire="Deny" RefirePeriodExpression="3000">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_phase" VariableExpression="3">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="2" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_hold" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="3" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="69ed9e47-2247-5da8-b641-2c472761001c">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="4" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_low" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="5" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="73e429c3-36cc-5b68-b913-7ffacc42a77d">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="6" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="6512ed12-050f-52de-b03e-768ab4ccd2bf">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="7" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="251e0977-344a-5ce3-80da-aeff9af09dff">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="8" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="fc9aebb0-a3be-5a1f-bd46-18e50b495cd1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="9" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="e865c149-efc0-5119-8db2-dae4b56fc6a5">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="10" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="dc5e176d-e9d4-5f95-8ff4-1d175c87f4cf">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="11" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="dd9dc02d-d3cd-5aba-9839-f52a3c7696ce">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="12" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="ca9f0a7b-f19c-5153-bcc5-ae0fda5944d4">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="13" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="4a6632c0-39c6-5a0f-b94f-f132fe93e78c">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="14" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="69ed9e47-2247-5da8-b641-2c472761001c">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="15" ActionType="Trigger" ExecutionDelayExpression="7000" TriggerOp="FireTrigger" TriggerId="69ed9e47-2247-5da8-b641-2c472761001c">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="3" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_low}" ExpressionTypeL="Numeric" ExpressionR="0" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+            </Condition>
+          </Action>
+          <Action OrderNumber="16" ActionType="Variable" ExecutionDelayExpression="8000" VariableOp="SetNumeric" VariableName="ucob_brd_hold" VariableExpression="1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="17" ActionType="UseTTS" ExecutionDelayExpression="0" UseTTSTextExpression="Hold burst" UseTTSRateExpression="0" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="3" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+            </Condition>
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Id="6512ed12-050f-52de-b03e-768ab4ccd2bf" Name="Quickmarch - return window" Enabled="true" Source="FFXIVNetwork" RegularExpression="^20\|[^|]*\|[0-9A-F]+\|Bahamut Prime\|26E2\|" Sequential="False" PrevActions="Interrupt" PeriodRefire="Deny" RefirePeriodExpression="3000">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_phase" VariableExpression="3">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="2" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_hold" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="3" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="69ed9e47-2247-5da8-b641-2c472761001c">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="4" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_hold" VariableExpression="1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="5" ActionType="UseTTS" ExecutionDelayExpression="0" UseTTSTextExpression="Hold burst. Spend Pitch if you have it" UseTTSRateExpression="0" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="6" ActionType="Variable" ExecutionDelayExpression="12900" VariableOp="SetNumeric" VariableName="ucob_brd_hold" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="7" ActionType="Trigger" ExecutionDelayExpression="100" TriggerOp="FireTrigger" TriggerId="69ed9e47-2247-5da8-b641-2c472761001c">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="3" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_low}" ExpressionTypeL="Numeric" ExpressionR="0" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+            </Condition>
+          </Action>
+          <Action OrderNumber="8" ActionType="Variable" ExecutionDelayExpression="13000" VariableOp="SetNumeric" VariableName="ucob_brd_hold" VariableExpression="1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="9" ActionType="UseTTS" ExecutionDelayExpression="0" UseTTSTextExpression="Hold burst" UseTTSRateExpression="0" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="3" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+            </Condition>
+          </Action>
+        </Actions>
+        <Condition Enabled="true" Grouping="And">
+          <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="3" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+        </Condition>
+      </Trigger>
+      <Trigger Id="251e0977-344a-5ce3-80da-aeff9af09dff" Name="Blackfire - return window" Enabled="true" Source="FFXIVNetwork" RegularExpression="^20\|[^|]*\|[0-9A-F]+\|Bahamut Prime\|26E3\|" Sequential="False" PrevActions="Interrupt" PeriodRefire="Deny" RefirePeriodExpression="3000">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_phase" VariableExpression="3">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="2" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_hold" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="3" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="69ed9e47-2247-5da8-b641-2c472761001c">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="4" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_hold" VariableExpression="1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="5" ActionType="UseTTS" ExecutionDelayExpression="0" UseTTSTextExpression="Hold burst. Spend Pitch if you have it" UseTTSRateExpression="0" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="6" ActionType="Variable" ExecutionDelayExpression="17900" VariableOp="SetNumeric" VariableName="ucob_brd_hold" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="7" ActionType="Trigger" ExecutionDelayExpression="100" TriggerOp="FireTrigger" TriggerId="69ed9e47-2247-5da8-b641-2c472761001c">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="3" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_low}" ExpressionTypeL="Numeric" ExpressionR="0" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+            </Condition>
+          </Action>
+          <Action OrderNumber="8" ActionType="Variable" ExecutionDelayExpression="18000" VariableOp="SetNumeric" VariableName="ucob_brd_hold" VariableExpression="1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="9" ActionType="UseTTS" ExecutionDelayExpression="0" UseTTSTextExpression="Hold burst" UseTTSRateExpression="0" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="3" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+            </Condition>
+          </Action>
+        </Actions>
+        <Condition Enabled="true" Grouping="And">
+          <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="3" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+        </Condition>
+      </Trigger>
+      <Trigger Id="fc9aebb0-a3be-5a1f-bd46-18e50b495cd1" Name="Fellruin - return window" Enabled="true" Source="FFXIVNetwork" RegularExpression="^20\|[^|]*\|[0-9A-F]+\|Bahamut Prime\|26E4\|" Sequential="False" PrevActions="Interrupt" PeriodRefire="Deny" RefirePeriodExpression="3000">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_phase" VariableExpression="3">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="2" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_hold" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="3" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="69ed9e47-2247-5da8-b641-2c472761001c">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="4" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_hold" VariableExpression="1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="5" ActionType="UseTTS" ExecutionDelayExpression="0" UseTTSTextExpression="Hold burst. Spend Pitch if you have it" UseTTSRateExpression="0" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="6" ActionType="Variable" ExecutionDelayExpression="20900" VariableOp="SetNumeric" VariableName="ucob_brd_hold" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="7" ActionType="Trigger" ExecutionDelayExpression="100" TriggerOp="FireTrigger" TriggerId="69ed9e47-2247-5da8-b641-2c472761001c">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="3" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_low}" ExpressionTypeL="Numeric" ExpressionR="0" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+            </Condition>
+          </Action>
+          <Action OrderNumber="8" ActionType="Variable" ExecutionDelayExpression="16000" VariableOp="SetNumeric" VariableName="ucob_brd_hold" VariableExpression="1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="9" ActionType="UseTTS" ExecutionDelayExpression="0" UseTTSTextExpression="Hold burst" UseTTSRateExpression="0" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="3" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+            </Condition>
+          </Action>
+        </Actions>
+        <Condition Enabled="true" Grouping="And">
+          <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="3" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+        </Condition>
+      </Trigger>
+      <Trigger Id="e865c149-efc0-5119-8db2-dae4b56fc6a5" Name="Heavensfall - return window" Enabled="true" Source="FFXIVNetwork" RegularExpression="^20\|[^|]*\|[0-9A-F]+\|Bahamut Prime\|26E5\|" Sequential="False" PrevActions="Interrupt" PeriodRefire="Deny" RefirePeriodExpression="3000">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_phase" VariableExpression="3">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="2" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_hold" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="3" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="69ed9e47-2247-5da8-b641-2c472761001c">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="4" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_hold" VariableExpression="1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="5" ActionType="UseTTS" ExecutionDelayExpression="0" UseTTSTextExpression="Hold burst. Spend Pitch if you have it" UseTTSRateExpression="0" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="6" ActionType="Variable" ExecutionDelayExpression="28900" VariableOp="SetNumeric" VariableName="ucob_brd_hold" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="7" ActionType="Trigger" ExecutionDelayExpression="100" TriggerOp="FireTrigger" TriggerId="69ed9e47-2247-5da8-b641-2c472761001c">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="3" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_low}" ExpressionTypeL="Numeric" ExpressionR="0" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+            </Condition>
+          </Action>
+          <Action OrderNumber="8" ActionType="Variable" ExecutionDelayExpression="17000" VariableOp="SetNumeric" VariableName="ucob_brd_hold" VariableExpression="1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="9" ActionType="UseTTS" ExecutionDelayExpression="0" UseTTSTextExpression="Hold burst" UseTTSRateExpression="0" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="3" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+            </Condition>
+          </Action>
+        </Actions>
+        <Condition Enabled="true" Grouping="And">
+          <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="3" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+        </Condition>
+      </Trigger>
+      <Trigger Id="dc5e176d-e9d4-5f95-8ff4-1d175c87f4cf" Name="Tenstrike - return window" Enabled="true" Source="FFXIVNetwork" RegularExpression="^20\|[^|]*\|[0-9A-F]+\|Bahamut Prime\|26E6\|" Sequential="False" PrevActions="Interrupt" PeriodRefire="Deny" RefirePeriodExpression="3000">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_phase" VariableExpression="3">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="2" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_hold" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="3" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="69ed9e47-2247-5da8-b641-2c472761001c">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="4" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_hold" VariableExpression="1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="5" ActionType="UseTTS" ExecutionDelayExpression="0" UseTTSTextExpression="Hold burst. Spend Pitch if you have it" UseTTSRateExpression="0" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="6" ActionType="Variable" ExecutionDelayExpression="26900" VariableOp="SetNumeric" VariableName="ucob_brd_hold" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="7" ActionType="Trigger" ExecutionDelayExpression="100" TriggerOp="FireTrigger" TriggerId="69ed9e47-2247-5da8-b641-2c472761001c">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="3" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_low}" ExpressionTypeL="Numeric" ExpressionR="0" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+            </Condition>
+          </Action>
+          <Action OrderNumber="8" ActionType="Variable" ExecutionDelayExpression="15000" VariableOp="SetNumeric" VariableName="ucob_brd_hold" VariableExpression="1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="9" ActionType="UseTTS" ExecutionDelayExpression="0" UseTTSTextExpression="Hold burst" UseTTSRateExpression="0" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="3" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+            </Condition>
+          </Action>
+        </Actions>
+        <Condition Enabled="true" Grouping="And">
+          <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="3" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+        </Condition>
+      </Trigger>
+      <Trigger Id="e41469b3-b67e-5854-86a4-2ddd3f83ab2e" Name="Grand Octet - hold for adds" Enabled="true" Source="FFXIVNetwork" RegularExpression="^20\|[^|]*\|[0-9A-F]+\|Bahamut Prime\|26E7\|" Sequential="False" PrevActions="Interrupt" PeriodRefire="Deny" RefirePeriodExpression="3000">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_hold" VariableExpression="1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="2" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="69ed9e47-2247-5da8-b641-2c472761001c">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="3" ActionType="UseTTS" ExecutionDelayExpression="0" UseTTSTextExpression="Hold burst. Spend Pitch if you have it" UseTTSRateExpression="0" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="true" Grouping="And">
+          <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="3" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+        </Condition>
+      </Trigger>
+      <Trigger Id="dd9dc02d-d3cd-5aba-9839-f52a3c7696ce" Name="Adds - five second preparation" Enabled="true" Source="FFXIVNetwork" RegularExpression="^(?:21|22)\|[^|]*\|[0-9A-F]+\|Bahamut Prime\|26E8\|" Sequential="False" PrevActions="Interrupt" PeriodRefire="Deny" RefirePeriodExpression="3000">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_phase" VariableExpression="4">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="2" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_hold" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="3" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="69ed9e47-2247-5da8-b641-2c472761001c">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="4" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_low" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="5" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="73e429c3-36cc-5b68-b913-7ffacc42a77d">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="6" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="b3a395ba-552c-5bf5-acee-92f0e83bdede">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="7" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="6512ed12-050f-52de-b03e-768ab4ccd2bf">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="8" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="251e0977-344a-5ce3-80da-aeff9af09dff">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="9" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="fc9aebb0-a3be-5a1f-bd46-18e50b495cd1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="10" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="e865c149-efc0-5119-8db2-dae4b56fc6a5">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="11" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="dc5e176d-e9d4-5f95-8ff4-1d175c87f4cf">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="12" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="ca9f0a7b-f19c-5153-bcc5-ae0fda5944d4">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="13" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="4a6632c0-39c6-5a0f-b94f-f132fe93e78c">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="14" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="69ed9e47-2247-5da8-b641-2c472761001c">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="15" ActionType="Trigger" ExecutionDelayExpression="1000" TriggerOp="FireTrigger" TriggerId="69ed9e47-2247-5da8-b641-2c472761001c">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="4" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_low}" ExpressionTypeL="Numeric" ExpressionR="0" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+            </Condition>
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Id="2afbc638-27b2-5f3b-898d-2c5d6ce3c6f7" Name="Golden transition - stop previous schedules" Enabled="true" Source="FFXIVNetwork" RegularExpression="^(?:21|22)\|[^|]*\|[0-9A-F]+\|Bahamut Prime\|26E9\|" Sequential="False" PrevActions="Interrupt" PeriodRefire="Deny" RefirePeriodExpression="3000">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_phase" VariableExpression="5">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="2" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_hold" VariableExpression="1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="3" ActionType="UseTTS" ExecutionDelayExpression="0" UseTTSTextExpression="Hold burst for Golden" UseTTSRateExpression="0" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="4" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_low" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="5" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="73e429c3-36cc-5b68-b913-7ffacc42a77d">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="6" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="b3a395ba-552c-5bf5-acee-92f0e83bdede">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="7" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="6512ed12-050f-52de-b03e-768ab4ccd2bf">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="8" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="251e0977-344a-5ce3-80da-aeff9af09dff">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="9" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="fc9aebb0-a3be-5a1f-bd46-18e50b495cd1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="10" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="e865c149-efc0-5119-8db2-dae4b56fc6a5">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="11" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="dc5e176d-e9d4-5f95-8ff4-1d175c87f4cf">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="12" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="dd9dc02d-d3cd-5aba-9839-f52a3c7696ce">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="13" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="ca9f0a7b-f19c-5153-bcc5-ae0fda5944d4">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="14" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="4a6632c0-39c6-5a0f-b94f-f132fe93e78c">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="15" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="69ed9e47-2247-5da8-b641-2c472761001c">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Id="ca9f0a7b-f19c-5153-bcc5-ae0fda5944d4" Name="Golden opener - glowing ball anchor" Enabled="true" Source="FFXIVNetwork" RegularExpression="^(?:21|22)\|[^|]*\|[0-9A-F]+\|Bahamut Prime\|2707\|" Sequential="False" PrevActions="Interrupt" PeriodRefire="Deny" RefirePeriodExpression="3000">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_phase" VariableExpression="5">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="2" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_hold" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="3" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="69ed9e47-2247-5da8-b641-2c472761001c">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="4" ActionType="Trigger" ExecutionDelayExpression="10000" TriggerOp="FireTrigger" TriggerId="69ed9e47-2247-5da8-b641-2c472761001c">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="5" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+              <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_low}" ExpressionTypeL="Numeric" ExpressionR="0" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+            </Condition>
+          </Action>
+        </Actions>
+        <Condition Enabled="true" Grouping="And">
+          <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="5" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+        </Condition>
+      </Trigger>
+      <Trigger Id="0783a7a8-9007-570b-a5dc-582cf1f9166b" Name="Twintania below 10 percent - save next phase burst" Enabled="true" Source="FFXIVNetwork" RegularExpression="^(?:21|22)\|(?:[^|]*\|){5}[0-9A-F]+\|Twintania\|(?:[^|]*\|){16}(?&lt;hp&gt;\d+)\|(?&lt;maxhp&gt;\d+)\|" Sequential="False" PrevActions="Interrupt">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_low" VariableExpression="1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="2" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_hold" VariableExpression="1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="3" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="69ed9e47-2247-5da8-b641-2c472761001c">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="4" ActionType="UseTTS" ExecutionDelayExpression="0" UseTTSTextExpression="Boss low. Hold burst. Keep attacking" UseTTSRateExpression="0" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="true" Grouping="And">
+          <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="1" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+          <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_low}" ExpressionTypeL="Numeric" ExpressionR="0" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+          <ConditionSingle Enabled="true" ExpressionL="${hp}" ExpressionTypeL="Numeric" ExpressionR="0" ExpressionTypeR="Numeric" ConditionType="NumericGreater" />
+          <ConditionSingle Enabled="true" ExpressionL="${maxhp}" ExpressionTypeL="Numeric" ExpressionR="0" ExpressionTypeR="Numeric" ConditionType="NumericGreater" />
+          <ConditionSingle Enabled="true" ExpressionL="${hp}*100" ExpressionTypeL="Numeric" ExpressionR="${maxhp}*10" ExpressionTypeR="Numeric" ConditionType="NumericLessEqual" />
+        </Condition>
+      </Trigger>
+      <Trigger Id="bde1f153-5252-5981-b60f-df496e1bc7c6" Name="Nael deus Darnus below 10 percent - save next phase burst" Enabled="true" Source="FFXIVNetwork" RegularExpression="^(?:21|22)\|(?:[^|]*\|){5}[0-9A-F]+\|Nael deus Darnus\|(?:[^|]*\|){16}(?&lt;hp&gt;\d+)\|(?&lt;maxhp&gt;\d+)\|" Sequential="False" PrevActions="Interrupt">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_low" VariableExpression="1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="2" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_hold" VariableExpression="1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="3" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="69ed9e47-2247-5da8-b641-2c472761001c">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="4" ActionType="UseTTS" ExecutionDelayExpression="0" UseTTSTextExpression="Boss low. Hold burst. Keep attacking" UseTTSRateExpression="0" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="true" Grouping="And">
+          <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_phase}" ExpressionTypeL="Numeric" ExpressionR="2" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+          <ConditionSingle Enabled="true" ExpressionL="${var:ucob_brd_low}" ExpressionTypeL="Numeric" ExpressionR="0" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+          <ConditionSingle Enabled="true" ExpressionL="${hp}" ExpressionTypeL="Numeric" ExpressionR="0" ExpressionTypeR="Numeric" ConditionType="NumericGreater" />
+          <ConditionSingle Enabled="true" ExpressionL="${maxhp}" ExpressionTypeL="Numeric" ExpressionR="0" ExpressionTypeR="Numeric" ConditionType="NumericGreater" />
+          <ConditionSingle Enabled="true" ExpressionL="${hp}*100" ExpressionTypeL="Numeric" ExpressionR="${maxhp}*10" ExpressionTypeR="Numeric" ConditionType="NumericLessEqual" />
+        </Condition>
+      </Trigger>
+      <Trigger Id="a91f045f-4afa-5c08-8ce5-f4c45e7e91fe" Name="RESET - wipe clear zone or countdown" Enabled="true" Source="FFXIVNetwork" RegularExpression="^(?:01\||33\|[^|]*\|[0-9A-F]+\|4000000[3F]\||00\|[^|]*\|0(?:0B9|[012]39)\|\|Battle commencing in \d+ seconds!)" Sequential="False" PrevActions="Interrupt">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="69ed9e47-2247-5da8-b641-2c472761001c">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="2" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="60ee29c8-b952-5ead-a69f-23d9610d2992">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="3" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="6f237c4c-64eb-5364-a9dc-88146269ed95">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="4" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="57321af1-33f8-564e-9ddf-956773595050">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="5" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="4a6632c0-39c6-5a0f-b94f-f132fe93e78c">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="6" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="73e429c3-36cc-5b68-b913-7ffacc42a77d">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="7" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="b3a395ba-552c-5bf5-acee-92f0e83bdede">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="8" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="6512ed12-050f-52de-b03e-768ab4ccd2bf">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="9" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="251e0977-344a-5ce3-80da-aeff9af09dff">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="10" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="fc9aebb0-a3be-5a1f-bd46-18e50b495cd1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="11" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="e865c149-efc0-5119-8db2-dae4b56fc6a5">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="12" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="dc5e176d-e9d4-5f95-8ff4-1d175c87f4cf">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="13" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="e41469b3-b67e-5854-86a4-2ddd3f83ab2e">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="14" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="dd9dc02d-d3cd-5aba-9839-f52a3c7696ce">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="15" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="2afbc638-27b2-5f3b-898d-2c5d6ce3c6f7">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="16" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="ca9f0a7b-f19c-5153-bcc5-ae0fda5944d4">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="17" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="0783a7a8-9007-570b-a5dc-582cf1f9166b">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="18" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="bde1f153-5252-5981-b60f-df496e1bc7c6">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="19" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_phase" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="20" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_hold" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="21" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_low" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="22" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_rs" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="23" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_bv" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Id="e55d9918-3992-5e56-9a1a-91626fd0e59a" Name="START - initialize on Engage" Enabled="true" Source="FFXIVNetwork" RegularExpression="^00\|[^|]*\|0039\|\|Engage!\|" Sequential="False" PrevActions="Interrupt">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="69ed9e47-2247-5da8-b641-2c472761001c">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="2" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="60ee29c8-b952-5ead-a69f-23d9610d2992">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="3" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="6f237c4c-64eb-5364-a9dc-88146269ed95">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="4" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="57321af1-33f8-564e-9ddf-956773595050">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="5" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="4a6632c0-39c6-5a0f-b94f-f132fe93e78c">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="6" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="73e429c3-36cc-5b68-b913-7ffacc42a77d">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="7" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="b3a395ba-552c-5bf5-acee-92f0e83bdede">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="8" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="6512ed12-050f-52de-b03e-768ab4ccd2bf">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="9" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="251e0977-344a-5ce3-80da-aeff9af09dff">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="10" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="fc9aebb0-a3be-5a1f-bd46-18e50b495cd1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="11" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="e865c149-efc0-5119-8db2-dae4b56fc6a5">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="12" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="dc5e176d-e9d4-5f95-8ff4-1d175c87f4cf">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="13" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="e41469b3-b67e-5854-86a4-2ddd3f83ab2e">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="14" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="dd9dc02d-d3cd-5aba-9839-f52a3c7696ce">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="15" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="2afbc638-27b2-5f3b-898d-2c5d6ce3c6f7">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="16" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="ca9f0a7b-f19c-5153-bcc5-ae0fda5944d4">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="17" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="0783a7a8-9007-570b-a5dc-582cf1f9166b">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="18" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="bde1f153-5252-5981-b60f-df496e1bc7c6">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="19" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_phase" VariableExpression="1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="20" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_hold" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="21" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_low" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="22" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_rs" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="23" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="ucob_brd_bv" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+    </Triggers>
+  </ExportedFolder>
+</TriggernometryExport>
