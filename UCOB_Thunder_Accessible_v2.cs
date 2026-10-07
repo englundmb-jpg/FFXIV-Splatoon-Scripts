@@ -15,8 +15,8 @@ public sealed class UCOB_Thunder_Accessible_v2 : SplatoonScript
     public override HashSet<uint>? ValidTerritories { get; } =
         [733];
 
-    public override Metadata? Metadata =>
-        new(2, "Maggie");
+    public override Metadata Metadata =>
+        new(3, "Maggie");
 
     public override void OnSetup()
     {
@@ -29,14 +29,14 @@ public sealed class UCOB_Thunder_Accessible_v2 : SplatoonScript
               "type":1,
               "radius":5.0,
               "Donut":0.35,
-              "color":4278255360,
+              "color":4278255615,
               "thicc":8.0,
               "FillStep":1.0,
-              "refActorType":1,
+              "refActorType":0,
               "refActorRequireBuff":true,
               "refActorBuffId":[466],
-              "refActorComparisonType":2,
-              "tether":true,
+              "refActorComparisonAnd":true,
+              "tether":false,
               "LegacyFill":true,
               "overlayText":"THUNDER",
               "overlayBGColor":4278190080,
@@ -46,10 +46,14 @@ public sealed class UCOB_Thunder_Accessible_v2 : SplatoonScript
             """
         );
 
-        OnReset();
     }
 
-    public override void OnReset()
+    // Polling keeps the element armed after reset/reload; Splatoon filters status 466.
+    public override void OnUpdate()
     {
+        if (Controller.TryGetElementByName("Thunder_Personal", out var ring))
+            ring.Enabled = true;
     }
+
+    public override void OnReset() => OnUpdate();
 }
