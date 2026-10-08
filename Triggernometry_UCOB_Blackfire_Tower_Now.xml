@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TriggernometryExport PluginVersion="1.2.0.6">
+  <ExportedFolder Id="5c2f0476-b697-4d37-b58f-532a231cc5dc" Name="Maggie - UCOB Blackfire Tower Now" Enabled="true">
+    <Folders />
+    <Triggers>
+      <Trigger Enabled="true" Source="Endpoint" Name="Blackfire - Tower Now" Id="fcbb4966-e2bd-4ff6-a3b8-2703c5a6d2b7" RegularExpression="^MAGGIE_UCOB_BLACKFIRE\|TOWER_NOW$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Tower now" ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+    </Triggers>
+  </ExportedFolder>
+</TriggernometryExport>
