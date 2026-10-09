@@ -1,3 +1,5 @@
+// Adapted from PunishXIV/Splatoon; original authors retained in Metadata.
+// NAUR review 2026-10-09. See TEA_NAUR_R1_README.md for coverage and validation.
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Objects.Types;
 using Dalamud.Interface.Colors;
@@ -19,12 +21,12 @@ using System.Threading.Tasks;
 
 using ECommons.DalamudServices.Legacy;
 
-namespace SplatoonScriptsOfficial.Duties.Shadowbringers.The_Epic_Of_Alexander
+namespace MaggieSplatoon.TEA
 {
     public class TEA_P2_Transition : SplatoonScript
     {
         public override HashSet<uint> ValidTerritories => [887];
-        public override Metadata? Metadata => new(4, "Madou Shoujo");
+        public override Metadata? Metadata => new(104, "Madou Shoujo; Maggie accessibility repair");
 
         private string ElementNamePrefix = "TEA_P2_Transition_Bait_Position";
         private uint HawkBlast = 18480;
@@ -141,11 +143,8 @@ namespace SplatoonScriptsOfficial.Duties.Shadowbringers.The_Epic_Of_Alexander
             MechanicActive = false;
             BlastCount = 0;
 
-            Flare_a.Enabled = false;
-            Flare_b.Enabled = false;
-            Flare_m.Enabled = false;
-            Indicator_a.Enabled = false;
-            Indicator_b.Enabled = false;
+            LCNumber = 0;
+            Controller.GetRegisteredElements().Each(x => x.Value.Enabled = false);
         }
 
         public override void OnEnable()
@@ -158,6 +157,7 @@ namespace SplatoonScriptsOfficial.Duties.Shadowbringers.The_Epic_Of_Alexander
         {
             ActionEffect.ActionEffectEvent -=
                 ActionEffect_ActionEffectEvent;
+            Reset();
         }
 
         public override void OnMessage(string Message)
@@ -189,15 +189,23 @@ namespace SplatoonScriptsOfficial.Duties.Shadowbringers.The_Epic_Of_Alexander
             }
         }
 
-        public override void OnVFXSpawn(
-            uint target,
-            string vfxPath)
+        public override void OnVFXSpawn(uint target, string vfxPath)
         {
-            if(vfxPath.StartsWith(
-                "vfx/lockon/eff/m0361trg_a"))
-            {
-                LCNumber = GetMyNumber();
-            }
+            const string prefix = "vfx/lockon/eff/m0361trg_a";
+            var player = Svc.ClientState.LocalPlayer;
+            if(player == null || target != player.EntityId || !vfxPath.StartsWith(prefix)
+                || vfxPath.Length <= prefix.Length) return;
+            if(int.TryParse(vfxPath.Substring(prefix.Length, 1), out var number) && number is >= 1 and <= 8)
+                LCNumber = number;
+        }
+
+        public override void OnReset() => Reset();
+
+        public override void OnSettingsDraw()
+        {
+            ImGuiEx.Text("NAUR 1256. Enable this OR 1211, never both.");
+            ImGuiEx.Text("Shows blast predictions and two bait OPTIONS, not a solved personal route.");
+            ImGuiEx.Text("Even numbers go behind the odd partner; do not stand on the same bait point.");
         }
 
         private Vector3 GetNextFlare(Vector3 current)
@@ -227,48 +235,33 @@ namespace SplatoonScriptsOfficial.Duties.Shadowbringers.The_Epic_Of_Alexander
             e.refZ = z;
         }
 
-        private int GetMyNumber()
-        {
-            if(AttachedInfo.VFXInfos.TryGetValue(
-                Svc.ClientState.LocalPlayer.Address,
-                out var info))
-            {
-                if(info.OrderBy(x => x.Value.Age)
-                    .TryGetFirst(
-                        x => x.Key.StartsWith(
-                            "vfx/lockon/eff/m0361trg_a"),
-                        out var effect))
-                {
-                    return int.Parse(
-                        effect.Key
-                            .Replace(
-                                "vfx/lockon/eff/m0361trg_a",
-                                "")[0]
-                            .ToString());
-                }
-            }
-
-            return 0;
-        }
-
         private void MarkBaitTether(
             Element e,
             int n)
         {
-            e.tether = LCNumber == n;
-            e.overlayText = n.ToString();
+            // Two opposite candidates exist: neither is an automatically selected safe destination.
+            e.tether = false;
+            e.color = 0xFFFFFF00;
+            e.overlayText = LCNumber == n ? $"{n}: BAIT OPTION"
+                : LCNumber == n + 1 ? $"{LCNumber}: BEHIND {n} — CHOOSE SIDE"
+                : $"{n}: BAIT OPTION";
         }
 
         private void ActionEffect_ActionEffectEvent(
             ActionEffectSet set)
         {
-            if(!MechanicActive)
+            if(Flare_a == null || Flare_b == null || Flare_m == null
+               || Indicator_a == null || Indicator_b == null) return;
+            if(set.Action is not { RowId: 18480 })
                 return;
+            // Hawk Blaster is specific to this intermission; works in every client language.
+            MechanicActive = true;
 
             if(set.Action.Value.RowId != HawkBlast)
                 return;
 
             BlastCount++;
+            if(BlastCount >= 18) { Reset(); return; }
 
             if(BlastCount == 1 ||
                BlastCount == 3 ||
@@ -456,3 +449,4 @@ namespace SplatoonScriptsOfficial.Duties.Shadowbringers.The_Epic_Of_Alexander
         }
     }
 }
+

@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TriggernometryExport PluginVersion="1.2.0.6">
+  <ExportedFolder Id="80527a7a-c45d-4092-9358-e9bccf2582cd" Name="Maggie - TEA NAUR Core Cues" Enabled="true">
+    <Folders />
+    <Triggers>
+      <Trigger Enabled="true" Source="Endpoint" Name="Motion" Id="337ad5cd-0fd0-4583-8b73-4df41744b9b7" RegularExpression="^MAGGIE_TEA\|MOVE$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Keep moving" ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Stillness" Id="e96c7b5a-ac8c-4e68-997b-076c48bf637c" RegularExpression="^MAGGIE_TEA\|STOP$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Stop all actions" ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Photon - check only" Id="da6f8f4e-9443-4293-8e93-bbd386bcf16f" RegularExpression="^MAGGIE_TEA\|NISI$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Check Nisi partner" ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Verdict" Id="53f74f4a-aa2d-468a-8ef5-b87b49b0e9e4" RegularExpression="^MAGGIE_TEA\|VERDICT$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Check final Nisi" ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Test" Id="49e3b93a-27ce-4ca6-b36d-4717501e9e38" RegularExpression="^MAGGIE_TEA\|TEST$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="TEA voice ready" ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+    </Triggers>
+  </ExportedFolder>
+</TriggernometryExport>

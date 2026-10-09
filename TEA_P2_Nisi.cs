@@ -1,3 +1,5 @@
+// Adapted from PunishXIV/Splatoon; original authors retained in Metadata.
+// NAUR review 2026-10-09. See TEA_NAUR_R1_README.md for coverage and validation.
 using Dalamud.Game.ClientState.Objects.Types;
 using ECommons;
 using ECommons.Configuration;
@@ -11,7 +13,7 @@ using System.Linq;
 
 using ECommons.DalamudServices.Legacy;
 
-namespace SplatoonScriptsOfficial.Duties.Shadowbringers.The_Epic_Of_Alexander;
+namespace MaggieSplatoon.TEA;
 
 public class TEA_P2_Nisi : SplatoonScript
 {
@@ -43,7 +45,7 @@ public class TEA_P2_Nisi : SplatoonScript
         new[] { AlphaNisiId2, BetaNisiId2, GammaNisiId2, DeltaNisiId2 };
 
     public override HashSet<uint> ValidTerritories => [887];
-    public override Metadata Metadata => new(3, "Garume");
+    public override Metadata Metadata => new(103, "Garume; Maggie accessibility repair");
 
     private IBattleNpc? Justice =>
         Svc.Objects
@@ -60,10 +62,14 @@ public class TEA_P2_Nisi : SplatoonScript
         var nisiPassElement = new Element(0)
         {
             overlayText = Loc(
-                en: "Pass it.",
+                en: "NISI PARTNER",
                 jp: "交換対象",
                 de: "Nisi Pass"),
-            tether = true
+            tether = true,
+            radius = 0.8f,
+            color = 0xFF00FF00,
+            thicc = 5f,
+            overlayFScale = 1.7f
         };
 
         Controller.RegisterElement("NisiPass", nisiPassElement);
@@ -74,6 +80,8 @@ public class TEA_P2_Nisi : SplatoonScript
         Controller
             .GetRegisteredElements()
             .Each(x => x.Value.Enabled = false);
+
+        if(Player.Object == null || Player.Object.CurrentHp == 0) return;
 
         var justice = Justice;
 
@@ -117,7 +125,7 @@ public class TEA_P2_Nisi : SplatoonScript
 
             if(_firstNisiPlayerPairs.First().Value.Count == 0)
             {
-                if(nisiPlayers.Length == 8)
+                if(nisiPlayers.Length == 8 && NisiIds.All(id => nisiPlayers.Count(p => p.StatusList.Any(s => s.StatusId == id)) == 2))
                 {
                     foreach(var player in nisiPlayers)
                     {
@@ -140,11 +148,10 @@ public class TEA_P2_Nisi : SplatoonScript
                         .FirstOrDefault(x =>
                             NisiIds.Contains(x.StatusId));
 
-                var anotherPlayer =
-                    _firstNisiPlayerPairs[_myFirstNisiId]
-                        .First(x =>
-                            x != Player.Object.EntityId)
-                        .GetObject() as IBattleChara;
+                if(!_firstNisiPlayerPairs.TryGetValue(_myFirstNisiId, out var pair)
+                   || pair.Count != 2) return;
+                var partnerId = pair.FirstOrDefault(x => x != Player.Object.EntityId);
+                if(partnerId.GetObject() is not IBattleChara anotherPlayer || anotherPlayer.IsDead) return;
 
                 var anotherPlayerNisi =
                     anotherPlayer.StatusList
@@ -247,6 +254,8 @@ public class TEA_P2_Nisi : SplatoonScript
 
     public override void OnReset()
     {
+        _myFirstNisiId = 0;
+        Controller.GetRegisteredElements().Each(x => x.Value.Enabled = false);
         _firstNisiPlayerPairs
             .Each(x => x.Value.Clear());
 
@@ -274,7 +283,7 @@ public class TEA_P2_Nisi : SplatoonScript
         IGameObject? player,
         string elementName)
     {
-        if(player == null)
+        if(player == null || player is IBattleChara { IsDead: true })
             return;
 
         if(Controller.TryGetElementByName(
@@ -289,6 +298,7 @@ public class TEA_P2_Nisi : SplatoonScript
 
     public override void OnSettingsDraw()
     {
+        ImGui.TextWrapped("Partner reminder only. First pass establishes the pair; it is not guided. For NAUR R1, wait until CC tank finishes mines before the second pass. A tether does not mean the direct path is safe.");
         ImGui.Text("1 ~ 2 Nisi");
 
         foreach(var pair in _firstNisiPlayerPairs)
@@ -319,3 +329,4 @@ public class TEA_P2_Nisi : SplatoonScript
         public float SecondNisiTime { get; } = 15f;
     }
 }
+

@@ -1,306 +1,132 @@
-using Dalamud.Interface.Components;
+// NAUR personal number/soak helper, replacing the inherited unverified path table.
+// Original helper: Garume, PunishXIV/Splatoon. See TEA_NAUR_R1_README.md.
 using ECommons;
-using ECommons.Configuration;
 using ECommons.DalamudServices;
+using ECommons.Hooks.ActionEffectTypes;
 using ECommons.ImGuiMethods;
-using ECommons.MathHelpers;
-using ECommons.Schedulers;
-using Dalamud.Bindings.ImGui;
 using Splatoon;
-using Splatoon.Memory;
 using Splatoon.SplatoonScripting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-
 using ECommons.DalamudServices.Legacy;
 
-namespace SplatoonScriptsOfficial.Duties.Shadowbringers.The_Epic_Of_Alexander;
+namespace MaggieSplatoon.TEA;
 
 public class TEA_P3_Wormhole_Formation : SplatoonScript
 {
-    private const uint ChakramCastId = 18517;
-    private const uint WormholeFormationCastId = 18542;
-    private static readonly uint[] WormholeDataIds = [2007519, 2007520, 2007521];
-
-    private readonly Dictionary<int, Vector2[]> _baitPositions = new()
-    {
-        { 1, [new Vector2(86.5f, 86f), new Vector2(86.5f, 86f), new Vector2(81f, 99f), new Vector2(90f, 97f)] },
-        { 2, [new Vector2(113.5f, 86f), new Vector2(113.5f, 86f), new Vector2(119f, 99f), new Vector2(110f, 103f)] },
-        { 3, [new Vector2(87, 113), new Vector2(87f, 113f), new Vector2(81f, 101f), new Vector2(81f, 101f)] },
-        { 4, [new Vector2(113, 113), new Vector2(113f, 113f), new Vector2(119f, 101f), new Vector2(119f, 101f)] },
-        { 5, [new Vector2(84.45f, 89.65f), new Vector2(82f, 96f), new Vector2(86.5f, 86f), new Vector2(81f, 99f)] },
-        { 6, [new Vector2(115.55f, 89.65f), new Vector2(118, 104f), new Vector2(113.5f, 86f), new Vector2(119f, 99f)] },
-        { 7, [new Vector2(83, 93), new Vector2(81.5f, 100f), new Vector2(85f, 93f), new Vector2(86.5f, 114f)] },
-        { 8, [new Vector2(117, 93), new Vector2(118.5f, 100f), new Vector2(115f, 107f), new Vector2(113.5f, 114f)] }
-    };
-
-    private readonly List<List<int>> _invertApplyIndex =
-    [
-        [],
-        [5, 6],
-        [7, 8],
-        [1, 2]
-    ];
-
-    private TickScheduler? _chakramScheduler;
-    private int _currentPhase;
-    private bool _isStartWormholeFormation;
-    private int _myNumber;
-    private bool _shouldInvert;
-    private int _wormholeChangedCount;
-
     public override HashSet<uint>? ValidTerritories => [887];
-    public override Metadata? Metadata => new(4, "Garume");
-
-    private Config C => Controller.GetConfig<Config>();
+    public override Metadata? Metadata => new(105, "Garume; Maggie accessibility repair");
+    private bool active, chakramsDone;
+    private int number, soaks;
+    private long expires;
 
     public override void OnSetup()
     {
-        for(var i = 1; i <= 8; i++)
+        Controller.RegisterElement("Soak", new Element(0)
         {
-            var element = new Element(0)
-            {
-                radius = 0.35f,
-                overlayVOffset = 2f,
-                overlayFScale = 2f
-            };
-
-            Controller.RegisterElement($"Bait{i}", element, true);
-        }
+            Enabled = false, radius = 0.8f, thicc = 5f, overlayFScale = 1.7f,
+            overlayVOffset = 2f, tether = false
+        }, true);
     }
 
     public override void OnStartingCast(uint source, uint castId)
     {
-        if(castId == WormholeFormationCastId)
-            _isStartWormholeFormation = true;
-
-        if(!_isStartWormholeFormation)
-            return;
-
-        if(castId == ChakramCastId)
-            _chakramScheduler ??=
-                new TickScheduler(() => _currentPhase = 1, 5700);
+        if(castId != 18542) return;
+        OnReset();
+        active = true;
+        expires = Environment.TickCount64 + 65000;
     }
 
-    public override void OnVFXSpawn(uint target, string vfxPath)
+    public override void OnVFXSpawn(uint target, string path)
     {
-        if(!vfxPath.StartsWith("vfx/lockon/eff/m0361trg_a"))
-            return;
+        const string prefix = "vfx/lockon/eff/m0361trg_a";
+        if(!active || BasePlayer == null || target != BasePlayer.EntityId
+           || !path.StartsWith(prefix) || path.Length <= prefix.Length) return;
+        if(int.TryParse(path.Substring(prefix.Length, 1), out var n) && n is >= 1 and <= 8)
+            number = n;
+    }
 
-        if(!AttachedInfo.VFXInfos.TryGetValue(
-            Svc.ClientState.LocalPlayer.Address,
-            out var info))
-            return;
-
-        if(info.OrderBy(x => x.Value.Age)
-            .TryGetFirst(
-                x => x.Key.StartsWith("vfx/lockon/eff/m0361trg_a"),
-                out var effect))
+    public override void OnActionEffectEvent(ActionEffectSet set)
+    {
+        if(!active) return;
+        // Absolute stages: duplicate packets cannot increment a stage or overrun an array.
+        switch(set.Action?.RowId)
         {
-            _myNumber = int.Parse(
-                effect.Key
-                    .Replace("vfx/lockon/eff/m0361trg_a", "")[0]
-                    .ToString());
+            case 18517: chakramsDone = true; break;
+            case 18537: soaks = Math.Max(soaks, 1); break;
+            case 18536: soaks = Math.Max(soaks, 2); break;
+            case 18535: OnReset(); break;
         }
     }
 
-    public override void OnObjectEffect(
-        uint target,
-        uint data1,
-        uint data2)
+    private static int SoakWave(int n) => n switch
     {
-        var targetObject = target.GetObject();
+        5 or 6 => 1,
+        7 or 8 => 2,
+        1 or 2 => 3,
+        _ => 0
+    };
 
-        if(WormholeDataIds.All(x => x != targetObject?.DataId))
-            return;
-
-        if(data1 == 4 &&
-           data2 == 8 &&
-           _wormholeChangedCount > 5)
+    public override void OnUpdate()
+    {
+        Controller.GetRegisteredElements().Each(x => x.Value.Enabled = false);
+        if(!active) return;
+        if(BasePlayer == null || BasePlayer.CurrentHp == 0 || Environment.TickCount64 >= expires)
         {
-            _isStartWormholeFormation = false;
+            OnReset();
             return;
         }
-
-        if(data1 != 1 && data2 != 2)
-            return;
-
-        var wormholePosition =
-            targetObject.Position.ToVector2();
-
-        if(wormholePosition is
-            { X: > 100, Y: < 100 } or
-            { X: < 100, Y: > 100 })
+        if(number == 0)
         {
-            _shouldInvert = true;
+            Controller.DisplayAttentionWindowLine(new Vector4(1, 1, 0, 1), "WORMHOLE: NUMBER UNKNOWN");
+            return;
         }
+        var wave = SoakWave(number);
+        var due = wave != 0 && wave == soaks + 1;
+        var side = number % 2 == 1 ? "WEST" : "EAST";
+        var text = wave == 0 ? $"{number} — {side} — JUMP / RAY BAIT"
+            : soaks >= wave ? $"{number} — SOAK DONE — CHECK LIMIT CUT"
+            : $"{number} — {side} — SOAK {wave}";
+        if(due && !chakramsDone) text += " — WAIT FOR CHAKRAMS";
+        if(due && chakramsDone) text += wave == 3 ? " — WAIT FOR VULN TO CLEAR" : " — WALL ROUTE / OUTER EDGE";
+        Controller.DisplayAttentionWindowLine(due && chakramsDone && wave != 3
+            ? new Vector4(0, 1, 0, 1) : new Vector4(0, 1, 1, 1), text);
+        if(!due) return;
 
-        _wormholeChangedCount++;
-
-        if(_wormholeChangedCount is 3 or 5 or 7)
-            _currentPhase++;
+        // Observe the actual wormhole position on this player's assigned side.
+        // No fixed diagonal, invented movement route, or 'run through center' arrow.
+        var candidates = Svc.Objects.Where(x => x.DataId is 2007519 or 2007520 or 2007521)
+            .Where(x => number % 2 == 1 ? x.Position.X < 99 : x.Position.X > 101)
+            .Select(x => x.Position).ToArray();
+        if(candidates.Length == 0) return;
+        var position = candidates[0];
+        if(candidates.Any(x => Vector3.Distance(x, position) > 1f)) return; // ambiguous objects
+        if(Controller.TryGetElementByName("Soak", out var marker))
+        {
+            marker.SetOffPosition(position);
+            marker.color = chakramsDone && wave != 3 ? 0xFF00FF00u : 0xFFFFFF00u;
+            marker.overlayText = wave == 3 ? "SOAK 3 AREA — CHECK VULN"
+                : chakramsDone ? $"SOAK {wave} AREA — OUTER EDGE" : $"NEXT: SOAK {wave}";
+            marker.Enabled = true;
+        }
     }
 
     public override void OnReset()
     {
-        _isStartWormholeFormation = false;
-        _myNumber = 0;
-        _shouldInvert = false;
-        _currentPhase = 0;
-        _wormholeChangedCount = 0;
-
-        _chakramScheduler?.Dispose();
-        _chakramScheduler = null;
+        active = chakramsDone = false;
+        number = soaks = 0;
+        expires = 0;
+        Controller.GetRegisteredElements().Each(x => x.Value.Enabled = false);
     }
-
-    public override void OnUpdate()
-    {
-        if(!_isStartWormholeFormation)
-        {
-            Controller
-                .GetRegisteredElements()
-                .Each(x => x.Value.Enabled = false);
-
-            return;
-        }
-
-        for(var i = 1; i <= 8; i++)
-        {
-            if(Controller.TryGetElementByName(
-                $"Bait{i}",
-                out var element))
-            {
-                var position =
-                    _baitPositions[i][_currentPhase];
-
-                var number = i;
-
-                if(_shouldInvert &&
-                   _invertApplyIndex[_currentPhase].Contains(i))
-                {
-                    position =
-                        position with { X = 200 - position.X };
-
-                    number =
-                        number % 2 == 0
-                            ? number - 1
-                            : number + 1;
-                }
-
-                element.SetOffPosition(
-                    position.ToVector3());
-
-                element.Enabled = true;
-
-                if(number == _myNumber)
-                {
-                    element.overlayText = C.BaitText;
-
-                    element.color =
-                        GradientColor
-                            .Get(
-                                C.BaitColor1,
-                                C.BaitColor2)
-                            .ToUint();
-
-                    element.tether = true;
-                    element.thicc = 10f;
-                }
-                else if(C.ShouldDisplayOtherBait)
-                {
-                    element.overlayText =
-                        number.ToString();
-
-                    element.color =
-                        C.OtherBaitColor.ToUint();
-
-                    element.tether = false;
-                    element.thicc = 2f;
-                }
-                else
-                {
-                    element.Enabled = false;
-                }
-            }
-        }
-    }
-
+    public override void OnCombatEnd() => OnReset();
+    public override void OnDisable() => OnReset();
     public override void OnSettingsDraw()
     {
-        if(ImGui.CollapsingHeader(
-            "My Bait Settings:"))
-        {
-            ImGui.Indent();
-
-            ImGui.Text("Bait Text:");
-            ImGui.InputText(
-                "",
-                ref C.BaitText,
-                100);
-
-            ImGui.Text("Bait Color:");
-
-            ImGuiComponents.HelpMarker(
-                "Change the color of the bait and the text that will be displayed on your bait.\nSetting different values makes it rainbow.");
-
-            ImGui.Indent();
-
-            ImGui.ColorEdit4(
-                "Color 1",
-                ref C.BaitColor1,
-                ImGuiColorEditFlags.NoInputs);
-
-            ImGui.SameLine();
-
-            ImGui.ColorEdit4(
-                "Color 2",
-                ref C.BaitColor2,
-                ImGuiColorEditFlags.NoInputs);
-
-            ImGui.Unindent();
-            ImGui.Unindent();
-        }
-
-        if(ImGui.CollapsingHeader(
-            "Other Bait Settings:"))
-        {
-            ImGui.Indent();
-
-            ImGui.Checkbox(
-                "Display Other Bait",
-                ref C.ShouldDisplayOtherBait);
-
-            ImGui.Text("Other Bait Color:");
-
-            ImGuiComponents.HelpMarker(
-                "Change the color of the bait that will be displayed on other bait.");
-
-            ImGui.Indent();
-
-            ImGui.ColorEdit4(
-                "Color",
-                ref C.OtherBaitColor,
-                ImGuiColorEditFlags.NoInputs);
-
-            ImGui.Unindent();
-            ImGui.Unindent();
-        }
-    }
-
-    public class Config : IEzConfig
-    {
-        public Vector4 BaitColor1 =
-            0xFFFF00FF.ToVector4();
-
-        public Vector4 BaitColor2 =
-            0xFFFFFF00.ToVector4();
-
-        public string BaitText = "Go Here";
-
-        public Vector4 OtherBaitColor =
-            0xFFFF0000.ToVector4();
-
-        public bool ShouldDisplayOtherBait = true;
+        ImGuiEx.Text("NAUR: odd WEST / even EAST. Personal number and soak order only.");
+        ImGuiEx.Text("Green soak AREA after Chakrams; stand near its wall edge. Final soak stays cyan: check vuln expiry.");
+        ImGuiEx.Text("Does not solve jump/ray bait, Limit Cut facing, or the route around other players.");
+        ImGuiEx.Text("Inherited fixed path arrows removed pending replay validation.");
     }
 }

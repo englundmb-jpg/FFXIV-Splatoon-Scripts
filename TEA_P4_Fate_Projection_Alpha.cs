@@ -1,3 +1,5 @@
+// Adapted from PunishXIV/Splatoon; original authors retained in Metadata.
+// NAUR review 2026-10-09. See TEA_NAUR_R1_README.md for coverage and validation.
 using Dalamud.Game.ClientState.Objects.Types;
 using ECommons;
 using ECommons.DalamudServices;
@@ -15,11 +17,11 @@ using Vector3 = System.Numerics.Vector3;
 
 using ECommons.DalamudServices.Legacy;
 
-namespace SplatoonScriptsOfficial.Duties.Shadowbringers.The_Epic_Of_Alexander;
+namespace MaggieSplatoon.TEA;
 
 public class TEA_P4_Fate_Projection_α : SplatoonScript
 {
-    private readonly List<uint> _futurePlayers = [];
+    private readonly Dictionary<uint, uint> _futurePlayers = [];
 
     private FutureActionType[] _futureActionTypes =
     [
@@ -43,41 +45,41 @@ public class TEA_P4_Fate_Projection_α : SplatoonScript
                 });
 
     public override HashSet<uint>? ValidTerritories => [887];
-    public override Metadata? Metadata => new(4, "Garume");
+    public override Metadata? Metadata => new(104, "Garume; Maggie accessibility repair");
 
     private string GetFutureActionText(FutureActionType type)
     {
         return type switch
         {
             FutureActionType.FirstMotion =>
-                Loc(en: "Move in the first half!", jp: "最初は動け！"),
+                Loc(en: "FIRST: MOVE", jp: "最初は動け！"),
 
             FutureActionType.FirstStillness =>
-                Loc(en: "Don't move in the first half.", jp: "最初は動くな"),
+                Loc(en: "FIRST: STOP ALL ACTIONS", jp: "最初は動くな"),
 
             FutureActionType.SecondMotion =>
-                Loc(en: "Move in the second half!", jp: "最後は動け！"),
+                Loc(en: "SECOND: MOVE", jp: "最後は動け！"),
 
             FutureActionType.SecondStillness =>
-                Loc(en: "Don't move in the second half.", jp: "最後は動くな！"),
+                Loc(en: "SECOND: STOP ALL ACTIONS", jp: "最後は動くな！"),
 
             FutureActionType.Defamation =>
-                Loc(en: "Defamation: Go up", jp: "名誉罰: 上へ"),
+                Loc(en: "DEFAMATION: SAFE CLONE", jp: "名誉罰: 上へ"),
 
             FutureActionType.SharedSentence =>
-                Loc(en: "Shared Sentence: Go to the bottom left", jp: "集団罰: 左下へ"),
+                Loc(en: "STACK: LEFT", jp: "集団罰: 左下へ"),
 
             FutureActionType.Aggravated =>
-                Loc(en: "Aggravated Sentence: Go to the bottom right", jp: "加重罰: 右下へ"),
+                Loc(en: "ASSAULT: RIGHT", jp: "加重罰: 右下へ"),
 
             FutureActionType.Nothing =>
-                Loc(en: "Nothing: Go to the bottom left", jp: "無職: 左下へ"),
+                Loc(en: "NO DEBUFF: LEFT", jp: "無職: 左下へ"),
 
             FutureActionType.UnKnown =>
-                Loc(en: "Unknown: Go to the bottom left?", jp: "UnKnown: 左下へ？"),
+                Loc(en: "UNKNOWN — CHECK CLONE", jp: "UnKnown: 左下へ？"),
 
             _ =>
-                Loc(en: "None: Go to the bottom left?", jp: "None: 左下へ？")
+                Loc(en: "WAIT FOR CLONE", jp: "None: 左下へ？")
         };
     }
 
@@ -85,6 +87,8 @@ public class TEA_P4_Fate_Projection_α : SplatoonScript
     {
         if(castId == 18555)
         {
+            Controller.CancelSchedulers();
+            OnReset();
             _isStartFateProjectionCasting = true;
 
             Controller.Schedule(() =>
@@ -134,7 +138,9 @@ public class TEA_P4_Fate_Projection_α : SplatoonScript
 
     public override void OnReset()
     {
+        Controller.CancelSchedulers();
         _isStartFateProjectionCasting = false;
+        Controller.GetRegisteredElements().Each(x => { x.Value.Enabled = false; x.Value.overlayTextColor = 0xFFFFFFFF; });
 
         _futureActionTypes =
         [
@@ -157,7 +163,7 @@ public class TEA_P4_Fate_Projection_α : SplatoonScript
         {
             overlayText = "",
             overlayVOffset = 8f,
-            overlayFScale = 5f,
+            overlayFScale = 2f,
             Filled = false,
             radius = 0f
         };
@@ -174,7 +180,7 @@ public class TEA_P4_Fate_Projection_α : SplatoonScript
         {
             overlayText = "",
             overlayVOffset = 5f,
-            overlayFScale = 5f,
+            overlayFScale = 2f,
             Filled = false,
             radius = 0f
         };
@@ -191,7 +197,7 @@ public class TEA_P4_Fate_Projection_α : SplatoonScript
         {
             overlayText = "",
             overlayVOffset = 2f,
-            overlayFScale = 5f,
+            overlayFScale = 2f,
             Filled = false,
             radius = 0f
         };
@@ -219,6 +225,8 @@ public class TEA_P4_Fate_Projection_α : SplatoonScript
 
     public override void OnUpdate()
     {
+        if(_isStartFateProjectionCasting && (Player.Object == null || Player.Object.CurrentHp == 0))
+        { OnReset(); return; }
         if(!_isStartFateProjectionCasting)
         {
             Controller.GetRegisteredElements()
@@ -241,7 +249,7 @@ public class TEA_P4_Fate_Projection_α : SplatoonScript
 
         var safeAlexander = SafeAlexander;
 
-        if(safeAlexander == null || _isOpenSafeSpot)
+        if(safeAlexander == null || _isOpenSafeSpot || _futureActionTypes[1] == FutureActionType.None)
             return;
 
         _isOpenSafeSpot = true;
@@ -313,13 +321,19 @@ public class TEA_P4_Fate_Projection_α : SplatoonScript
         element.Enabled = true;
         element.tether = true;
 
-        element.color =
-            GradientColor.Get(
-                0xFFFF00FF.ToVector4(),
-                0xFFFFFF00.ToVector4())
-            .ToUint();
+        element.color = 0xFF00FF00;
+        element.overlayText = "CURRENT";
+        element.overlayFScale = 1.7f;
 
-        element.thicc = 10f;
+        element.thicc = 5f;
+    }
+
+    // Require a complete one-to-one owner/clone map; packet arrival order is irrelevant.
+    private static uint[] OrderedClones(Dictionary<uint, uint> owners)
+    {
+        return owners.Count == 8 && owners.Values.Distinct().Count() == 8
+            && owners.Keys.All(x => x != 0) && owners.Values.All(x => x != 0)
+            ? owners.Values.OrderByDescending(x => x).ToArray() : [];
     }
 
     public override void OnTetherCreate(
@@ -329,22 +343,22 @@ public class TEA_P4_Fate_Projection_α : SplatoonScript
         uint data3,
         uint data5)
     {
-        if(!_isStartFateProjectionCasting)
+        if(!_isStartFateProjectionCasting || data3 != 98 || source == 0 || target == 0)
             return;
 
-        _futurePlayers.Add(target);
+        _futurePlayers[source] = target;
 
-        if(source == Player.Object.EntityId)
+        if(Player.Object != null && source == Player.Object.EntityId)
         {
             _myFuturePlayer = target;
 
-            Controller.Schedule(() =>
+        }
+        Controller.Schedule(() =>
             {
-                var reversed =
-                    _futurePlayers
-                        .ToArray()
-                        .Reverse()
-                        .ToArray();
+                if(!_isStartFateProjectionCasting || _futurePlayers.Count != 8
+                   || _futurePlayers.Values.Distinct().Count() != 8 || _myFuturePlayer == null) return;
+                var reversed = OrderedClones(_futurePlayers);
+                if(reversed.Length != 8) return;
 
                 for(var i = 0; i < reversed.Length; i++)
                 {
@@ -379,7 +393,6 @@ public class TEA_P4_Fate_Projection_α : SplatoonScript
                     }
                 }
             }, 1000);
-        }
     }
 
     public override void OnActionEffectEvent(
@@ -395,50 +408,12 @@ public class TEA_P4_Fate_Projection_α : SplatoonScript
             Target: not null
         })
         {
-            PluginLog.Warning(
-                "ActionId: " +
-                set.Action.Value.RowId);
-
-            var futureAction =
-                set.Action.Value.RowId switch
-                {
-                    19213 =>
-                        FutureActionType.FirstMotion,
-
-                    19214 =>
-                        FutureActionType.FirstStillness,
-
-                    18585 =>
-                        FutureActionType.SecondMotion,
-
-                    18586 =>
-                        FutureActionType.SecondStillness,
-
-                    18597 =>
-                        FutureActionType.SecondStillness,
-
-                    _ =>
-                        FutureActionType.None
-                };
-
-            if(futureAction == FutureActionType.None)
-                return;
-
-            if(!EzThrottler.Throttle(
-                "FateProjectionAlphaActionEffectDelay",
-                1500))
-                return;
-
-            if(_futureActionTypes[0] ==
-               FutureActionType.None)
+            switch(set.Action.Value.RowId)
             {
-                _futureActionTypes[0] =
-                    futureAction;
-            }
-            else
-            {
-                _futureActionTypes[2] =
-                    futureAction;
+                case 19213: _futureActionTypes[0] = FutureActionType.FirstMotion; break;
+                case 19214: _futureActionTypes[0] = FutureActionType.FirstStillness; break;
+                case 18585: _futureActionTypes[2] = FutureActionType.SecondMotion; break;
+                case 18586: _futureActionTypes[2] = FutureActionType.SecondStillness; break;
             }
         }
     }
@@ -457,3 +432,4 @@ public class TEA_P4_Fate_Projection_α : SplatoonScript
         UnKnown
     }
 }
+

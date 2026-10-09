@@ -1,3 +1,5 @@
+// Adapted from PunishXIV/Splatoon; original authors retained in Metadata.
+// NAUR review 2026-10-09. See TEA_NAUR_R1_README.md for coverage and validation.
 using ECommons;
 using ECommons.Configuration;
 using ECommons.DalamudServices;
@@ -16,7 +18,7 @@ using System.Numerics;
 
 using ECommons.DalamudServices.Legacy;
 
-namespace SplatoonScriptsOfficial.Duties.Shadowbringers.The_Epic_Of_Alexander;
+namespace MaggieSplatoon.TEA;
 
 public class TEA_P2_1211_Transition : SplatoonScript
 {
@@ -65,7 +67,7 @@ public class TEA_P2_1211_Transition : SplatoonScript
     private int _myNumber;
 
     public override HashSet<uint> ValidTerritories => [887];
-    public override Metadata Metadata => new(6, "Garume");
+    public override Metadata Metadata => new(106, "Garume; Maggie accessibility repair");
 
     private Config C => Controller.GetConfig<Config>();
 
@@ -126,20 +128,19 @@ public class TEA_P2_1211_Transition : SplatoonScript
 
     public override void OnVFXSpawn(uint target, string vfxPath)
     {
-        if(vfxPath.StartsWith("vfx/lockon/eff/m0361trg_a"))
-        {
-            if(AttachedInfo.VFXInfos.TryGetValue(Svc.ClientState.LocalPlayer.Address, out var info))
-                if(info.OrderBy(x => x.Value.Age)
-                    .TryGetFirst(x => x.Key.StartsWith("vfx/lockon/eff/m0361trg_a"), out var effect))
-                    _myNumber = int.Parse(effect.Key.Replace("vfx/lockon/eff/m0361trg_a", "")[0].ToString());
-
-            _mechanicActive = true;
-        }
+        const string prefix = "vfx/lockon/eff/m0361trg_a";
+        var me = Svc.ClientState.LocalPlayer;
+        if(me == null || target != me.EntityId || !vfxPath.StartsWith(prefix)
+           || vfxPath.Length <= prefix.Length
+           || !int.TryParse(vfxPath.Substring(prefix.Length, 1), out var number)
+           || number < 1 || number > 8) return;
+        _myNumber = number;
+        _mechanicActive = true;
     }
 
     public override void OnActionEffectEvent(ActionEffectSet set)
     {
-        if(!_mechanicActive || set.Action.Value.RowId != HawkBlastActionEffectId) return;
+        if(!_mechanicActive || set.Action is not { RowId: HawkBlastActionEffectId }) return;
 
         _hawkBlastCount++;
         if(_myNumber == 0 || _hawkBlastCount >= 19) return;
@@ -165,7 +166,7 @@ public class TEA_P2_1211_Transition : SplatoonScript
         for(var i = 0; i < 8; i++)
         {
             var bait = Controller.GetElementByName($"Bait{i + 1}");
-            bait!.Enabled = true;
+            bait!.Enabled = false;
             bait.tether = false;
             RotatedElement(ref bait, _baitPositions[i + 1], _firstBlastDirection);
             if(i + 1 == _myNumber)
@@ -183,7 +184,7 @@ public class TEA_P2_1211_Transition : SplatoonScript
         for(var i = 0; i < 7; i++)
         {
             var safe = Controller.GetElementByName($"Safe{i + 1}");
-            safe!.Enabled = true;
+            safe!.Enabled = false;
             safe.tether = false;
             RotatedElement(ref safe, _safePositions[i], _firstBlastDirection);
         }
@@ -231,7 +232,7 @@ public class TEA_P2_1211_Transition : SplatoonScript
                 break;
 
             case 13 or 14 when _myNumber == 5:
-                EnableTetherElement("Bait6", "<1>");
+                EnableTetherElement("Bait5", "<1>");
                 break;
 
             case 13 or 14 when _myNumber == 6:
@@ -302,8 +303,7 @@ public class TEA_P2_1211_Transition : SplatoonScript
                     }
             }
 
-        if(_hawkBlastCount >= 18)
-            Controller.GetRegisteredElements().Each(x => x.Value.Enabled = false);
+        if(_hawkBlastCount >= 18) Reset();
     }
 
     public override void OnReset()
@@ -327,7 +327,7 @@ public class TEA_P2_1211_Transition : SplatoonScript
             HawkBlastDirection.North => -45,
             HawkBlastDirection.Northeast => 0,
             HawkBlastDirection.East => 45,
-            HawkBlastDirection.Southeast => -90,
+            HawkBlastDirection.Southeast => 90,
             HawkBlastDirection.South => 135,
             HawkBlastDirection.Southwest => 180,
             HawkBlastDirection.West => 225,
@@ -350,6 +350,10 @@ public class TEA_P2_1211_Transition : SplatoonScript
         {
             element.Enabled = true;
             element.tether = true;
+            element.color = 0xFF00FF00;
+            element.radius = 0.8f;
+            element.thicc = 5f;
+            element.overlayText = "CURRENT";
             element.refActorPlaceholder = [actorPlaceholder];
         }
     }
@@ -377,6 +381,7 @@ public class TEA_P2_1211_Transition : SplatoonScript
 
     public override void OnSettingsDraw()
     {
+        ImGui.TextWrapped("ALTERNATE 1211 STRATEGY. NAUR uses 1256: do not enable both transition scripts.");
         ImGui.Text("Bait Message");
         ImGuiEx.HelpMarker(
             Loc(
@@ -440,7 +445,7 @@ public class TEA_P2_1211_Transition : SplatoonScript
         ImGui.SameLine();
 
         var nw_se_dir =
-            C.SE_NW_PriorizeDirection == HawkBlastDirection.Southeast ? 0 : 1;
+            C.SE_NW_PriorizeDirection == HawkBlastDirection.Northwest ? 0 : 1;
 
         ImGui.RadioButton("Northwest##nw_dir", ref nw_se_dir, 0);
         ImGui.SameLine();
@@ -448,8 +453,8 @@ public class TEA_P2_1211_Transition : SplatoonScript
 
         C.SE_NW_PriorizeDirection =
             nw_se_dir == 0
-                ? HawkBlastDirection.Southeast
-                : HawkBlastDirection.Northwest;
+                ? HawkBlastDirection.Northwest
+                : HawkBlastDirection.Southeast;
 
         ImGui.Unindent();
 
@@ -478,7 +483,7 @@ public class TEA_P2_1211_Transition : SplatoonScript
     private class Config : IEzConfig
     {
         public InternationalString BaitMessageIS = new();
-        public bool ShoulDisplayFlares = true;
+        public bool ShoulDisplayFlares = false;
 
         public HawkBlastDirection N_S_PriorizeDirection =
             HawkBlastDirection.North;
@@ -493,3 +498,4 @@ public class TEA_P2_1211_Transition : SplatoonScript
             HawkBlastDirection.Southeast;
     }
 }
+

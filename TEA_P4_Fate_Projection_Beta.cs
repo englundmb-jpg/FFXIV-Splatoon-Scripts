@@ -1,3 +1,5 @@
+// Adapted from PunishXIV/Splatoon; original authors retained in Metadata.
+// NAUR review 2026-10-09. See TEA_NAUR_R1_README.md for coverage and validation.
 using ECommons;
 using ECommons.GameHelpers;
 using ECommons.Hooks.ActionEffectTypes;
@@ -11,7 +13,7 @@ using System.Numerics;
 
 using ECommons.DalamudServices.Legacy;
 
-namespace SplatoonScriptsOfficial.Duties.Shadowbringers.The_Epic_Of_Alexander;
+namespace MaggieSplatoon.TEA;
 
 public class TEA_P4_Fate_Projection_β : SplatoonScript
 {
@@ -27,20 +29,23 @@ public class TEA_P4_Fate_Projection_β : SplatoonScript
         None
     }
 
-    private readonly List<uint> _futurePlayers = [];
+    private readonly Dictionary<uint, uint> _futurePlayers = [];
 
     private bool _canAddFuturePlayer = true;
+    private bool _hasDonutPosition;
     private bool _isStartFateProjectionCasting;
     private bool _myDefuffIsYellow;
     private uint? _myFuturePlayer;
 
-    public override Metadata? Metadata => new(2, "Garume");
+    public override Metadata? Metadata => new(102, "Garume; Maggie accessibility repair");
     public override HashSet<uint>? ValidTerritories => [887];
 
     public override void OnStartingCast(uint source, uint castId)
     {
         if(castId == 19219)
         {
+            Controller.CancelSchedulers();
+            OnReset();
             _isStartFateProjectionCasting = true;
             PluginLog.Warning("Start Fate Projection Casting");
 
@@ -58,21 +63,6 @@ public class TEA_P4_Fate_Projection_β : SplatoonScript
 
             Controller.Schedule(() =>
             {
-                if(Controller.TryGetElementByName("SecondText", out var secondTextElement))
-                {
-                    secondTextElement.overlayTextColor = EColor.White.ToUint();
-                    secondTextElement.Enabled = false;
-                }
-
-                if(Controller.TryGetElementByName("SecondBait", out var secondElement))
-                {
-                    secondElement.Enabled = true;
-                    secondElement.tether = true;
-                }
-            }, 1000 * 63);
-
-            Controller.Schedule(() =>
-            {
                 _isStartFateProjectionCasting = false;
 
                 if(Controller.TryGetElementByName("SecondBait", out var secondElement))
@@ -83,11 +73,13 @@ public class TEA_P4_Fate_Projection_β : SplatoonScript
 
     public override void OnReset()
     {
+        Controller.CancelSchedulers();
         _isStartFateProjectionCasting = false;
         _futurePlayers.Clear();
         _myFuturePlayer = null;
         _myDefuffIsYellow = false;
         _canAddFuturePlayer = true;
+        _hasDonutPosition = false;
 
         Controller.GetRegisteredElements()
             .Each(x => x.Value.Enabled = false);
@@ -97,7 +89,7 @@ public class TEA_P4_Fate_Projection_β : SplatoonScript
     {
         var element = new Element(0)
         {
-            color = EColor.Blue.ToUint(),
+            color = 0xFF00FF00,
             thicc = 5f
         };
 
@@ -106,7 +98,7 @@ public class TEA_P4_Fate_Projection_β : SplatoonScript
         var secondElement = new Element(0)
         {
             radius = 1f,
-            color = EColor.Blue.ToUint(),
+            color = 0xFF00FF00,
             overlayText = Loc(
                 en: "Move beneath the enemy",
                 jp: "足元へ！"),
@@ -121,7 +113,7 @@ public class TEA_P4_Fate_Projection_β : SplatoonScript
         {
             overlayText = "",
             overlayVOffset = 8f,
-            overlayFScale = 5f,
+            overlayFScale = 2f,
             Filled = false,
             radius = 0f
         };
@@ -138,7 +130,7 @@ public class TEA_P4_Fate_Projection_β : SplatoonScript
         {
             overlayText = "",
             overlayVOffset = 5f,
-            overlayFScale = 5f,
+            overlayFScale = 2f,
             Filled = false,
             radius = 0f
         };
@@ -154,6 +146,8 @@ public class TEA_P4_Fate_Projection_β : SplatoonScript
 
     public override void OnUpdate()
     {
+        if(_isStartFateProjectionCasting && (Player.Object == null || Player.Object.CurrentHp == 0))
+        { OnReset(); return; }
         if(!_isStartFateProjectionCasting)
             Controller.GetRegisteredElements()
                 .Each(x => x.Value.Enabled = false);
@@ -162,8 +156,8 @@ public class TEA_P4_Fate_Projection_β : SplatoonScript
     private string GetFutureActionText(FutureActionType type)
     {
         var stackDirection = _myDefuffIsYellow
-            ? Loc(en: "Go North", jp: "北に")
-            : Loc(en: "Go South", jp: "南に");
+            ? Loc(en: "NORTH GROUP", jp: "北に")
+            : Loc(en: "CENTER / SOUTH GROUP", jp: "南に");
 
         return type switch
         {
@@ -205,7 +199,7 @@ public class TEA_P4_Fate_Projection_β : SplatoonScript
                 new Vector2(112f, 101.5f),
 
             FutureActionType.EastCenter =>
-                new Vector2(115, 100),
+                new Vector2(113.75f, 100),
 
             FutureActionType.North =>
                 new Vector2(92, 84f),
@@ -221,6 +215,21 @@ public class TEA_P4_Fate_Projection_β : SplatoonScript
     {
         if(!_isStartFateProjectionCasting)
             return;
+
+        // Real stack/spread resolution releases the donut move; no guessed 63s timer.
+        if(set.Action is { RowId: 18572 or 18573 })
+        {
+            if(Controller.TryGetElementByName("SecondText", out var text)) text.Enabled = false;
+            if(_hasDonutPosition && Controller.TryGetElementByName("SecondBait", out var bait))
+            {
+                bait.color = 0xFF00FF00;
+                bait.overlayText = "CURRENT";
+                bait.Enabled = true;
+                bait.tether = true;
+            }
+            return;
+        }
+        if(set.Action is { RowId: 18566 }) { OnReset(); return; }
 
         if(set.Source is not { DataId: 0x2C55 })
             return;
@@ -246,7 +255,7 @@ public class TEA_P4_Fate_Projection_β : SplatoonScript
             case { RowId: 18593 }:
             {
                 var text =
-                    GetFutureActionText(FutureActionType.Stack);
+                    _canAddFuturePlayer ? "STACK: ASSIGNMENT UNKNOWN" : GetFutureActionText(FutureActionType.Stack);
 
                 if(Controller.TryGetElementByName(
                     "SecondText",
@@ -266,10 +275,22 @@ public class TEA_P4_Fate_Projection_β : SplatoonScript
                 "SecondBait",
                 out var element))
             {
+                _hasDonutPosition = true;
                 element.SetOffPosition(set.Source.Position);
+                element.color = 0xFFFFFF00;
+                element.overlayText = "NEXT";
+                element.tether = false;
                 element.Enabled = true;
             }
         }
+    }
+
+    // Require a complete one-to-one owner/clone map; packet arrival order is irrelevant.
+    private static uint[] OrderedClones(Dictionary<uint, uint> owners)
+    {
+        return owners.Count == 8 && owners.Values.Distinct().Count() == 8
+            && owners.Keys.All(x => x != 0) && owners.Values.All(x => x != 0)
+            ? owners.Values.OrderByDescending(x => x).ToArray() : [];
     }
 
     public override void OnTetherCreate(
@@ -279,22 +300,24 @@ public class TEA_P4_Fate_Projection_β : SplatoonScript
         uint data3,
         uint data5)
     {
-        if(!_isStartFateProjectionCasting)
+        if(!_isStartFateProjectionCasting || data3 != 98 || source == 0 || target == 0)
             return;
 
         if(_canAddFuturePlayer)
-            _futurePlayers.Add(target);
+            _futurePlayers[source] = target;
 
-        if(source == Player.Object.EntityId)
+        if(Player.Object != null && source == Player.Object.EntityId)
         {
             _myFuturePlayer = target;
 
-            Controller.Schedule(() =>
+        }
+        Controller.Schedule(() =>
             {
+                if(!_isStartFateProjectionCasting || !_canAddFuturePlayer || _futurePlayers.Count != 8
+                   || _futurePlayers.Values.Distinct().Count() != 8 || _myFuturePlayer == null) return;
                 _canAddFuturePlayer = false;
-
-                var reversed =
-                    _futurePlayers.ToArray().Reverse().ToArray();
+                var reversed = OrderedClones(_futurePlayers);
+                if(reversed.Length != 8) return;
 
                 var futureAction = FutureActionType.None;
 
@@ -333,7 +356,10 @@ public class TEA_P4_Fate_Projection_β : SplatoonScript
                             0,
                             position.Y));
 
+                    if(futureAction == FutureActionType.None) return;
                     element.tether = true;
+                    element.overlayText = "CURRENT";
+                    element.radius = 0.8f;
                     element.Enabled = true;
                 }
 
@@ -341,13 +367,19 @@ public class TEA_P4_Fate_Projection_β : SplatoonScript
                     "FirstText",
                     out var textElement))
                 {
-                    var text =
-                        GetFutureActionText(futureAction);
+                    var myIndex = System.Array.IndexOf(reversed, _myFuturePlayer.Value);
+                    var text = myIndex switch
+                    {
+                        0 => "NEXT: EAST WALL — JUMP",
+                        2 => "NEXT: WEST WALL — JUMP",
+                        6 => "NEXT: SOUTH WALL — JUMP",
+                        _ => "NEXT: NORTH STACK"
+                    };
 
                     textElement.overlayText = text;
                     textElement.Enabled = true;
                 }
             }, 2000);
-        }
     }
 }
+
