@@ -19,9 +19,10 @@ public sealed class UCOB_Heavensfall_Towers_Accessible : SplatoonScript
     private uint? selectedTower;
     private bool knockbackDone;
     private bool heavensfallActive;
+    private bool sawOpening;
 
     public override HashSet<uint>? ValidTerritories { get; } = [733];
-    public override Metadata? Metadata => new(105, "Maggie");
+    public override Metadata Metadata => new(107, "Maggie");
 
     public override void OnSetup()
     {
@@ -74,6 +75,8 @@ public sealed class UCOB_Heavensfall_Towers_Accessible : SplatoonScript
             }
             """
         );
+        Controller.RegisterElementFromCode("Tower_Arrow",
+            """{"Enabled":false,"type":2,"radius":0,"thicc":8,"color":4278255360,"LineEndB":1}""");
         OnReset();
     }
 
@@ -83,6 +86,7 @@ public sealed class UCOB_Heavensfall_Towers_Accessible : SplatoonScript
         {
             OnReset();
             heavensfallActive = true;
+            sawOpening = true;
         }
 
     }
@@ -99,6 +103,7 @@ public sealed class UCOB_Heavensfall_Towers_Accessible : SplatoonScript
     {
         if (!Controller.TryGetElementByName("Your_Tower", out var line))
             return;
+        SetEnabled("Tower_Arrow", false);
         SetEnabled("Your_Tower", false);
         SetEnabled("Knockback_Stand", false);
         SetEnabled("Instruction", false);
@@ -111,14 +116,16 @@ public sealed class UCOB_Heavensfall_Towers_Accessible : SplatoonScript
             return;
         }
 
-        if (!heavensfallActive)
-            return;
-
         // Published Splatoon resolver: exactly eight actors casting Megaflare Tower.
         var towers = Svc.Objects.OfType<IBattleChara>()
             .Where(x => x.IsCasting && x.CastActionId == TowerCast).ToArray();
         if (towers.Length != 8)
+        {
+            if (selectedTower != null) OnReset();
             return;
+        }
+        // Eight active tower casts uniquely identify this mechanic, even after a mid-pull reload.
+        heavensfallActive = true;
 
         if (selectedTower == null)
         {
@@ -144,19 +151,30 @@ public sealed class UCOB_Heavensfall_Towers_Accessible : SplatoonScript
             return;
         // The tower has radius 3; mark its inward-facing edge.
         var front = position - Vector2.Normalize(position) * 3f;
-        line.SetOffPosition(new Vector3(front.X, tower.Position.Y, front.Y));
+        line.SetRefPosition(new Vector3(front.X, tower.Position.Y, front.Y));
+        line.SetOffPosition(Vector3.Zero);
         line.color = 4278255360u;
         line.Enabled = true;
-        if (!knockbackDone && stand != null)
+        if (sawOpening && !knockbackDone && stand != null)
         {
             // BossMod P3HeavensfallTowers uses radius 9 toward the assigned tower.
             var spot = Vector2.Normalize(position) * 9f;
-            stand.SetOffPosition(new Vector3(spot.X, 0f, spot.Y));
+            stand.SetRefPosition(new Vector3(spot.X, tower.Position.Y, spot.Y));
+            stand.SetOffPosition(Vector3.Zero);
             stand.Enabled = true;
+        }
+        if (Controller.TryGetElementByName("Tower_Arrow", out var arrow))
+        {
+            var spot = Vector2.Normalize(position) * 9f;
+            arrow.SetRefPosition(new Vector3(spot.X, tower.Position.Y, spot.Y));
+            arrow.SetOffPosition(tower.Position);
+            arrow.Enabled = true;
         }
         if (instruction != null)
         {
-            instruction.overlayText = knockbackDone
+            instruction.overlayText = !sawOpening
+                ? "YOUR TOWER — GREEN ARROW"
+                : knockbackDone
                 ? "ENTER YOUR TOWER — GREEN LINE"
                 : "STAND ON GREEN — GREEN LINE MARKS YOUR TOWER";
             instruction.Enabled = true;
@@ -168,6 +186,8 @@ public sealed class UCOB_Heavensfall_Towers_Accessible : SplatoonScript
         selectedTower = null;
         knockbackDone = false;
         heavensfallActive = false;
+        sawOpening = false;
+        SetEnabled("Tower_Arrow", false);
         SetEnabled("Your_Tower", false);
         SetEnabled("Knockback_Stand", false);
         SetEnabled("Instruction", false);
