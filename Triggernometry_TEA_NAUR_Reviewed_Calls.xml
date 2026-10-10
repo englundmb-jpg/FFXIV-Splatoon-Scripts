@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TriggernometryExport PluginVersion="1.2.0.7">
+  <ExportedFolder Id="c6ffbb9f-b318-563c-8b29-53f636344e9e" Name="Maggie - TEA NAUR Reviewed Calls" Enabled="true">
+    <Folders />
+    <Triggers>
+      <Trigger Id="8d88b208-fd1a-5cfa-8a6a-d6291a93f071" Name="P1 Protean preparation" Enabled="true" RegularExpression="(?i)(?:^|\] )(?:14:[0-9a-f]{8}:[^:]*:4822:|20\|[^|]*\|[0-9a-f]{8}\|[^|]*\|4822\|)" PeriodRefire="Deny" RefirePeriodExpression="10000" Description="NAUR review: cast 18466 / 4822. Preview and preparation calls are not immediate movement commands. Source reviewed, not replay tested.">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Protean. Check bait position." ExecutionDelayExpression="0" UseTTSRateExpression="2" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Id="9231767a-fb51-528a-acb2-226e758410ba" Name="P3 Inception start" Enabled="true" RegularExpression="(?i)(?:^|\] )(?:14:[0-9a-f]{8}:[^:]*:486F:|20\|[^|]*\|[0-9a-f]{8}\|[^|]*\|486F\|)" PeriodRefire="Deny" RefirePeriodExpression="10000" Description="NAUR review: cast 18543 / 486F. Preview and preparation calls are not immediate movement commands. Source reviewed, not replay tested.">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Inception. Check assignment." ExecutionDelayExpression="0" UseTTSRateExpression="2" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Id="a6b9fb5c-1712-5afc-b33a-bedf021df637" Name="P3 Wormhole start" Enabled="true" RegularExpression="(?i)(?:^|\] )(?:14:[0-9a-f]{8}:[^:]*:486E:|20\|[^|]*\|[0-9a-f]{8}\|[^|]*\|486E\|)" PeriodRefire="Deny" RefirePeriodExpression="10000" Description="NAUR review: cast 18542 / 486E. Preview and preparation calls are not immediate movement commands. Source reviewed, not replay tested.">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Wormhole. Check number." ExecutionDelayExpression="0" UseTTSRateExpression="2" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Id="a3e5ba6b-0bb8-556d-adee-255dbc8ec5e1" Name="P4 Trines start" Enabled="true" RegularExpression="(?i)(?:^|\] )(?:14:[0-9a-f]{8}:[^:]*:488E:|20\|[^|]*\|[0-9a-f]{8}\|[^|]*\|488E\|)" PeriodRefire="Deny" RefirePeriodExpression="10000" Description="NAUR review: cast 18574 / 488E. Preview and preparation calls are not immediate movement commands. Source reviewed, not replay tested.">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Trines. Watch the order." ExecutionDelayExpression="0" UseTTSRateExpression="2" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Id="7714df9a-d136-570c-a231-d414251317c6" Name="P4 Fate Alpha start" Enabled="true" RegularExpression="(?i)(?:^|\] )(?:14:[0-9a-f]{8}:[^:]*:487C:|20\|[^|]*\|[0-9a-f]{8}\|[^|]*\|487C\|)" PeriodRefire="Deny" RefirePeriodExpression="10000" Description="NAUR review: cast 18556 / 487C. Preview and preparation calls are not immediate movement commands. Source reviewed, not replay tested.">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Fate Alpha. Watch the preview." ExecutionDelayExpression="0" UseTTSRateExpression="2" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Id="a20fc338-a24a-52e7-9dbd-e49a93c70ec9" Name="P4 Fate Beta start" Enabled="true" RegularExpression="(?i)(?:^|\] )(?:14:[0-9a-f]{8}:[^:]*:4B14:|20\|[^|]*\|[0-9a-f]{8}\|[^|]*\|4B14\|)" PeriodRefire="Deny" RefirePeriodExpression="10000" Description="NAUR review: cast 19220 / 4B14. Preview and preparation calls are not immediate movement commands. Source reviewed, not replay tested.">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Fate Beta. Watch the preview." ExecutionDelayExpression="0" UseTTSRateExpression="2" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Id="4f3d48f0-1310-54c8-b6b7-7e92ab26ff3a" Name="Wormhole first soak preparation" Enabled="true" RegularExpression="(?i)(?:^|\] )(?:14:[0-9a-f]{8}:[^:]*:4866:|20\|[^|]*\|[0-9a-f]{8}\|[^|]*\|4866\|)" PeriodRefire="Deny" RefirePeriodExpression="10000" Description="NAUR review: cast 18534 / 4866. Preview and preparation calls are not immediate movement commands. Source reviewed, not replay tested.">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Five six first. Wait for chakrams." ExecutionDelayExpression="0" UseTTSRateExpression="2" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Id="db4bcc8f-a0ba-5ef6-ba65-c26e247b98f2" Name="Wormhole Sacrament preparation" Enabled="true" RegularExpression="(?i)(?:^|\] )(?:14:[0-9a-f]{8}:[^:]*:4857:|20\|[^|]*\|[0-9a-f]{8}\|[^|]*\|4857\|)" PeriodRefire="Deny" RefirePeriodExpression="10000" Description="NAUR review: cast 18519 / 4857. Preview and preparation calls are not immediate movement commands. Source reviewed, not replay tested.">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Sacrament. Dodge the cross." ExecutionDelayExpression="0" UseTTSRateExpression="2" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Id="fd9ee7f0-ba27-520d-8cc6-8b61e67983fa" Name="Wormhole first resolved - second next" Enabled="true" RegularExpression="(?i)(?:^|\] )(?:(?:15|16):[0-9a-f]{8}:[^:]*:4869:|(?:21|22)\|[^|]*\|[0-9a-f]{8}\|[^|]*\|4869\|)" PeriodRefire="Deny" RefirePeriodExpression="10000" Description="NAUR review: effect 18537 / 4869. Preview and preparation calls are not immediate movement commands. Source reviewed, not replay tested.">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="First soak done. Seven eight next." ExecutionDelayExpression="0" UseTTSRateExpression="2" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Id="d5cfa842-6b64-5e79-a9e2-f8cd270c50e9" Name="Wormhole second resolved - third next" Enabled="true" RegularExpression="(?i)(?:^|\] )(?:(?:15|16):[0-9a-f]{8}:[^:]*:4868:|(?:21|22)\|[^|]*\|[0-9a-f]{8}\|[^|]*\|4868\|)" PeriodRefire="Deny" RefirePeriodExpression="10000" Description="NAUR review: effect 18536 / 4868. Preview and preparation calls are not immediate movement commands. Source reviewed, not replay tested.">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="One two next. Wait for vulnerability to clear." ExecutionDelayExpression="0" UseTTSRateExpression="2" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Id="a09dc286-2547-51c4-a1a7-f11823ff7488" Name="Alpha preview first motion" Enabled="true" RegularExpression="(?i)(?:^|\] )(?:(?:15|16):[0-9a-f]{8}:[^:]*:4B0D:|(?:21|22)\|[^|]*\|[0-9a-f]{8}\|[^|]*\|4B0D\|)" PeriodRefire="Deny" RefirePeriodExpression="10000" Description="NAUR review: effect 19213 / 4B0D. Preview and preparation calls are not immediate movement commands. Source reviewed, not replay tested.">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Preview. First, move." ExecutionDelayExpression="0" UseTTSRateExpression="2" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Id="7f1dc763-ba5b-5b67-9e93-f964cb4c15b5" Name="Alpha preview first stillness" Enabled="true" RegularExpression="(?i)(?:^|\] )(?:(?:15|16):[0-9a-f]{8}:[^:]*:4B0E:|(?:21|22)\|[^|]*\|[0-9a-f]{8}\|[^|]*\|4B0E\|)" PeriodRefire="Deny" RefirePeriodExpression="10000" Description="NAUR review: effect 19214 / 4B0E. Preview and preparation calls are not immediate movement commands. Source reviewed, not replay tested.">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Preview. First, stop all actions." ExecutionDelayExpression="0" UseTTSRateExpression="2" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Id="c68e9b37-8164-557e-b12f-ddf63a97ce55" Name="Alpha preview second motion" Enabled="true" RegularExpression="(?i)(?:^|\] )(?:(?:15|16):[0-9a-f]{8}:[^:]*:4899:|(?:21|22)\|[^|]*\|[0-9a-f]{8}\|[^|]*\|4899\|)" PeriodRefire="Deny" RefirePeriodExpression="10000" Description="NAUR review: effect 18585 / 4899. Preview and preparation calls are not immediate movement commands. Source reviewed, not replay tested.">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Preview. Second, move." ExecutionDelayExpression="0" UseTTSRateExpression="2" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Id="eacad25e-8ae6-5ee2-acc6-b3d1847ce2b3" Name="Alpha preview second stillness" Enabled="true" RegularExpression="(?i)(?:^|\] )(?:(?:15|16):[0-9a-f]{8}:[^:]*:489A:|(?:21|22)\|[^|]*\|[0-9a-f]{8}\|[^|]*\|489A\|)" PeriodRefire="Deny" RefirePeriodExpression="10000" Description="NAUR review: effect 18586 / 489A. Preview and preparation calls are not immediate movement commands. Source reviewed, not replay tested.">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Preview. Second, stop all actions." ExecutionDelayExpression="0" UseTTSRateExpression="2" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Id="c937c2b9-3e27-5e05-95a2-c5302a3aa079" Name="Beta preview spread" Enabled="true" RegularExpression="(?i)(?:^|\] )(?:(?:15|16):[0-9a-f]{8}:[^:]*:48A0:|(?:21|22)\|[^|]*\|[0-9a-f]{8}\|[^|]*\|48A0\|)" PeriodRefire="Deny" RefirePeriodExpression="10000" Description="NAUR review: effect 18592 / 48A0. Preview and preparation calls are not immediate movement commands. Source reviewed, not replay tested.">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Preview. Spread after jumps." ExecutionDelayExpression="0" UseTTSRateExpression="2" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Id="2293df2d-b8fb-5fee-9953-4df5f9a78b48" Name="Beta preview stack" Enabled="true" RegularExpression="(?i)(?:^|\] )(?:(?:15|16):[0-9a-f]{8}:[^:]*:48A1:|(?:21|22)\|[^|]*\|[0-9a-f]{8}\|[^|]*\|48A1\|)" PeriodRefire="Deny" RefirePeriodExpression="10000" Description="NAUR review: effect 18593 / 48A1. Preview and preparation calls are not immediate movement commands. Source reviewed, not replay tested.">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Preview. Stack after jumps." ExecutionDelayExpression="0" UseTTSRateExpression="2" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+    </Triggers>
+  </ExportedFolder>
+</TriggernometryExport>
