@@ -1,6 +1,6 @@
 using Dalamud.Game.ClientState.Objects.Types;
 using ECommons.DalamudServices;
-using ECommons.ExcelServices.TerritoryEnumeration;
+using ECommons.Hooks.ActionEffectTypes;
 using Splatoon.SplatoonScripting;
 using System;
 using System.Collections.Generic;
@@ -9,289 +9,227 @@ using System.Numerics;
 
 namespace SplatoonScriptsOfficial.Duties.Stormblood;
 
+// Normal UWU Ultimate Predation dodge, not the knockback/cheese strategy.
+// Geometry reference: FFXIV-CombatReborn/BossmodReborn,
+// BossMod/Modules/Stormblood/Ultimate/UWU/P4UltimatePredation.cs.
+// Green CURRENT is the destination now; cyan NEXT is only a preview.
+// Move along the arena edge when NEXT becomes green. STAY covers both waves,
+// not the Feather Rain that follows. This build still needs an in-game test.
 public sealed class UWU_Predation_Accessible_Dynamic : SplatoonScript
 {
-    public override HashSet<uint>? ValidTerritories { get; } =
-        new() { Raids.the_Weapons_Refrain_Ultimate };
+    public override HashSet<uint>? ValidTerritories { get; } = new() { 777 };
+    public override Metadata? Metadata => new(2, "OpenAI — Predation accessibility");
 
-    public override Metadata? Metadata =>
-        new(1, "OpenAI — accessibility test build");
+    private const int Samples = 1440; // quarter-degree steps
+    private const int Cushion = 10;  // 2.5 degrees on either side
+    private const float Radius = 19f;
+    private static readonly Vector2 Center = new(100, 100);
+    private long started;
+    private long stableSince;
+    private uint ultimaId;
+    private int phase; // 0 inactive, 1 finding positions, 2 first wave, 3 second
+    private Snapshot? previous;
+    private Vector3 firstPoint;
+    private Vector3 secondPoint;
+    private bool stay;
 
-    private const float CenterX = 100f;
-    private const float CenterY = 100f;
-
-    private bool waitingForSpawns;
-    private bool markersDrawn;
-    private long predationStartedAt;
-    private uint ultimaSourceId;
+    private sealed record Snapshot(Vector2 Garuda, Vector2 Titan, float TitanRotation,
+        Vector2 Ifrit, float IfritRotation, Vector2 Ultima);
 
     public override void OnSetup()
     {
-        // Splatoon colors use ABGR:
-        // 0xFF00FF00 = bright green
-        // 0xFFFFFF00 = bright cyan
-        Controller.RegisterElementFromCode(
-            "Predation_Start",
-            """{"Name":"START","radius":2.5,"Donut":0.35,"color":4278255360,"thicc":8.0,"tether":true}"""
-        );
-
-        Controller.RegisterElementFromCode(
-            "Predation_Dodge",
-            """{"Name":"DODGE","radius":2.2,"Donut":0.35,"color":4294967040,"thicc":8.0,"tether":true}"""
-        );
-
+        Controller.RegisterElementFromCode("Current",
+            """{"Name":"CURRENT","type":0,"radius":0.4,"color":4278255360,"thicc":8.0,"tether":true,"overlayText":"CURRENT","overlayFScale":2.0,"overlayTextColor":4278255360,"overlayBGColor":4026531840}""");
+        Controller.RegisterElementFromCode("Next",
+            """{"Name":"NEXT","type":0,"radius":0.4,"color":4294967040,"thicc":8.0,"tether":false,"overlayText":"NEXT - WAIT","overlayFScale":1.6,"overlayTextColor":4294967040,"overlayBGColor":4026531840}""");
         OnReset();
     }
 
     public override void OnStartingCast(uint source, uint castId)
     {
-        // 0x2B76 = Ultimate Predation
-        if (castId != 0x2B76)
-            return;
-
-        ultimaSourceId = source;
-        predationStartedAt = Environment.TickCount64;
-        waitingForSpawns = true;
-        markersDrawn = false;
-        DisableMarkers();
+        if (castId != 11126) return; // Ultimate Predation
+        OnReset();
+        ultimaId = source;
+        started = Environment.TickCount64;
+        phase = 1;
     }
 
     public override void OnUpdate()
     {
-        if (!waitingForSpawns || markersDrawn)
-            return;
+        if (phase == 0) return;
+        var now = Environment.TickCount64;
+        if (now - started > 26000) { OnReset(); return; }
+        if (phase != 1 || now - started < 8500) return;
+        if (now - started > 15000) { OnReset(); return; }
 
-        // The primals finish moving into their Predation positions roughly
-        // nine seconds after Ultimate Predation begins.
-        var elapsed = Environment.TickCount64 - predationStartedAt;
-        if (elapsed < 8500)
-            return;
-
-        // Stop trying after the useful window has passed.
-        if (elapsed > 15000)
+        var snapshot = ReadSnapshot();
+        if (snapshot == null) { previous = null; return; }
+        // Do not freeze a route while actors are still relocating/turning.
+        if (previous == null || !Stable(previous, snapshot))
         {
-            waitingForSpawns = false;
+            previous = snapshot;
+            stableSince = now;
             return;
         }
+        if (now - stableSince < 250) return;
+        if (!ChooseRoute(snapshot, out var a, out var b)) return;
 
-        var ultima = ultimaSourceId.GetObject();
-        var garuda = FindPredationActor("Garuda", 2f, 8f);
-        var ifrit = FindPredationActor("Ifrit", 15f, 23f);
-        var titan = FindPredationActor("Titan", 10f, 23f);
+        firstPoint = WorldPoint(a);
+        secondPoint = WorldPoint(b);
+        stay = a == b;
+        phase = 2;
+        Draw();
+    }
 
-        if (ultima == null || garuda == null || ifrit == null || titan == null)
-            return;
+    public override void OnActionEffectEvent(ActionEffectSet set)
+    {
+        var action = set.Action?.RowId;
+        if (action == 11103 && phase == 2) // first Crimson Cyclone resolves
+        {
+            phase = 3;
+            Draw();
+        }
+        else if ((action == 11104 && phase >= 2) ||
+                 (action == 11085 && phase >= 2)) // cross / Feather Rain
+            OnReset();
+    }
 
-        var ultimaDistance = DistanceFromCenter(ultima.Position);
-        if (ultimaDistance < 8f || ultimaDistance > 23f)
-            return;
-
-        if (!TryChooseRoute(
-                garuda.Position,
-                titan.Position,
-                ultima.Position,
-                ifrit.Position,
-                out var startDirection,
-                out var rotation))
-            return;
-
-        var start = CardinalStartPosition(startDirection);
-        var dodge = DodgePosition(startDirection, rotation);
-
-        if (!Controller.TryGetElementByName("Predation_Start", out var startElement) ||
-            !Controller.TryGetElementByName("Predation_Dodge", out var dodgeElement))
-            return;
-
-        startElement.SetRefPosition(start);
-        dodgeElement.SetRefPosition(dodge);
-        startElement.Enabled = true;
-        dodgeElement.Enabled = true;
-
-        markersDrawn = true;
-        waitingForSpawns = false;
-
-        // Clear after Predation is over.
-        Controller.ScheduleReset(12000);
+    private void Draw()
+    {
+        if (!Controller.TryGetElementByName("Current", out var current) ||
+            !Controller.TryGetElementByName("Next", out var next)) return;
+        current.SetRefPosition(phase == 3 ? secondPoint : firstPoint);
+        current.SetOffPosition(Vector3.Zero);
+        current.overlayText = stay ? "CURRENT - STAY" : phase == 3 ? "CURRENT - MOVE" : "CURRENT";
+        current.Enabled = true;
+        next.SetRefPosition(secondPoint);
+        next.SetOffPosition(Vector3.Zero);
+        next.Enabled = phase == 2 && !stay;
     }
 
     public override void OnReset()
     {
-        waitingForSpawns = false;
-        markersDrawn = false;
-        predationStartedAt = 0;
-        ultimaSourceId = 0;
-        DisableMarkers();
+        phase = 0;
+        previous = null;
+        started = stableSince = 0;
+        ultimaId = 0;
+        if (Controller.TryGetElementByName("Current", out var current)) current.Enabled = false;
+        if (Controller.TryGetElementByName("Next", out var next)) next.Enabled = false;
     }
 
-    private void DisableMarkers()
-    {
-        if (Controller.TryGetElementByName("Predation_Start", out var start))
-            start.Enabled = false;
+    public override void OnDisable() => OnReset();
 
-        if (Controller.TryGetElementByName("Predation_Dodge", out var dodge))
-            dodge.Enabled = false;
+    private Snapshot? ReadSnapshot()
+    {
+        // Data IDs work on every game language. Refuse ambiguous actor matches.
+        var garuda = Find(0x2212, 2, 8);
+        var titan = Find(0x2217, 10, 23);
+        var ifrit = Find(0x221A, 15, 23);
+        var ultima = Svc.Objects.FirstOrDefault(x => x.EntityId == ultimaId);
+        if (garuda == null || titan == null || ifrit == null || ultima == null) return null;
+        var u = XZ(ultima.Position);
+        var distance = Vector2.Distance(u, Center);
+        if (distance < 8 || distance > 23) return null;
+        return new(XZ(garuda.Position), XZ(titan.Position), titan.Rotation,
+            XZ(ifrit.Position), ifrit.Rotation, u);
     }
 
-    private static IGameObject? FindPredationActor(
-        string name,
-        float minimumDistance,
-        float maximumDistance)
+    private static IGameObject? Find(uint dataId, float min, float max)
     {
-        return Svc.Objects
-            .Where(x => x != null && x.Name.TextValue.Equals(
-                name,
-                StringComparison.OrdinalIgnoreCase))
-            .Where(x =>
-            {
-                var distance = DistanceFromCenter(x.Position);
-                return distance >= minimumDistance && distance <= maximumDistance;
-            })
-            .OrderBy(x => MathF.Abs(
-                DistanceFromCenter(x.Position) -
-                ((minimumDistance + maximumDistance) / 2f)))
-            .FirstOrDefault();
+        var matches = Svc.Objects.Where(x => x.DataId == dataId &&
+            Vector2.Distance(XZ(x.Position), Center) >= min &&
+            Vector2.Distance(XZ(x.Position), Center) <= max).Take(2).ToArray();
+        return matches.Length == 1 ? matches[0] : null;
     }
 
-    private static float DistanceFromCenter(Vector3 position)
+    private static Vector2 XZ(Vector3 p) => new(p.X, p.Z);
+    private static bool Stable(Snapshot a, Snapshot b) =>
+        Vector2.DistanceSquared(a.Garuda, b.Garuda) < 0.0025f &&
+        Vector2.DistanceSquared(a.Titan, b.Titan) < 0.0025f &&
+        Vector2.DistanceSquared(a.Ifrit, b.Ifrit) < 0.0025f &&
+        Vector2.DistanceSquared(a.Ultima, b.Ultima) < 0.0025f &&
+        MathF.Abs(a.TitanRotation - b.TitanRotation) < 0.005f &&
+        MathF.Abs(a.IfritRotation - b.IfritRotation) < 0.005f;
+
+    private static int Wrap(int n) => (n % Samples + Samples) % Samples;
+    private static Vector2 Point(int i)
     {
-        var dx = position.X - CenterX;
-        var dy = position.Z - CenterY;
-        return MathF.Sqrt(dx * dx + dy * dy);
+        var angle = i * (2 * MathF.PI / Samples);
+        return Center + Radius * new Vector2(MathF.Sin(angle), MathF.Cos(angle));
+    }
+    private static Vector3 WorldPoint(int i)
+    {
+        var p = Point(i);
+        return new(p.X, 0, p.Y);
+    }
+    private static bool InLine(Vector2 p, Vector2 origin, float rotation, float halfWidth)
+    {
+        var offset = p - origin;
+        return MathF.Abs(offset.X * MathF.Cos(rotation) - offset.Y * MathF.Sin(rotation)) <= halfWidth;
+    }
+    private static bool Safe(Vector2 p, Snapshot s, bool second)
+    {
+        if (Vector2.DistanceSquared(p, s.Garuda) <= 400) return false;
+        var r = s.TitanRotation;
+        if (!second)
+            return !InLine(p, s.Titan, r, 3) &&
+                !InLine(p, s.Titan, r + MathF.PI / 4, 3) &&
+                !InLine(p, s.Titan, r - MathF.PI / 4, 3) &&
+                !InLine(p, s.Ifrit, s.IfritRotation, 9);
+        return !InLine(p, s.Titan, r + MathF.PI / 8, 3) &&
+            !InLine(p, s.Titan, r - MathF.PI / 8, 3) &&
+            !InLine(p, s.Titan, r + MathF.PI / 2, 3) &&
+            MathF.Abs(p.X - 100) > 5 && MathF.Abs(p.Y - 100) > 5 &&
+            Vector2.DistanceSquared(p, s.Ultima) > 196;
     }
 
-    // Direction numbering matches cactbot:
-    // 0=N, 1=NE, 2=E, 3=SE, 4=S, 5=SW, 6=W, 7=NW.
-    private static int ToEightDirection(Vector3 position)
+    private static bool[] Allowed(Snapshot s, bool second)
     {
-        var dx = position.X - CenterX;
-        var dy = position.Z - CenterY;
-        var angle = MathF.Atan2(dx, -dy);
-        var direction = (int)MathF.Round(angle / (MathF.PI / 4f));
-        return (direction % 8 + 8) % 8;
-    }
-
-    private static bool TryChooseRoute(
-        Vector3 garudaPosition,
-        Vector3 titanPosition,
-        Vector3 ultimaPosition,
-        Vector3 ifritPosition,
-        out int startDirection,
-        out int rotation)
-    {
-        startDirection = 0;
-        rotation = 0;
-
-        var garudaDirection = ToEightDirection(garudaPosition);
-        if (garudaDirection % 2 == 0)
-            return false;
-
-        // Example: Garuda NW (7) gives E (2) and S (4).
-        var safeDirections = new List<int>
+        var raw = Enumerable.Range(0, Samples).Select(i => Safe(Point(i), s, second)).ToArray();
+        var result = new bool[Samples];
+        for (var i = 0; i < Samples; ++i)
         {
-            (garudaDirection + 3) % 8,
-            (garudaDirection + 5) % 8,
-        };
+            result[i] = true;
+            for (var j = -Cushion; j <= Cushion; ++j)
+                if (!raw[Wrap(i + j)]) { result[i] = false; break; }
+        }
+        return result;
+    }
 
-        // Never start toward Titan.
-        var titanDirection = ToEightDirection(titanPosition);
-        safeDirections.RemoveAll(x => x == titanDirection);
-        if (safeDirections.Count == 0)
-            return false;
-
-        // Prefer a cardinal that is not beside Ultima.
-        var ultimaDirection = ToEightDirection(ultimaPosition);
-        var notAdjacentToUltima = safeDirections
-            .Where(x =>
-                x != (ultimaDirection + 1) % 8 &&
-                ultimaDirection != (x + 1) % 8)
-            .ToList();
-
-        if (notAdjacentToUltima.Count > 0)
-            safeDirections = notAdjacentToUltima;
-
-        var ifritDirection = ToEightDirection(ifritPosition);
-
-        // 1) Prefer an early-safe dodge that neither runs into Ultima
-        // nor lies on Ifrit's dash line.
-        foreach (var direction in safeDirections)
+    private static bool ChooseRoute(Snapshot s, out int first, out int second)
+    {
+        first = second = -1;
+        var a = Allowed(s, false);
+        var b = Allowed(s, true);
+        // Pick the middle of the widest shared safe arc, including wraparound.
+        var longest = 0;
+        for (var i = 0; i < Samples; ++i)
         {
-            foreach (var run in new[] { -1, 1 })
+            if (!a[i] || !b[i] || (a[Wrap(i - 1)] && b[Wrap(i - 1)])) continue;
+            var length = 0;
+            while (length < Samples && a[Wrap(i + length)] && b[Wrap(i + length)]) ++length;
+            if (length <= longest) continue;
+            longest = length;
+            first = second = Wrap(i + length / 2);
+        }
+        if (first >= 0) return true;
+        // Otherwise take the shortest edge-to-edge move, with the cushion
+        // already removed from both danger boundaries. Never invent a fallback.
+        var best = Samples;
+        for (var i = 0; i < Samples; ++i)
+        {
+            if (!a[i]) continue;
+            for (var j = 0; j < Samples; ++j)
             {
-                var finalDirection = (direction + run + 8) % 8;
-                if (finalDirection == ultimaDirection)
-                    continue;
-                if (finalDirection % 4 == ifritDirection % 4)
-                    continue;
-
-                startDirection = direction;
-                rotation = run;
-                return true;
+                if (!b[j]) continue;
+                var distance = Math.Abs(i - j);
+                distance = Math.Min(distance, Samples - distance);
+                if (distance >= best) continue;
+                best = distance;
+                first = i;
+                second = j;
             }
         }
-
-        // 2) Otherwise prefer the intercardinal opposite Garuda.
-        var oppositeGaruda = (garudaDirection + 4) % 8;
-        foreach (var direction in safeDirections)
-        {
-            foreach (var run in new[] { -1, 1 })
-            {
-                var finalDirection = (direction + run + 8) % 8;
-                if (finalDirection == ultimaDirection)
-                    continue;
-                if (finalDirection != oppositeGaruda)
-                    continue;
-
-                startDirection = direction;
-                rotation = run;
-                return true;
-            }
-        }
-
-        // 3) Last fallback: any remaining direction away from Ultima.
-        foreach (var direction in safeDirections)
-        {
-            foreach (var run in new[] { -1, 1 })
-            {
-                var finalDirection = (direction + run + 8) % 8;
-                if (finalDirection == ultimaDirection)
-                    continue;
-
-                startDirection = direction;
-                rotation = run;
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private static Vector3 CardinalStartPosition(int direction)
-    {
-        return direction switch
-        {
-            0 => new Vector3(100.0f, 0.0f, 82.2f),   // North
-            2 => new Vector3(117.8f, 0.0f, 100.0f),  // East
-            4 => new Vector3(100.0f, 0.0f, 117.8f),  // South
-            6 => new Vector3(82.2f, 0.0f, 100.0f),   // West
-            _ => new Vector3(100.0f, 0.0f, 100.0f),
-        };
-    }
-
-    private static Vector3 DodgePosition(int startDirection, int rotation)
-    {
-        // These are the exact eight coordinates from the user's working
-        // static Predation preset.
-        return (startDirection, rotation) switch
-        {
-            (0, -1) => new Vector3(93.5f, 0.0f, 82.2f),   // N -> NW
-            (0,  1) => new Vector3(106.5f, 0.0f, 82.2f),  // N -> NE
-            (2, -1) => new Vector3(117.8f, 0.0f, 93.5f),  // E -> NE
-            (2,  1) => new Vector3(117.8f, 0.0f, 106.5f), // E -> SE
-            (4, -1) => new Vector3(106.5f, 0.0f, 117.8f), // S -> SE
-            (4,  1) => new Vector3(93.5f, 0.0f, 117.8f),  // S -> SW
-            (6, -1) => new Vector3(82.2f, 0.0f, 106.5f),  // W -> SW
-            (6,  1) => new Vector3(82.2f, 0.0f, 93.5f),   // W -> NW
-            _ => new Vector3(100.0f, 0.0f, 100.0f),
-        };
+        return first >= 0;
     }
 }
