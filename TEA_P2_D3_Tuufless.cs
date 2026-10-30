@@ -3,6 +3,7 @@
 // No automatic movement. Exact waymark coordinates are from Tuufless's TEA preset.
 using Dalamud.Bindings.ImGui;
 using Dalamud.Game.ClientState.Objects.Types;
+using Dalamud.Game.ClientState.Objects.SubKinds;
 using ECommons.DalamudServices;
 using ECommons.Hooks.ActionEffectTypes;
 using Splatoon;
@@ -20,7 +21,7 @@ namespace MaggieSplatoon.TEA
     public sealed class TEA_P2_D3_Tuufless : SplatoonScript
     {
         public override HashSet<uint> ValidTerritories => new() { 887 };
-        public override Metadata Metadata => new(1, "Maggie accessibility");
+        public override Metadata Metadata => new(2, "Maggie accessibility");
         private const uint Water = 2142, Lightning = 2143;
         private const uint Green = 0xFF00FF00, Cyan = 0xFFFFFF00;
         // X/Z, not screen coordinates. No guessed marker positions.
