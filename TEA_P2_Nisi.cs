@@ -10,6 +10,11 @@ using Splatoon;
 using Splatoon.SplatoonScripting;
 using System.Collections.Generic;
 using System.Linq;
+using System;
+using System.Net.Http;
+using System.Numerics;
+using System.Text;
+using System.Threading.Tasks;
 
 using ECommons.DalamudServices.Legacy;
 
@@ -45,12 +50,73 @@ public class TEA_P2_Nisi : SplatoonScript
         new[] { AlphaNisiId2, BetaNisiId2, GammaNisiId2, DeltaNisiId2 };
 
     public override HashSet<uint> ValidTerritories => [887];
-    public override Metadata Metadata => new(103, "Garume; Maggie accessibility repair");
+    public override Metadata Metadata => new(104, "Garume; Maggie accessibility repair");
 
     private IBattleNpc? Justice =>
         Svc.Objects
             .OfType<IBattleNpc>()
             .FirstOrDefault(x => x.NameId == JusticeId && x.IsTargetable);
+
+    private HttpClient? voice;
+    private uint announcedHeld, announcedRequired;
+    private volatile string voiceStatus = "Not tested";
+
+    public override void OnEnable()
+    {
+        OnReset();
+        voice = new HttpClient(new HttpClientHandler { UseProxy = false })
+            { Timeout = TimeSpan.FromMilliseconds(700) };
+    }
+
+    private static string NisiName(uint id) => id switch
+    {
+        AlphaNisiId or AlphaNisiId2 => "ALPHA",
+        BetaNisiId or BetaNisiId2 => "BETA",
+        GammaNisiId or GammaNisiId2 => "GAMMA",
+        DeltaNisiId or DeltaNisiId2 => "DELTA",
+        _ => "NONE"
+    };
+
+    private void ShowPersonalNisi()
+    {
+        var me = Player.Object;
+        if (me == null) return;
+        uint held = me.StatusList.FirstOrDefault(s => NisiIds.Contains(s.StatusId))?.StatusId ?? 0;
+        uint required = me.StatusList.FirstOrDefault(s => NisiIds2.Contains(s.StatusId))?.StatusId ?? 0;
+        if (held != 0 || required != 0)
+        {
+            Controller.DisplayAttentionWindowLine(new Vector4(0, 1, 0, 1), "HAVE: " + NisiName(held));
+            if (required != 0)
+                Controller.DisplayAttentionWindowLine(new Vector4(0, 1, 1, 1), "FINAL CHECK NEEDS: " + NisiName(required));
+            if (held != announcedHeld || required != announcedRequired)
+                _ = SayAsync(NisiName(held) + "_" + NisiName(required));
+        }
+        announcedHeld = held;
+        announcedRequired = required;
+    }
+
+    private async Task SayAsync(string code)
+    {
+        var client = voice;
+        if (client == null) return;
+        try
+        {
+            using var body = new StringContent("MAGGIE_TEA_NISI|" + code, Encoding.UTF8, "text/plain");
+            using var response = await client.PostAsync("http://localhost:51423/", body).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+            voiceStatus = "Sent to Triggernometry";
+        }
+        catch (Exception) { voiceStatus = "Check Triggernometry endpoint: localhost:51423"; }
+    }
+
+    public override void OnDisable()
+    {
+        OnReset();
+        voice?.Dispose();
+        voice = null;
+    }
+
+    public override void OnCombatEnd() => OnReset();
 
     private Config C => Controller.GetConfig<Config>();
 
@@ -81,16 +147,23 @@ public class TEA_P2_Nisi : SplatoonScript
             .GetRegisteredElements()
             .Each(x => x.Value.Enabled = false);
 
-        if(Player.Object == null || Player.Object.CurrentHp == 0) return;
+        if(Player.Object == null || Player.Object.CurrentHp == 0)
+        {
+            announcedHeld = announcedRequired = 0;
+            return;
+        }
 
         var justice = Justice;
 
         if(justice == null)
         {
+            announcedHeld = announcedRequired = 0;
             _isJudgmentNisi = false;
             _isOpeningLastJudgment = false;
             return;
         }
+
+        ShowPersonalNisi();
 
         if(justice is
         {
@@ -254,6 +327,7 @@ public class TEA_P2_Nisi : SplatoonScript
 
     public override void OnReset()
     {
+        announcedHeld = announcedRequired = 0;
         _myFirstNisiId = 0;
         Controller.GetRegisteredElements().Each(x => x.Value.Enabled = false);
         _firstNisiPlayerPairs
@@ -299,6 +373,9 @@ public class TEA_P2_Nisi : SplatoonScript
     public override void OnSettingsDraw()
     {
         ImGui.TextWrapped("Partner reminder only. First pass establishes the pair; it is not guided. For NAUR R1, wait until CC tank finishes mines before the second pass. A tether does not mean the direct path is safe.");
+        ImGui.TextWrapped("Personal display: HAVE in green; FINAL CHECK NEEDS in cyan. These identify debuffs, not a move/pass-now cue. Import Triggernometry_TEA_Nisi_Personal_Voice.xml. Live testing pending.");
+        ImGui.TextWrapped("Voice: " + voiceStatus);
+        if (ImGui.Button("TEST NISI VOICE")) _ = SayAsync("TEST");
         ImGui.Text("1 ~ 2 Nisi");
 
         foreach(var pair in _firstNisiPlayerPairs)
