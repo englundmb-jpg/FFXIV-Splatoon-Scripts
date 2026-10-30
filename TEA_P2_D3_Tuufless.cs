@@ -3,7 +3,7 @@
 // No automatic movement. Exact waymark coordinates are from Tuufless's TEA preset.
 using Dalamud.Bindings.ImGui;
 using Dalamud.Game.ClientState.Objects.Types;
-using Dalamud.Game.ClientState.Objects.SubKinds;
+using Dalamud.Game.ClientState.Objects.Enums;
 using ECommons.DalamudServices;
 using ECommons.Hooks.ActionEffectTypes;
 using Splatoon;
@@ -21,7 +21,7 @@ namespace MaggieSplatoon.TEA
     public sealed class TEA_P2_D3_Tuufless : SplatoonScript
     {
         public override HashSet<uint> ValidTerritories => new() { 887 };
-        public override Metadata Metadata => new(2, "Maggie accessibility");
+        public override Metadata Metadata => new(3, "Maggie accessibility");
         private const uint Water = 2142, Lightning = 2143;
         private const uint Green = 0xFF00FF00, Cyan = 0xFFFFFF00;
         // X/Z, not screen coordinates. No guessed marker positions.
@@ -203,7 +203,7 @@ namespace MaggieSplatoon.TEA
         {
             if (Now - lastStatusRead < 100) return;
             lastStatusRead = Now;
-            var players = Svc.Objects.OfType<IPlayerCharacter>().Where(p => p.CurrentHp > 0).ToArray();
+            var players = Svc.Objects.OfType<IBattleChara>().Where(p => p.ObjectKind == ObjectKind.Player && p.CurrentHp > 0).ToArray();
             if (waters == 0)
             {
                 var holders = players.Where(p => p.StatusList.Any(s => s.StatusId == Lightning && s.RemainingTime > 0)).ToArray();
@@ -227,11 +227,19 @@ namespace MaggieSplatoon.TEA
 
         private float WaterRemaining()
         {
-            var times = Svc.Objects.OfType<IPlayerCharacter>()
-                .SelectMany(p => p.StatusList)
-                .Where(s => s.StatusId == Water && s.RemainingTime > 0)
-                .Select(s => s.RemainingTime).ToArray();
-            return times.Length == 1 ? times[0] : -1;
+            int count = 0;
+            float remaining = -1;
+            foreach (var player in Svc.Objects.OfType<IBattleChara>())
+            {
+                if (player.ObjectKind != ObjectKind.Player) continue;
+                foreach (var status in player.StatusList)
+                {
+                    if (status.StatusId != Water || status.RemainingTime <= 0) continue;
+                    count++;
+                    remaining = status.RemainingTime;
+                }
+            }
+            return count == 1 ? remaining : -1;
         }
 
         private void CheckShield()
