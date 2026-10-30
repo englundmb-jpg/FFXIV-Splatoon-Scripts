@@ -15,7 +15,7 @@ namespace MaggieSplatoon.TEA
     public sealed class TEA_Limit_Cut_Personal_Voice : SplatoonScript
     {
         public override HashSet<uint> ValidTerritories => new() { 887 };
-        public override Metadata Metadata => new(1, "Maggie accessibility");
+        public override Metadata Metadata => new(2, "Maggie accessibility");
         private HttpClient? voice;
         private int number, pairs, centers;
         private long numberAt, started, lastDash, lastCenter, until;
@@ -117,7 +117,9 @@ namespace MaggieSplatoon.TEA
                 finished = true;
                 current = "";
             }
-            if (current != "" && Environment.TickCount64 < until)
+            if (active)
+                Controller.DisplayAttentionWindowLine(new Vector4(0, 1, 0, 1), $"YOUR NUMBER: {number}");
+            if (current != "" && (active || Environment.TickCount64 < until))
                 Controller.DisplayAttentionWindowLine(new Vector4(0, 1, 0, 1), current);
         }
 
