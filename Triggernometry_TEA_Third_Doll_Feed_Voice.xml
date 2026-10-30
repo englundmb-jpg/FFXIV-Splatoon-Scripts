@@ -19,6 +19,22 @@
         </Actions>
         <Condition Enabled="false" Grouping="And" />
       </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="SECOND" Id="d62dd5b6-d5e5-4eea-88ea-09b658478b87" RegularExpression="^MAGGIE_TEA_DOLL\|SECOND$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Second Exhaust." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="SECOND_FEED" Id="a83425d9-eb91-4f08-93fe-a5abc818c36e" RegularExpression="^MAGGIE_TEA_DOLL\|SECOND_FEED$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Second Exhaust. Feed your doll." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
     </Triggers>
   </ExportedFolder>
 </TriggernometryExport>
