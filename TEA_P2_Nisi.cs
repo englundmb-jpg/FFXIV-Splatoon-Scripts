@@ -50,7 +50,7 @@ public class TEA_P2_Nisi : SplatoonScript
         new[] { AlphaNisiId2, BetaNisiId2, GammaNisiId2, DeltaNisiId2 };
 
     public override HashSet<uint> ValidTerritories => [887];
-    public override Metadata Metadata => new(104, "Garume; Maggie accessibility repair");
+    public override Metadata Metadata => new(105, "Garume; Maggie accessibility repair");
 
     private IBattleNpc? Justice =>
         Svc.Objects
@@ -133,7 +133,7 @@ public class TEA_P2_Nisi : SplatoonScript
                 de: "Nisi Pass"),
             tether = true,
             radius = 0.8f,
-            color = 0xFF00FF00,
+            color = 0xFFFFFF00,
             thicc = 5f,
             overlayFScale = 1.7f
         };
@@ -357,7 +357,7 @@ public class TEA_P2_Nisi : SplatoonScript
         IGameObject? player,
         string elementName)
     {
-        if(player == null || player is IBattleChara { IsDead: true })
+        if(!C.ShowPartnerMarker || player == null || player is IBattleChara { IsDead: true })
             return;
 
         if(Controller.TryGetElementByName(
@@ -372,7 +372,8 @@ public class TEA_P2_Nisi : SplatoonScript
 
     public override void OnSettingsDraw()
     {
-        ImGui.TextWrapped("Partner reminder only. First pass establishes the pair; it is not guided. For NAUR R1, wait until CC tank finishes mines before the second pass. A tether does not mean the direct path is safe.");
+        ImGui.TextWrapped("Tuufless D3: H1 for the first two exchanges. Learned partner reminder only; first exchange is not guided. Exact pass windows and routes need replay validation. Cyan identifies a partner, not permission to move.");
+        ImGui.Checkbox("Show learned partner reminder (optional; not pass timing)", ref C.ShowPartnerMarker);
         ImGui.TextWrapped("Personal display: HAVE in green; FINAL CHECK NEEDS in cyan. These identify debuffs, not a move/pass-now cue. Import Triggernometry_TEA_Nisi_Personal_Voice.xml. Live testing pending.");
         ImGui.TextWrapped("Voice: " + voiceStatus);
         if (ImGui.Button("TEST NISI VOICE")) _ = SayAsync("TEST");
@@ -402,8 +403,10 @@ public class TEA_P2_Nisi : SplatoonScript
 
     private class Config : IEzConfig
     {
+        public bool ShowPartnerMarker = false;
         public float FirstNisiTime { get; } = 8f;
         public float SecondNisiTime { get; } = 15f;
     }
 }
+
 
