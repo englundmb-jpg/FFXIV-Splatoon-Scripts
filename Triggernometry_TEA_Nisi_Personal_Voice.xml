@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TriggernometryExport PluginVersion="1.2.0.6">
+  <ExportedFolder Id="894abd50-5278-43de-91ba-000000000000" Name="Maggie - TEA Nisi Personal Voice" Enabled="true">
+    <Folders />
+    <Triggers>
+      <Trigger Enabled="true" Source="Endpoint" Name="NONE_ALPHA" Id="894abd50-5278-43de-91ba-000000000001" RegularExpression="^MAGGIE_TEA_NISI\|NONE_ALPHA$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="No Nisi. Final check needs alpha." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="NONE_BETA" Id="894abd50-5278-43de-91ba-000000000002" RegularExpression="^MAGGIE_TEA_NISI\|NONE_BETA$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="No Nisi. Final check needs beta." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="NONE_GAMMA" Id="894abd50-5278-43de-91ba-000000000003" RegularExpression="^MAGGIE_TEA_NISI\|NONE_GAMMA$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="No Nisi. Final check needs gamma." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="NONE_DELTA" Id="894abd50-5278-43de-91ba-000000000004" RegularExpression="^MAGGIE_TEA_NISI\|NONE_DELTA$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="No Nisi. Final check needs delta." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="ALPHA_NONE" Id="894abd50-5278-43de-91ba-000000000005" RegularExpression="^MAGGIE_TEA_NISI\|ALPHA_NONE$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Have alpha." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="ALPHA_ALPHA" Id="894abd50-5278-43de-91ba-000000000006" RegularExpression="^MAGGIE_TEA_NISI\|ALPHA_ALPHA$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Have alpha. Final check needs alpha." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="ALPHA_BETA" Id="894abd50-5278-43de-91ba-000000000007" RegularExpression="^MAGGIE_TEA_NISI\|ALPHA_BETA$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Have alpha. Final check needs beta." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="ALPHA_GAMMA" Id="894abd50-5278-43de-91ba-000000000008" RegularExpression="^MAGGIE_TEA_NISI\|ALPHA_GAMMA$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Have alpha. Final check needs gamma." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="ALPHA_DELTA" Id="894abd50-5278-43de-91ba-000000000009" RegularExpression="^MAGGIE_TEA_NISI\|ALPHA_DELTA$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Have alpha. Final check needs delta." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="BETA_NONE" Id="894abd50-5278-43de-91ba-000000000010" RegularExpression="^MAGGIE_TEA_NISI\|BETA_NONE$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Have beta." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="BETA_ALPHA" Id="894abd50-5278-43de-91ba-000000000011" RegularExpression="^MAGGIE_TEA_NISI\|BETA_ALPHA$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Have beta. Final check needs alpha." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="BETA_BETA" Id="894abd50-5278-43de-91ba-000000000012" RegularExpression="^MAGGIE_TEA_NISI\|BETA_BETA$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Have beta. Final check needs beta." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="BETA_GAMMA" Id="894abd50-5278-43de-91ba-000000000013" RegularExpression="^MAGGIE_TEA_NISI\|BETA_GAMMA$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Have beta. Final check needs gamma." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="BETA_DELTA" Id="894abd50-5278-43de-91ba-000000000014" RegularExpression="^MAGGIE_TEA_NISI\|BETA_DELTA$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Have beta. Final check needs delta." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="GAMMA_NONE" Id="894abd50-5278-43de-91ba-000000000015" RegularExpression="^MAGGIE_TEA_NISI\|GAMMA_NONE$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Have gamma." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="GAMMA_ALPHA" Id="894abd50-5278-43de-91ba-000000000016" RegularExpression="^MAGGIE_TEA_NISI\|GAMMA_ALPHA$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Have gamma. Final check needs alpha." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="GAMMA_BETA" Id="894abd50-5278-43de-91ba-000000000017" RegularExpression="^MAGGIE_TEA_NISI\|GAMMA_BETA$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Have gamma. Final check needs beta." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="GAMMA_GAMMA" Id="894abd50-5278-43de-91ba-000000000018" RegularExpression="^MAGGIE_TEA_NISI\|GAMMA_GAMMA$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Have gamma. Final check needs gamma." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="GAMMA_DELTA" Id="894abd50-5278-43de-91ba-000000000019" RegularExpression="^MAGGIE_TEA_NISI\|GAMMA_DELTA$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Have gamma. Final check needs delta." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="DELTA_NONE" Id="894abd50-5278-43de-91ba-000000000020" RegularExpression="^MAGGIE_TEA_NISI\|DELTA_NONE$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Have delta." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="DELTA_ALPHA" Id="894abd50-5278-43de-91ba-000000000021" RegularExpression="^MAGGIE_TEA_NISI\|DELTA_ALPHA$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Have delta. Final check needs alpha." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="DELTA_BETA" Id="894abd50-5278-43de-91ba-000000000022" RegularExpression="^MAGGIE_TEA_NISI\|DELTA_BETA$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Have delta. Final check needs beta." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="DELTA_GAMMA" Id="894abd50-5278-43de-91ba-000000000023" RegularExpression="^MAGGIE_TEA_NISI\|DELTA_GAMMA$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Have delta. Final check needs gamma." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="DELTA_DELTA" Id="894abd50-5278-43de-91ba-000000000024" RegularExpression="^MAGGIE_TEA_NISI\|DELTA_DELTA$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Have delta. Final check needs delta." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="TEST" Id="894abd50-5278-43de-91ba-000000000025" RegularExpression="^MAGGIE_TEA_NISI\|TEST$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Nisi voice ready." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+    </Triggers>
+  </ExportedFolder>
+</TriggernometryExport>
