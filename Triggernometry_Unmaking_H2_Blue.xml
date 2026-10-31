@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TriggernometryExport PluginVersion="1.2.0.6">
+  <ExportedFolder Id="c4b10f1b-f59b-401a-aa5e-eb2c50ef2d0c" Name="Maggie - Unmaking H2 Blue Voice" Enabled="true">
+    <Folders />
+    <Triggers>
+      <Trigger Enabled="true" Source="Endpoint" Name="Wait. Let vulnerability expire." Id="20260c2c-e53d-4d6c-8cbe-bcfefbb0f01f" RegularExpression="^MAGGIE_UNMAKING\|Wait\.\ Let\ vulnerability\ expire\.$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Wait. Let vulnerability expire." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Orbs done." Id="eda327ad-af1d-4ba2-8018-8921ca09b283" RegularExpression="^MAGGIE_UNMAKING\|Orbs\ done\.$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Orbs done." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Gaze. Prepare to follow the cones." Id="795e5180-f898-4cd9-8c1a-d4918c2e539c" RegularExpression="^MAGGIE_UNMAKING\|Gaze\.\ Prepare\ to\ follow\ the\ cones\.$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Gaze. Prepare to follow the cones." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Full party. Tanks in front." Id="5d94ec5d-e958-464d-b267-11a662bdc3e7" RegularExpression="^MAGGIE_UNMAKING\|Full\ party\.\ Tanks\ in\ front\.$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Full party. Tanks in front." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Light party. Tank in front." Id="0c419002-1e81-4425-b6a1-bb4a4d190877" RegularExpression="^MAGGIE_UNMAKING\|Light\ party\.\ Tank\ in\ front\.$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Light party. Tank in front." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="In, away from portal." Id="eb46cbfc-dcc4-4213-a4cd-fac9792bb4e8" RegularExpression="^MAGGIE_UNMAKING\|In,\ away\ from\ portal\.$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="In, away from portal." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Out, toward portal." Id="3f78f631-4af9-4165-9d9a-f9dcf58ae199" RegularExpression="^MAGGIE_UNMAKING\|Out,\ toward\ portal\.$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Out, toward portal." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Toward portal." Id="e6784ba7-c821-4d8a-bb5c-e202b171785c" RegularExpression="^MAGGIE_UNMAKING\|Toward\ portal\.$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Toward portal." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Away from portal." Id="2a0b4bd9-0d2d-49a0-a103-1fb70824b7cc" RegularExpression="^MAGGIE_UNMAKING\|Away\ from\ portal\.$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Away from portal." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Yellow orb. Together with other healer." Id="e2e12e95-a0f2-485f-af20-cb8ad7a157be" RegularExpression="^MAGGIE_UNMAKING\|Yellow\ orb\.\ Together\ with\ other\ healer\.$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Yellow orb. Together with other healer." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Purple orb now. Together." Id="ad6b6e3c-43c7-4ac9-84c2-b6524b80ba02" RegularExpression="^MAGGIE_UNMAKING\|Purple\ orb\ now\.\ Together\.$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Purple orb now. Together." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Move clockwise. Follow the blue circle." Id="2ecdb7be-e1fa-4e7c-bfce-a62634f6eaae" RegularExpression="^MAGGIE_UNMAKING\|Move\ clockwise\.\ Follow\ the\ blue\ circle\.$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Move clockwise. Follow the blue circle." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Move counterclockwise. Follow the blue circle." Id="5ec2a0d5-a172-4459-a29c-da923c60b1ef" RegularExpression="^MAGGIE_UNMAKING\|Move\ counterclockwise\.\ Follow\ the\ blue\ circle\.$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Move counterclockwise. Follow the blue circle." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Go to blue. Follow the cones." Id="85e6f73b-e380-4eff-9ea3-992975477df6" RegularExpression="^MAGGIE_UNMAKING\|Go\ to\ blue\.\ Follow\ the\ cones\.$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Go to blue. Follow the cones." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Blue circle. Healer two." Id="eaeccde0-2ee5-4558-8a6c-0611716a852c" RegularExpression="^MAGGIE_UNMAKING\|Blue\ circle\.\ Healer\ two\.$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Blue circle. Healer two." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="False">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+    </Triggers>
+  </ExportedFolder>
+</TriggernometryExport>
