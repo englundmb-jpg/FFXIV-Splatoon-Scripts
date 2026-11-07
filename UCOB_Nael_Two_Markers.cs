@@ -1,4 +1,6 @@
 using Dalamud.Game.ClientState.Conditions;
+using Dalamud.Game.ClientState.Objects.Types;
+using System.Linq;
 using ECommons.DalamudServices;
 using Splatoon.SplatoonScripting;
 using System;
@@ -20,7 +22,7 @@ public sealed class UCOB_Nael_Two_Markers : SplatoonScript
     private long grandOctetStarted;
 
     public override HashSet<uint>? ValidTerritories { get; } = [733];
-    public override Metadata? Metadata => new(5, "Maggie");
+    public override Metadata Metadata => new(6, "Maggie");
 
     public override void OnSetup()
     {
@@ -34,8 +36,9 @@ public sealed class UCOB_Nael_Two_Markers : SplatoonScript
               "radius":1.5,
               "color":4278190335,
               "thicc":8.0,
-              "refActorNPCID":2612,
-              "refActorComparisonType":4,
+              "refActorNPCNameID":2612,
+              "refActorComparisonType":6,
+              "onlyVisible":true,
               "tether":true,
               "LegacyFill":false
             }
@@ -110,13 +113,17 @@ public sealed class UCOB_Nael_Two_Markers : SplatoonScript
     {
         if (!Svc.Condition[ConditionFlag.InCombat])
         {
-            if (phaseActive)
-                OnReset();
+            OnReset();
             return;
         }
 
         if (!phaseActive)
+        {
+            // Also show the requested Nael line in Nael's own phase.
+            SetEnabled("Nael_Red_Line", Svc.Objects.OfType<IBattleChara>()
+                .Any(x => x.NameId == 2612 && x.IsTargetable && x.CurrentHp > 1));
             return;
+        }
 
         ShowPhaseMarkers();
 
