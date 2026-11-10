@@ -17,7 +17,7 @@ namespace MaggieSplatoon.TEA;
 public sealed class TEA_P3_D3_Tuufless_Inception : SplatoonScript
 {
     public override HashSet<uint> ValidTerritories => new() { 887 };
-    public override Metadata Metadata => new(1, "Maggie accessibility");
+    public override Metadata Metadata => new(2, "Maggie accessibility");
     private enum Step { Off, Drops, Gather, Sacrament, Swords, Escape }
     private Step step;
     private readonly Dictionary<uint, uint> tetherTargets = new();
@@ -89,8 +89,8 @@ public sealed class TEA_P3_D3_Tuufless_Inception : SplatoonScript
         {
             case 18524: crystalDropped = true; break;
             case 18546:
-                if (set.Source != null && tetherTargets.TryGetValue(set.Source.EntityId, out var player)
-                    && player == BasePlayer?.EntityId) ownOrbDone = true;
+                if (set.Source != null && tetherTargets.TryGetValue(set.Source.EntityId, out var orbTargetId)
+                    && orbTargetId == BasePlayer?.EntityId) ownOrbDone = true;
                 break;
             case 18540 when step is Step.Gather or Step.Drops:
                 if (Environment.TickCount64 - lastFlare > 500)
