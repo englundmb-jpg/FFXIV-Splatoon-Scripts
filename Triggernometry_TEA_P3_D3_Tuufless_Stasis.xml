@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TriggernometryExport PluginVersion="1.2.0.6">
+  <ExportedFolder Id="d2bd811c-cb27-4043-aa71-19116b20ae0d" Name="Maggie - TEA D3 Tuufless Stasis" Enabled="true">
+    <Folders />
+    <Triggers>
+      <Trigger Enabled="true" Source="Endpoint" Name="Close tether. West boss, south side." Id="d61d3df0-26b5-4c37-9c21-0d7073fd6426" RegularExpression="^MAGGIE_TEA_STASIS\|CLOSE$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Close tether. West boss, south side." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Blue tether. East, in from the wall." Id="28abee14-994f-42f3-8869-b1d41a3f0f48" RegularExpression="^MAGGIE_TEA_STASIS\|BLUE_IN$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Blue tether. East, in from the wall." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Blue tether. East edge." Id="191f8e18-0b06-4976-94f6-b9ef57ace7ec" RegularExpression="^MAGGIE_TEA_STASIS\|BLUE_EDGE$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Blue tether. East edge." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Assault. Far west." Id="c93a41b3-9da5-48c4-bea8-3d3dc01d90e1" RegularExpression="^MAGGIE_TEA_STASIS\|ASSAULT_W$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Assault. Far west." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Assault. Far east." Id="cedb39b3-68f1-487b-a840-a6f6ad9e5292" RegularExpression="^MAGGIE_TEA_STASIS\|ASSAULT_E$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Assault. Far east." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="No debuff. East boss, south side." Id="66c20b5f-be2f-4884-b130-872a57c7aa2b" RegularExpression="^MAGGIE_TEA_STASIS\|NONE$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="No debuff. East boss, south side." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+    </Triggers>
+  </ExportedFolder>
+</TriggernometryExport>
