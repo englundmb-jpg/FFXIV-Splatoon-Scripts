@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TriggernometryExport PluginVersion="1.2.0.6">
+  <ExportedFolder Id="ba027fe8-ab5e-4d4b-b810-05af802c3e5b" Name="Maggie - FRU R1 All Phases" Enabled="true">
+    <Folders />
+    <Triggers>
+      <Trigger Enabled="true" Source="Endpoint" Name="Personal FRU instruction" Id="6d5b3c42-68d0-4020-8eb5-f51cd66891c1" RegularExpression="^FRU_R1_ALL\|(?&lt;instruction&gt;[A-Za-z0-9 ,.'-]{1,160})$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="${instruction}" ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+    </Triggers>
+  </ExportedFolder>
+</TriggernometryExport>
