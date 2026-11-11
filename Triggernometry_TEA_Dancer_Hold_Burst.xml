@@ -1,0 +1,268 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TriggernometryExport PluginVersion="1.2.0.6">
+  <ExportedFolder Id="c8cdd982-0196-52ef-8294-0a1b14951d49" Name="Maggie - TEA Dancer Hold Burst" Enabled="true" FFXIVZoneFilterEnabled="True" FfxivZoneFilterRegularExpression="^887$" FFXIVJobFilterEnabled="True" FFXIVJobFilter="137438953472">
+    <Folders />
+    <Triggers>
+      <Trigger Enabled="true" Id="4665d8f2-b083-512d-b83b-0a88705ad6ec" Name="Your Technical Step - personal cooldown" Source="FFXIVNetwork" RegularExpression="^(?:21|22)\|[^|]*\|[0-9A-Fa-f]+\|(?&lt;dancer&gt;[^|]+)\|0*(?i:3E7E)\|" Sequential="False" PrevActions="Interrupt">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_armed" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="2" ActionType="Variable" ExecutionDelayExpression="113950" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_armed" VariableExpression="1">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:maggie_tea_dnc_hold}" ExpressionR="1" ExpressionTypeL="Numeric" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+            </Condition>
+          </Action>
+          <Action OrderNumber="3" ActionType="UseTTS" ExecutionDelayExpression="50" UseTTSTextExpression="Hold burst" UseTTSRateExpression="2" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:maggie_tea_dnc_hold}" ExpressionR="1" ExpressionTypeL="Numeric" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+              <ConditionSingle Enabled="true" ExpressionL="${var:maggie_tea_dnc_armed}" ExpressionR="1" ExpressionTypeL="Numeric" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+              <ConditionSingle Enabled="true" ExpressionL="${_ffxivzoneid}" ExpressionR="887" ExpressionTypeL="Numeric" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+            </Condition>
+          </Action>
+          <Action OrderNumber="4" ActionType="UseTTS" ExecutionDelayExpression="1000" UseTTSTextExpression="Five" UseTTSRateExpression="2" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:maggie_tea_dnc_hold}" ExpressionR="1" ExpressionTypeL="Numeric" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+              <ConditionSingle Enabled="true" ExpressionL="${var:maggie_tea_dnc_armed}" ExpressionR="1" ExpressionTypeL="Numeric" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+              <ConditionSingle Enabled="true" ExpressionL="${_ffxivzoneid}" ExpressionR="887" ExpressionTypeL="Numeric" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+            </Condition>
+          </Action>
+          <Action OrderNumber="5" ActionType="UseTTS" ExecutionDelayExpression="1000" UseTTSTextExpression="Four" UseTTSRateExpression="2" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:maggie_tea_dnc_hold}" ExpressionR="1" ExpressionTypeL="Numeric" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+              <ConditionSingle Enabled="true" ExpressionL="${var:maggie_tea_dnc_armed}" ExpressionR="1" ExpressionTypeL="Numeric" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+              <ConditionSingle Enabled="true" ExpressionL="${_ffxivzoneid}" ExpressionR="887" ExpressionTypeL="Numeric" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+            </Condition>
+          </Action>
+          <Action OrderNumber="6" ActionType="UseTTS" ExecutionDelayExpression="1000" UseTTSTextExpression="Three" UseTTSRateExpression="2" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:maggie_tea_dnc_hold}" ExpressionR="1" ExpressionTypeL="Numeric" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+              <ConditionSingle Enabled="true" ExpressionL="${var:maggie_tea_dnc_armed}" ExpressionR="1" ExpressionTypeL="Numeric" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+              <ConditionSingle Enabled="true" ExpressionL="${_ffxivzoneid}" ExpressionR="887" ExpressionTypeL="Numeric" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+            </Condition>
+          </Action>
+          <Action OrderNumber="7" ActionType="UseTTS" ExecutionDelayExpression="1000" UseTTSTextExpression="Two" UseTTSRateExpression="2" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:maggie_tea_dnc_hold}" ExpressionR="1" ExpressionTypeL="Numeric" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+              <ConditionSingle Enabled="true" ExpressionL="${var:maggie_tea_dnc_armed}" ExpressionR="1" ExpressionTypeL="Numeric" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+              <ConditionSingle Enabled="true" ExpressionL="${_ffxivzoneid}" ExpressionR="887" ExpressionTypeL="Numeric" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+            </Condition>
+          </Action>
+          <Action OrderNumber="8" ActionType="UseTTS" ExecutionDelayExpression="1000" UseTTSTextExpression="One" UseTTSRateExpression="2" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:maggie_tea_dnc_hold}" ExpressionR="1" ExpressionTypeL="Numeric" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+              <ConditionSingle Enabled="true" ExpressionL="${var:maggie_tea_dnc_armed}" ExpressionR="1" ExpressionTypeL="Numeric" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+              <ConditionSingle Enabled="true" ExpressionL="${_ffxivzoneid}" ExpressionR="887" ExpressionTypeL="Numeric" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+            </Condition>
+          </Action>
+          <Action OrderNumber="9" ActionType="UseTTS" ExecutionDelayExpression="1000" UseTTSTextExpression="Hold" UseTTSRateExpression="2" UseTTSVolumeExpression="100" UseTTSExclusive="False">
+            <Condition Enabled="true" Grouping="And">
+              <ConditionSingle Enabled="true" ExpressionL="${var:maggie_tea_dnc_hold}" ExpressionR="1" ExpressionTypeL="Numeric" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+              <ConditionSingle Enabled="true" ExpressionL="${var:maggie_tea_dnc_armed}" ExpressionR="1" ExpressionTypeL="Numeric" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+              <ConditionSingle Enabled="true" ExpressionL="${_ffxivzoneid}" ExpressionR="887" ExpressionTypeL="Numeric" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+            </Condition>
+          </Action>
+        </Actions>
+        <Condition Enabled="true" Grouping="And">
+          <ConditionSingle Enabled="true" ExpressionL="${dancer}" ExpressionR="${_ffxivplayer}" ExpressionTypeL="String" ExpressionTypeR="String" ConditionType="StringEqualCase" />
+        </Condition>
+      </Trigger>
+      <Trigger Enabled="true" Id="18277b63-71bc-5511-9701-3bbcf9609d38" Name="Hold next two-minute until BJCC" Source="FFXIVNetwork" RegularExpression="^(?:20)\|[^|]*\|[0-9A-Fa-f]+\|[^|]*\|0*(?i:4826)\|" Sequential="False" PrevActions="Interrupt">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_hold" VariableExpression="1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="2" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_late" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="3" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_grace" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="4" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_inception" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Id="bffebc3e-e741-530c-82b4-c90ae8cf76f0" Name="Open BJCC opener" Source="FFXIVNetwork" RegularExpression="^(?:21|22)\|[^|]*\|[0-9A-Fa-f]+\|[^|]*\|0*(?i:4854)\|" Sequential="False" PrevActions="Interrupt">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_hold" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="2" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_armed" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Id="61d5bac7-2a14-5f1f-b102-3fc6d06e47c4" Name="Hold for final Nisi lineup" Source="FFXIVNetwork" RegularExpression="^(?:20)\|[^|]*\|[0-9A-Fa-f]+\|[^|]*\|0*(?i:483E)\|" Sequential="False" PrevActions="Interrupt">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_hold" VariableExpression="1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Id="0d5f9459-0f92-57f5-9ac8-7da601d61104" Name="Open final Nisi lineup" Source="FFXIVNetwork" RegularExpression="^(?:20)\|[^|]*\|[0-9A-Fa-f]+\|[^|]*\|0*(?i:4832)\|" Sequential="False" PrevActions="Interrupt">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_hold" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="2" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_armed" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Id="1d4c4c56-72fe-5958-b36b-2ddd4efc2c39" Name="Hold until after Inception" Source="FFXIVNetwork" RegularExpression="^(?:20)\|[^|]*\|[0-9A-Fa-f]+\|[^|]*\|0*(?i:485A|486F)\|" Sequential="False" PrevActions="Interrupt">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_hold" VariableExpression="1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="2" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_inception" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Id="c2153104-ef88-5945-bc0a-94b6c58d2c6d" Name="Recognize Inception Super Jump" Source="FFXIVNetwork" RegularExpression="^(?:21|22)\|[^|]*\|[0-9A-Fa-f]+\|[^|]*\|0*(?i:485F)\|" Sequential="False" PrevActions="Interrupt">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_inception" VariableExpression="1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Id="4c8b3a69-fdd9-5990-b140-b6db6f63c529" Name="Open post-Inception reopener" Source="FFXIVNetwork" RegularExpression="^(?:21|22)\|[^|]*\|[0-9A-Fa-f]+\|[^|]*\|0*(?i:484A)\|" Sequential="False" PrevActions="Interrupt">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_hold" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="2" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_armed" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="3" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_inception" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="true" Grouping="And">
+          <ConditionSingle Enabled="true" ExpressionL="${var:maggie_tea_dnc_inception}" ExpressionR="1" ExpressionTypeL="Numeric" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+        </Condition>
+      </Trigger>
+      <Trigger Enabled="true" Id="9f7a0cfe-f87c-5a20-acf7-19127359c358" Name="Hold through Wormhole and both Mega Holies" Source="FFXIVNetwork" RegularExpression="^(?:20)\|[^|]*\|[0-9A-Fa-f]+\|[^|]*\|0*(?i:486E)\|" Sequential="False" PrevActions="Interrupt">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_hold" VariableExpression="1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Id="f8e189b7-229b-5737-9b36-6f230881c0e2" Name="Open J Waves" Source="FFXIVNetwork" RegularExpression="^(?:21|22)\|[^|]*\|[0-9A-Fa-f]+\|[^|]*\|0*(?i:4876)\|" Sequential="False" PrevActions="Interrupt">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_hold" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="2" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_armed" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Id="f9ec2ae4-509a-553c-be3e-3b85842c2c34" Name="Hold during transition" Source="FFXIVNetwork" RegularExpression="^(?:21|22)\|[^|]*\|[0-9A-Fa-f]+\|[^|]*\|0*(?i:4879)\|" Sequential="False" PrevActions="Interrupt">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_hold" VariableExpression="1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Id="1e464876-fe16-5d49-9e7e-6fc924204f33" Name="Open Perfect Alexander opener" Source="FFXIVNetwork" RegularExpression="^(?:21|22)\|[^|]*\|[0-9A-Fa-f]+\|[^|]*\|0*(?i:487A|4A8B)\|" Sequential="False" PrevActions="Interrupt">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_hold" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="2" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_armed" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="true" Grouping="And">
+          <ConditionSingle Enabled="true" ExpressionL="${var:maggie_tea_dnc_late}" ExpressionR="0" ExpressionTypeL="Numeric" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+        </Condition>
+      </Trigger>
+      <Trigger Enabled="true" Id="8661b4e1-44c8-5f37-82b0-6dcafe56fe61" Name="Hold through Fate Calibration Alpha" Source="FFXIVNetwork" RegularExpression="^(?:20)\|[^|]*\|[0-9A-Fa-f]+\|[^|]*\|0*(?i:487B|487C)\|" Sequential="False" PrevActions="Interrupt">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_hold" VariableExpression="1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="2" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_late" VariableExpression="1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Id="9236cb9a-c31c-5187-a380-0b3de8e5d312" Name="Open post-Alpha" Source="FFXIVNetwork" RegularExpression="^(?:21|22)\|[^|]*\|[0-9A-Fa-f]+\|[^|]*\|0*(?i:4889)\|" Sequential="False" PrevActions="Interrupt">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_hold" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="2" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_armed" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Id="d2e91baa-6a7d-5f00-bc56-098241e870af" Name="Hold last burst for late trines" Source="FFXIVNetwork" RegularExpression="^(?:20)\|[^|]*\|[0-9A-Fa-f]+\|[^|]*\|0*(?i:4B13|4B14)\|" Sequential="False" PrevActions="Interrupt">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_hold" VariableExpression="1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Id="bd1be2bb-f21f-5495-9ed8-d401d17e88d4" Name="Recognize end of first trines" Source="FFXIVNetwork" RegularExpression="^(?:21|22)\|[^|]*\|[0-9A-Fa-f]+\|[^|]*\|0*(?i:4894)\|" Sequential="False" PrevActions="Interrupt">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_grace" VariableExpression="1">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Id="3b0de15a-3087-5bf7-8594-644aa3e8e740" Name="Open final window during second trines" Source="FFXIVNetwork" RegularExpression="^(?:21|22)\|[^|]*\|[0-9A-Fa-f]+\|[^|]*\|0*(?i:4890)\|" Sequential="False" PrevActions="Interrupt">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_hold" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="2" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_armed" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="true" Grouping="And">
+          <ConditionSingle Enabled="true" ExpressionL="${var:maggie_tea_dnc_grace}" ExpressionR="1" ExpressionTypeL="Numeric" ExpressionTypeR="Numeric" ConditionType="NumericEqual" />
+        </Condition>
+      </Trigger>
+      <Trigger Enabled="true" Id="355a9ec6-5440-57b7-8a91-34bd5f82b08d" Name="Cancel on pull reset, wipe or victory" Source="FFXIVNetwork" RegularExpression="^(?:33\|[^|]*\|[0-9A-Fa-f]+\|4000000[3Ff]\||01\||00\|[^|]*\|0(?:0B9|[012]39)\|\|Battle commencing in )" Sequential="False" PrevActions="Interrupt">
+        <Actions>
+          <Action OrderNumber="1" ActionType="Trigger" ExecutionDelayExpression="0" TriggerOp="CancelTrigger" TriggerId="4665d8f2-b083-512d-b83b-0a88705ad6ec">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="2" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_hold" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="3" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_armed" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="4" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_grace" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="5" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_late" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+          <Action OrderNumber="6" ActionType="Variable" ExecutionDelayExpression="0" VariableOp="SetNumeric" VariableName="maggie_tea_dnc_inception" VariableExpression="0">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+    </Triggers>
+  </ExportedFolder>
+</TriggernometryExport>
