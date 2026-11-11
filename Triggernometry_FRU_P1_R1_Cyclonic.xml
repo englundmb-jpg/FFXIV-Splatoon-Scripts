@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TriggernometryExport PluginVersion="1.2.0.6">
+  <ExportedFolder Id="9bc6bb4c-75e6-4580-a359-9e43fd398593" Name="Maggie - FRU R1 Cyclonic" Enabled="true">
+    <Folders />
+    <Triggers><Trigger Enabled="true" Source="Endpoint" Name="TEST" Id="7b668c8a-2c97-4609-82be-6b6c132409c9" RegularExpression="^MAGGIE_FRU_R1_CYCLONIC\|TEST$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="F R U Cyclonic ready." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="CLOCK_FIRE" Id="ce91ac10-eb61-4414-bb97-972761cafd8d" RegularExpression="^MAGGIE_FRU_R1_CYCLONIC\|CLOCK_FIRE$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Northwest clock. Fire, pair next." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="CLOCK_LIGHTNING" Id="65828cd5-b8de-4ec3-87c4-91e24895d24a" RegularExpression="^MAGGIE_FRU_R1_CYCLONIC\|CLOCK_LIGHTNING$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Northwest clock. Lightning, spread next." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="PAIR" Id="66c93795-50c9-4d4e-863d-4af39a1124cd" RegularExpression="^MAGGIE_FRU_R1_CYCLONIC\|PAIR$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Clockwise. Pair with tank one." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="SPREAD" Id="d7416287-d649-40d0-967c-28191b9b018b" RegularExpression="^MAGGIE_FRU_R1_CYCLONIC\|SPREAD$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Clockwise. Spread out." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="BACK" Id="1f93b9c3-1825-4da1-9c84-73ec158e6578" RegularExpression="^MAGGIE_FRU_R1_CYCLONIC\|BACK$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Back to your clock." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="STEP" Id="0415a572-661b-4953-96f0-acc4a84935f1" RegularExpression="^MAGGIE_FRU_R1_CYCLONIC\|STEP$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Clockwise again." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      </Triggers></ExportedFolder>
+</TriggernometryExport>
