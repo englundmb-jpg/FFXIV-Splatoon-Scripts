@@ -1,0 +1,232 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TriggernometryExport PluginVersion="1.2.0.6">
+  <ExportedFolder Id="65d2450a-ea62-52ed-b7c4-1d96d72e3013" Name="Maggie - TEA Tuufless Final Word" Enabled="true">
+    <Folders />
+    <Triggers>
+      <Trigger Enabled="true" Source="Endpoint" Name="Final Word voice ready." Id="87e0d25e-8cbd-5db8-9135-1d0dc7321bd4" RegularExpression="^MAGGIE_TEA_FINAL_WORD\|TEST$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Final Word voice ready." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Go east. Light beacon." Id="c48dd4ed-6d8a-5b21-b100-1e96ea47bab2" RegularExpression="^MAGGIE_TEA_FINAL_WORD\|LIGHT_EAST$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Go east. Light beacon." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Go southeast. Light beacon." Id="f631c77c-c694-54f6-97f9-4f29590fa3d8" RegularExpression="^MAGGIE_TEA_FINAL_WORD\|LIGHT_SOUTHEAST$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Go southeast. Light beacon." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Go south. Light beacon." Id="7c25448a-7e6f-568d-8fe2-ed4ec6fa97cb" RegularExpression="^MAGGIE_TEA_FINAL_WORD\|LIGHT_SOUTH$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Go south. Light beacon." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Go southwest. Light beacon." Id="fe4df963-4baa-5846-b16e-054e320c22df" RegularExpression="^MAGGIE_TEA_FINAL_WORD\|LIGHT_SOUTHWEST$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Go southwest. Light beacon." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Go west. Light beacon." Id="45e0b167-ee81-5f48-953b-d74a3ea9ce7b" RegularExpression="^MAGGIE_TEA_FINAL_WORD\|LIGHT_WEST$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Go west. Light beacon." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Go northwest. Light beacon." Id="f62d41a4-86c5-5524-8a62-9fc98573299a" RegularExpression="^MAGGIE_TEA_FINAL_WORD\|LIGHT_NORTHWEST$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Go northwest. Light beacon." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Go north. Light beacon." Id="bdf69a2d-9361-5f5c-8f3d-f66871190a5c" RegularExpression="^MAGGIE_TEA_FINAL_WORD\|LIGHT_NORTH$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Go north. Light beacon." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Go northeast. Light beacon." Id="dc80a8a7-74bb-5c72-ad55-fc527aa0f028" RegularExpression="^MAGGIE_TEA_FINAL_WORD\|LIGHT_NORTHEAST$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Go northeast. Light beacon." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="In position. Light beacon." Id="4e9e086d-8ac0-5b89-ace5-def03a528c87" RegularExpression="^MAGGIE_TEA_FINAL_WORD\|LIGHT_HERE$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="In position. Light beacon." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Go east. Dark beacon." Id="3472221a-17fd-513e-be9c-25c6ff149cba" RegularExpression="^MAGGIE_TEA_FINAL_WORD\|DARK_EAST$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Go east. Dark beacon." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Go southeast. Dark beacon." Id="7bb700b4-bc42-53b2-9034-42ade5c8160a" RegularExpression="^MAGGIE_TEA_FINAL_WORD\|DARK_SOUTHEAST$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Go southeast. Dark beacon." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Go south. Dark beacon." Id="c754b90d-d9ee-5a8e-a4aa-a1741f20d618" RegularExpression="^MAGGIE_TEA_FINAL_WORD\|DARK_SOUTH$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Go south. Dark beacon." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Go southwest. Dark beacon." Id="b51961e2-6e4f-5660-8a5d-249fdd60451e" RegularExpression="^MAGGIE_TEA_FINAL_WORD\|DARK_SOUTHWEST$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Go southwest. Dark beacon." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Go west. Dark beacon." Id="33dea394-983d-57aa-972a-664fff1b5f6b" RegularExpression="^MAGGIE_TEA_FINAL_WORD\|DARK_WEST$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Go west. Dark beacon." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Go northwest. Dark beacon." Id="8e9f222d-790a-5985-96f8-c9761c7c6230" RegularExpression="^MAGGIE_TEA_FINAL_WORD\|DARK_NORTHWEST$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Go northwest. Dark beacon." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Go north. Dark beacon." Id="8d855fa0-945e-564f-96c7-132dba98bcb2" RegularExpression="^MAGGIE_TEA_FINAL_WORD\|DARK_NORTH$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Go north. Dark beacon." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Go northeast. Dark beacon." Id="270f1090-2069-5892-9e99-1499ed6fdada" RegularExpression="^MAGGIE_TEA_FINAL_WORD\|DARK_NORTHEAST$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Go northeast. Dark beacon." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="In position. Dark beacon." Id="8051b752-6555-5435-864c-6cfcbc5e4dd8" RegularExpression="^MAGGIE_TEA_FINAL_WORD\|DARK_HERE$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="In position. Dark beacon." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Go east. Just west of dark beacon." Id="6454e3c0-8ffd-58aa-92c5-6ec96005358a" RegularExpression="^MAGGIE_TEA_FINAL_WORD\|GROUP_EAST$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Go east. Just west of dark beacon." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Go southeast. Just west of dark beacon." Id="5188afb2-7e48-519c-9d56-dd74dc49a503" RegularExpression="^MAGGIE_TEA_FINAL_WORD\|GROUP_SOUTHEAST$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Go southeast. Just west of dark beacon." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Go south. Just west of dark beacon." Id="2a7ab0c2-1b14-5fdb-98d9-e3ca7b65b047" RegularExpression="^MAGGIE_TEA_FINAL_WORD\|GROUP_SOUTH$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Go south. Just west of dark beacon." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Go southwest. Just west of dark beacon." Id="2bf5a0be-a57e-59ba-b489-ab97abc995f0" RegularExpression="^MAGGIE_TEA_FINAL_WORD\|GROUP_SOUTHWEST$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Go southwest. Just west of dark beacon." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Go west. Just west of dark beacon." Id="7cb58521-5692-5702-ac49-a45061e95beb" RegularExpression="^MAGGIE_TEA_FINAL_WORD\|GROUP_WEST$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Go west. Just west of dark beacon." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Go northwest. Just west of dark beacon." Id="71fb2149-6898-57ec-a0a3-ba02b72ec921" RegularExpression="^MAGGIE_TEA_FINAL_WORD\|GROUP_NORTHWEST$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Go northwest. Just west of dark beacon." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Go north. Just west of dark beacon." Id="c2260770-3fcc-5704-8251-932ee3833384" RegularExpression="^MAGGIE_TEA_FINAL_WORD\|GROUP_NORTH$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Go north. Just west of dark beacon." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Go northeast. Just west of dark beacon." Id="07b7dd88-7a21-5fa3-9294-afb676c49591" RegularExpression="^MAGGIE_TEA_FINAL_WORD\|GROUP_NORTHEAST$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Go northeast. Just west of dark beacon." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="In position. Just west of dark beacon." Id="d893b9c3-bcc1-58a8-ad39-e1a2729423eb" RegularExpression="^MAGGIE_TEA_FINAL_WORD\|GROUP_HERE$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="In position. Just west of dark beacon." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+    </Triggers>
+  </ExportedFolder>
+</TriggernometryExport>
