@@ -1,0 +1,312 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TriggernometryExport PluginVersion="1.2.0.6">
+  <ExportedFolder Id="b22075bd-41a4-56a4-b2bd-e6057a6f0202" Name="Maggie - TEA Split BJCC Dancer" Enabled="true">
+    <Folders />
+    <Triggers>
+      <Trigger Enabled="true" Source="Endpoint" Name="CLOCKS" Id="5551085e-17da-5fdd-b200-96d990ef3f04" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|CLOCKS$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Southwest close clock. Keep Nisi separate." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="PHOTON" Id="48694ca5-40f5-509c-b1ec-330eac1fa3ca" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|PHOTON$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Photon. Next, Chaser tank." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="TANK_PHOTON" Id="463f7399-a186-5f2f-9072-425370f40e39" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|TANK_PHOTON$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Tank Photon. Prepare to bait far east." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="SPIN" Id="7530dd13-98e8-5391-9c69-ce1709a6d633" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|SPIN$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Avoid Chaser front. Next, water or lightning." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="MINES" Id="120e58b7-a7d6-5c9d-9346-743589b72ad3" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|MINES$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Bait your mine south, to the right of the Chaser tank." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="ENUM" Id="f70b0d07-56ac-544e-989d-3d95148ac10c" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|ENUM$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Enumeration. Flex with the other DPS." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="VERDICT" Id="cc79aeba-c5d1-5e8f-8a73-b68bdd060c0d" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|VERDICT$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Check required Nisi. Next, shield and fire." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="SHIELD" Id="af7217e1-e8ce-5a17-905f-05466763fa5d" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|SHIELD$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Break the shield from the front." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="FLARE" Id="c1878561-e72b-5b5d-92af-bb5f60612677" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|FLARE$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Avoid east fire. Finish shield." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="LOS" Id="57f0fd1c-c4ab-5c42-87fb-6180d0d7a858" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|LOS$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Hide behind ice from Chaser." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="GAVEL" Id="2da07e93-9420-57d7-bcbe-1e0a478add5a" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|GAVEL$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Correct Nisi. Stay behind ice." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="JUMP" Id="f1f69758-66b6-518e-a5b1-38ac235b01a9" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|JUMP$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Far east near B. Bait jump. Be farthest." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="ENRAGE" Id="35a0ccfa-a3ab-52ff-82b1-6b4334513de2" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|ENRAGE$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Enrage. Finish bosses." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="OUT" Id="8c67be2f-56b3-5391-9100-0beb450ec6d5" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|OUT$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Move out. Dodge Chakrams." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="IN" Id="9926c711-7373-5ac7-b8a4-1e1315f8a5f3" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|IN$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Back to southwest close clock." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="PASS1" Id="8a333f96-7bf9-595a-826a-53e32628d3f9" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|PASS1$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="First Nisi. Chaser tank." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="WAIT_MINES" Id="bef9acf5-6642-50e7-8bb0-341a401b7cf2" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|WAIT_MINES$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Wait for Chaser tank to take both mines." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="PASS2" Id="7a2a48f3-500e-5138-9e68-fbc19a6e8dcc" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|PASS2$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Both mines gone. Second Nisi with Chaser tank." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="PASS3" Id="b2bdc609-fbd5-53b3-82d5-15ef65fa3492" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|PASS3$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Third Nisi. Match at the tank and healer line." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="PASS4" Id="2c6b88a0-4f26-50f5-98d9-43c570ee4711" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|PASS4$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Match your color behind ice. Blue, purple, orange, green." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="GAVEL_DONE" Id="2df6cd7a-c25a-5ebc-967f-b33577563896" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|GAVEL_DONE$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Nisi finished. Next, tank busters." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="RAY" Id="8ef8cad4-928c-5c01-b10a-4032c8836551" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|RAY$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Watch and dodge Apocalyptic Ray." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="FINISH" Id="b8da50e9-9a0b-5365-9f54-76b6bb011ab4" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|FINISH$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Raidwide. Finish bosses." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="CHECK" Id="7fffa026-0e63-5cf5-8eff-d62f3b907631" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|CHECK$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Check mechanics. Follow group calls." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="CHECK1" Id="8eecf62f-94c5-5727-8e69-8ac481e78b5c" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|CHECK1$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Check lightning. If yours, Brute tank. Otherwise D." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="LIGHTNING" Id="07a1f2b7-a353-5336-9b02-d69df0a31ec6" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|LIGHTNING$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Your lightning. Brute Justice tank." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="WATER1" Id="a902ce09-98f7-59c2-bec0-fa99ec1c6a1e" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|WATER1$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="First water. West at D." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="WATER2" Id="a458ceaa-3021-5336-b297-0e4a8a19addb" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|WATER2$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Second water. Northeast at B." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="CHECK3" Id="c9abf91f-2ccf-52bf-8511-7badf8790dcd" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|CHECK3$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Check if you carried second water before stacking." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="SKIP3" Id="22a76943-0bb7-5eaf-be2f-824e53c98864" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|SKIP3$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Skip third water. Prepare your color lineup." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="WATER3" Id="bf87c68b-6f1a-58d2-892d-0d621a09004b" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|WATER3$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Third water. Stack with the water holder." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="TEST" Id="9a9b83fd-9deb-588b-8e27-33dc75f74caa" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|TEST$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Split Dancer voice ready." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+    <Trigger Enabled="true" Source="Endpoint" Name="ENUM_LEFT" Id="53e2ac78-9514-5d01-badf-37de37fc706d" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|ENUM_LEFT$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Enumeration left. White Mage side." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="ENUM_RIGHT" Id="4a14be24-8a47-5c6e-a1b4-deb0d0433f30" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|ENUM_RIGHT$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Enumeration right. Scholar side." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="PASS4_BLUE" Id="96996325-0d59-53a7-93f7-59cd2a055f76" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|PASS4_BLUE$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Blue. First in line behind ice." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="PASS4_PURPLE" Id="334c38e9-07a1-5488-bafe-49d06c75fabb" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|PASS4_PURPLE$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Purple. Second in line behind ice." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="PASS4_ORANGE" Id="2c1322f6-8a96-5cb0-a515-9e2a7ae93ea5" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|PASS4_ORANGE$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Orange. Third in line behind ice." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="PASS4_GREEN" Id="f49e0255-73f9-5938-92b6-f3cd4b1bfe40" RegularExpression="^MAGGIE_TEA_SPLIT_DNC\|PASS4_GREEN$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Green. Fourth in line behind ice." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      </Triggers>
+  </ExportedFolder>
+</TriggernometryExport>
