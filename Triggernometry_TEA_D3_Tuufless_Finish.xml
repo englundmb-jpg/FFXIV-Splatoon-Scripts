@@ -1,0 +1,352 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TriggernometryExport PluginVersion="1.2.0.6">
+  <ExportedFolder Id="2c955796-298d-5fbf-9a37-edb30105de54" Name="Maggie - TEA D3 Finish" Enabled="true">
+    <Folders />
+    <Triggers>
+      <Trigger Enabled="true" Source="Endpoint" Name="D three finish voice ready." Id="3ff06e9b-2a44-5966-821d-ec4bb5d65413" RegularExpression="^MAGGIE_TEA_FINISH\|TEST$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="D three finish voice ready." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Two Mega Holies." Id="047c7f68-428e-5f91-98bf-ee5c478c85cd" RegularExpression="^MAGGIE_TEA_FINISH\|HOLIES$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Two Mega Holies." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Cruise Chaser first." Id="b05c08b9-c66a-50b6-ab00-79b70c72aeb9" RegularExpression="^MAGGIE_TEA_FINISH\|CHASER$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Cruise Chaser first." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Brute Justice now." Id="ac930089-a43f-5ee1-b4b2-84b62a6d2311" RegularExpression="^MAGGIE_TEA_FINISH\|JUSTICE$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Brute Justice now." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Alexander Prime now." Id="7db3c0c7-cdbd-561c-ae95-5baade783bb1" RegularExpression="^MAGGIE_TEA_FINISH\|PRIME$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Alexander Prime now." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Spread." Id="e3d278bb-ffe0-51cc-b315-0b1222eeacc7" RegularExpression="^MAGGIE_TEA_FINISH\|SPREAD$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Spread." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Two stacks. Check marked partner." Id="b126cdc4-1fbb-5f4e-87eb-6faea33f5a80" RegularExpression="^MAGGIE_TEA_FINISH\|CHECK_STACK$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Two stacks. Check marked partner." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Stack west." Id="c50eb913-0404-59db-8cc7-958aea232375" RegularExpression="^MAGGIE_TEA_FINISH\|STACK_W$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Stack west." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Stack east." Id="d36448b3-2992-5ca0-8ed1-ad99e5df788b" RegularExpression="^MAGGIE_TEA_FINISH\|STACK_E$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Stack east." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Shared sentence. Stack left." Id="f1b1bd3a-3223-556e-9990-4b8b78ebc6ce" RegularExpression="^MAGGIE_TEA_FINISH\|ALPHA_SHARED$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Shared sentence. Stack left." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Defamation. Go to the safe clone." Id="6aac0f10-f5cb-5ba5-bfd2-13d5a336fa2f" RegularExpression="^MAGGIE_TEA_FINISH\|ALPHA_DEF$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Defamation. Go to the safe clone." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Assault. Go right." Id="3a7bb220-4738-5e6e-9df5-428dcbedb75d" RegularExpression="^MAGGIE_TEA_FINISH\|ALPHA_ASSAULT$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Assault. Go right." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="No debuff. Stack left." Id="849b3aa1-e4b3-5bed-a356-75c312600077" RegularExpression="^MAGGIE_TEA_FINISH\|ALPHA_NONE$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="No debuff. Stack left." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Dark beacon. East." Id="4d9f5208-ee4c-5260-99a5-22b7bfb0f6fe" RegularExpression="^MAGGIE_TEA_FINISH\|DARK_E$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Dark beacon. East." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Light beacon. North northwest." Id="d46c3625-5e5b-568b-bd69-860c5d4a10ec" RegularExpression="^MAGGIE_TEA_FINISH\|LIGHT_NNW$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Light beacon. North northwest." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Dark. Just west of dark beacon." Id="835e30c7-2e3a-523d-87d6-aefde62b1b5b" RegularExpression="^MAGGIE_TEA_FINISH\|DARK_W$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Dark. Just west of dark beacon." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Blue tether. Southwest of dark beacon." Id="3819fab3-646f-5d80-8734-c98a32556ae3" RegularExpression="^MAGGIE_TEA_FINISH\|DARK_SW$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Blue tether. Southwest of dark beacon." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Close tether. Northwest of dark beacon." Id="437779d0-b58d-5ef7-8a02-026a9742d1d3" RegularExpression="^MAGGIE_TEA_FINISH\|DARK_NW$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Close tether. Northwest of dark beacon." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Light. Join group east." Id="c234e357-4639-5e39-8562-1370181ed20c" RegularExpression="^MAGGIE_TEA_FINISH\|LIGHT_E$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Light. Join group east." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Bait jump. East edge." Id="9f689a43-29db-5158-8d9f-d41c3375c0f9" RegularExpression="^MAGGIE_TEA_FINISH\|JUMP_E$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Bait jump. East edge." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Bait jump. West edge." Id="ae5ba445-8597-5dc2-bce3-5a646a1f71fe" RegularExpression="^MAGGIE_TEA_FINISH\|JUMP_W$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Bait jump. West edge." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Bait jump. South edge." Id="9cdad31c-9599-57e7-bad5-863518495840" RegularExpression="^MAGGIE_TEA_FINISH\|JUMP_S$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Bait jump. South edge." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Stack north." Id="d04c4eae-f13d-5cd5-8614-10a794d09ad1" RegularExpression="^MAGGIE_TEA_FINISH\|GROUP_N$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Stack north." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Light stack. Middle." Id="391a1637-3974-5b92-a965-95b77a08a97a" RegularExpression="^MAGGIE_TEA_FINISH\|BETA_MID$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Light stack. Middle." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Dark stack. South." Id="3a4e9264-7352-595e-99db-b546efcb2a8c" RegularExpression="^MAGGIE_TEA_FINISH\|BETA_SOUTH$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Dark stack. South." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Check stack or spread." Id="705117aa-ddab-5401-8092-a7568e81827b" RegularExpression="^MAGGIE_TEA_FINISH\|CHECK_SIGHT$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Check stack or spread." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Into the donut clone." Id="adfb9af3-d173-5b00-996e-e3446f8a115f" RegularExpression="^MAGGIE_TEA_FINISH\|DONUT$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Into the donut clone." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Stay stacked." Id="0042edcf-6fbd-532d-b3ed-58bfc7a50c41" RegularExpression="^MAGGIE_TEA_FINISH\|GRACE$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Stay stacked." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Start southwest." Id="3d25c4f4-d6d0-5e0a-bce9-bede2e551e99" RegularExpression="^MAGGIE_TEA_FINISH\|START_0$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Start southwest." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Move now. southwest. Stack." Id="97b0f6c5-e1f8-5860-aaf8-3e6d0305de1a" RegularExpression="^MAGGIE_TEA_FINISH\|MOVE_0$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Move now. southwest. Stack." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Start south." Id="af319309-fc98-5761-9017-95c28cb8cb4b" RegularExpression="^MAGGIE_TEA_FINISH\|START_1$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Start south." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Move now. south. Stack." Id="7a3ee823-449d-5141-8c81-864fa3b35c62" RegularExpression="^MAGGIE_TEA_FINISH\|MOVE_1$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Move now. south. Stack." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Start southeast." Id="498ba9c6-4c7a-5c4c-b6a4-0cdc95c0dd80" RegularExpression="^MAGGIE_TEA_FINISH\|START_2$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Start southeast." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Move now. southeast. Stack." Id="f5ae6fcd-2bbf-5757-b455-26b530759e45" RegularExpression="^MAGGIE_TEA_FINISH\|MOVE_2$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Move now. southeast. Stack." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Start east." Id="8c581252-3cf0-5148-a0f5-b12ee44c18cc" RegularExpression="^MAGGIE_TEA_FINISH\|START_3$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Start east." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Move now. east. Stack." Id="d7755e82-19a5-5279-ab9d-04b6f8b52553" RegularExpression="^MAGGIE_TEA_FINISH\|MOVE_3$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Move now. east. Stack." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Your tower. northeast." Id="c3fad8ed-23ff-59ee-9393-4db648d4143d" RegularExpression="^MAGGIE_TEA_FINISH\|TOWER_1$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Your tower. northeast." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Your tower. east." Id="6dd12ed8-8a95-55d1-b6fc-fa8529b3d9e2" RegularExpression="^MAGGIE_TEA_FINISH\|TOWER_2$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Your tower. east." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Your tower. southeast." Id="67ade1cf-e7ac-5c09-b171-287c3a74a456" RegularExpression="^MAGGIE_TEA_FINISH\|TOWER_3$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Your tower. southeast." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Your tower. south." Id="a79c23a2-929a-52de-b16b-7d326c35f7cb" RegularExpression="^MAGGIE_TEA_FINISH\|TOWER_4$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Your tower. south." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Your tower. southwest." Id="85808539-da67-5ffe-856c-668c81cf63d9" RegularExpression="^MAGGIE_TEA_FINISH\|TOWER_5$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Your tower. southwest." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Your tower. west." Id="a50c564f-f518-5145-a238-6ad8298c7bcf" RegularExpression="^MAGGIE_TEA_FINISH\|TOWER_6$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Your tower. west." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+      <Trigger Enabled="true" Source="Endpoint" Name="Your tower. northwest." Id="47760166-2088-5da2-a2f7-bf4c16801b64" RegularExpression="^MAGGIE_TEA_FINISH\|TOWER_7$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="Your tower. northwest." ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+    </Triggers>
+  </ExportedFolder>
+</TriggernometryExport>
