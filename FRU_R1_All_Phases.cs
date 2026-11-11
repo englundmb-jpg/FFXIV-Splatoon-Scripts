@@ -19,7 +19,7 @@ namespace MaggieSplatoon.FRU;
 public sealed class FRU_R1_All_Phases : SplatoonScript
 {
     public override HashSet<uint> ValidTerritories => new() { 1238 };
-    public override Metadata Metadata => new(1, "Maggie accessibility");
+    public override Metadata Metadata => new(2, "Maggie accessibility");
     private enum Part { Idle, Sky, Faith, Dust, Mirrors, Rampant, Relativity, Apoc, Darklit, Time, Blades, Wings, Polarizing }
     private Part part;
     private static readonly Vector2 Center = new(100,100);
@@ -51,8 +51,9 @@ public sealed class FRU_R1_All_Phases : SplatoonScript
     public override void OnSetup() => Controller.RegisterElement("R1",new Element(0)
     { Enabled=false,radius=1f,thicc=5f,tether=true,overlayFScale=1.4f });
 
-    public override void OnEnable() => voice=new HttpClient(new HttpClientHandler{UseProxy=false})
-    { Timeout=TimeSpan.FromSeconds(1) };
+    public override void OnEnable() => voice=CreateVoiceClient();
+    private static HttpClient CreateVoiceClient() => new HttpClient(new HttpClientHandler{UseProxy=false})
+    { Timeout=TimeSpan.FromSeconds(3) };
     private static Vector2? Position(uint id)
     {
         var a=Svc.Objects.SearchById(id);
@@ -86,7 +87,7 @@ public sealed class FRU_R1_All_Phases : SplatoonScript
         try {
             using var body=new StringContent("FRU_R1_ALL|"+text,Encoding.UTF8,"text/plain");
             using var res=await client.PostAsync("http://localhost:51423/",body).ConfigureAwait(false);
-            connection=res.IsSuccessStatusCode?"Voice sent":"Check Triggernometry endpoint";
+            connection=res.IsSuccessStatusCode?"Triggernometry received the message.":"Check Triggernometry endpoint";
         } catch(HttpRequestException){connection="Check Triggernometry endpoint";}
           catch(OperationCanceledException){connection="Voice request timed out";}
     }
@@ -461,10 +462,16 @@ public sealed class FRU_R1_All_Phases : SplatoonScript
         Ring(position,"DIAMOND",true,exaWave==0?8500:exaWave==6?1200:3500);
         if(exaWave is 2 or 4 or 6) Call("Into the diamond.");
     }
+    private async Task TestVoice()
+    {
+        connection="Sending voice test...";
+        using var client=CreateVoiceClient();
+        await Send(client,"F R U all phases ready.").ConfigureAwait(false);
+    }
     public override void OnSettingsDraw()
     {
         ImGui.TextWrapped("R1, Group 1. Green is current. Cyan marks a reference or later destination.");
-        if(ImGui.Button("Test FRU all phases voice")) Call("F R U all phases ready.");
+        if(ImGui.Button("Test FRU all phases voice")) _=TestVoice();
         ImGui.TextUnformatted(connection);
     }
     public override void OnReset()
