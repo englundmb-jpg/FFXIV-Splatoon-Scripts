@@ -18,8 +18,8 @@ public sealed class UCOB_Nael_Dive_Accessible : SplatoonScript
     public override HashSet<uint>? ValidTerritories { get; } =
         [733];
 
-    public override Metadata? Metadata =>
-        new(3, "Maggie");
+    public override Metadata Metadata =>
+        new(4, "Maggie");
 
     public override void OnSetup()
     {
@@ -37,7 +37,8 @@ public sealed class UCOB_Nael_Dive_Accessible : SplatoonScript
               "thicc":8.0,
               "refActorNPCNameID":2612,
               "refActorComparisonType":6,
-              "includeRotation":true,\n              "onlyVisible":true,
+              "includeRotation":true,
+              "onlyVisible":true,
               "tether":true,
               "LegacyFill":true,
               "overlayText":"CURRENT",
@@ -62,7 +63,8 @@ public sealed class UCOB_Nael_Dive_Accessible : SplatoonScript
               "thicc":8.0,
               "refActorNPCNameID":2612,
               "refActorComparisonType":6,
-              "includeRotation":true,\n              "onlyVisible":true,
+              "includeRotation":true,
+              "onlyVisible":true,
               "tether":true,
               "LegacyFill":true,
               "overlayText":"NEXT",
