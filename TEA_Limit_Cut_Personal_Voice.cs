@@ -2,6 +2,7 @@
 // Event IDs checked against cactbot's TEA timeline; live validation pending.
 using Dalamud.Bindings.ImGui;
 using ECommons.Hooks.ActionEffectTypes;
+using Splatoon;
 using Splatoon.SplatoonScripting;
 using System;
 using System.Collections.Generic;
@@ -15,13 +16,58 @@ namespace MaggieSplatoon.TEA
     public sealed class TEA_Limit_Cut_Personal_Voice : SplatoonScript
     {
         public override HashSet<uint> ValidTerritories => new() { 887 };
-        public override Metadata Metadata => new(2, "Maggie accessibility");
+        public override Metadata Metadata => new(3, "Maggie accessibility");
         private HttpClient? voice;
         private int number, pairs, centers;
         private long numberAt, started, lastDash, lastCenter, until;
         private bool active, finished;
         private string current = "";
         private volatile string status = "Not tested";
+
+        private Element? startMarker;
+        private Vector2 openingAxis;
+        private long markerUntil;
+
+        public override void OnSetup()
+        {
+            startMarker = new Element(0)
+            {
+                Enabled = false,
+                radius = 0.9f,
+                thicc = 5f,
+                color = 0xFF00FF00,
+                tether = true
+            };
+            Controller.RegisterElement("PersonalLimitCutStart", startMarker, true);
+        }
+
+        // Opposite endpoints of the same blaster pair produce the same axis.
+        private static Vector2 OpeningAxis(Vector3 position)
+        {
+            var offset = new Vector2(position.X - 100f, position.Z - 100f);
+            if (offset.LengthSquared() < 144f || offset.LengthSquared() > 256f)
+                return Vector2.Zero;
+            if (Math.Abs(offset.Y) < 2f ? offset.X > 0f : offset.Y > 0f)
+                offset = -offset;
+            return Vector2.Normalize(offset);
+        }
+
+        private void MarkOpening(Vector2 axis, long now)
+        {
+            if (startMarker == null || axis == Vector2.Zero) return;
+            openingAxis = axis;
+            Vector2 side = number is 1 or 2 or 5 or 6 ? axis : -axis;
+            // Trail the cleared blast center, leaving odd players ahead clockwise.
+            float angle = (number % 2 == 1 ? -8f : -20f) * MathF.PI / 180f;
+            float radius = number <= 4 ? 13.5f : 18f;
+            var clockwise = new Vector2(-side.Y, side.X);
+            var spot = radius * (MathF.Cos(angle) * side + MathF.Sin(angle) * clockwise);
+            startMarker.refX = 100f + spot.X;
+            startMarker.refY = 100f + spot.Y;
+            startMarker.refZ = 0f;
+            startMarker.Enabled = true;
+            markerUntil = now + 3500;
+        }
 
         public override void OnEnable()
         {
@@ -54,7 +100,13 @@ namespace MaggieSplatoon.TEA
                     if (number == 0 || now - numberAt > 10000) return;
                     active = true;
                     started = now;
+                    MarkOpening(OpeningAxis(set.Position), now);
                     Show("NUMBER_" + number, $"{number}: START {(number <= 4 ? "INNER" : "OUTER")} - {(number % 2 == 1 ? "LEAD" : "FOLLOW")}");
+                }
+                else if (startMarker?.Enabled == true &&
+                    MathF.Abs(Vector2.Dot(openingAxis, OpeningAxis(set.Position))) < 0.95f)
+                {
+                    startMarker.Enabled = false;
                 }
                 // Count center explosions, not the two simultaneous outside packets.
                 if (Math.Abs(set.Position.X - 100) < 3 && Math.Abs(set.Position.Z - 100) < 3
@@ -111,6 +163,8 @@ namespace MaggieSplatoon.TEA
         public override void OnUpdate()
         {
             if (BasePlayer == null || BasePlayer.CurrentHp == 0) { OnReset(); return; }
+            if (startMarker?.Enabled == true && Environment.TickCount64 >= markerUntil)
+                startMarker.Enabled = false;
             if (active && Environment.TickCount64 - started > 35000)
             {
                 active = false;
@@ -125,6 +179,7 @@ namespace MaggieSplatoon.TEA
 
         public override void OnReset()
         {
+            if (startMarker != null) startMarker.Enabled = false;
             number = pairs = centers = 0;
             numberAt = started = lastDash = lastCenter = until = 0;
             active = finished = false;
@@ -139,8 +194,8 @@ namespace MaggieSplatoon.TEA
         }
         public override void OnSettingsDraw()
         {
-            ImGui.TextWrapped("NAUR 1256 personal voice. First call is at the first Hawk Blaster. Choose your group's starting side and follow cleared explosions clockwise. Inner means the inner outside lane, NOT center. Lead = odd; follow = even, spaced behind odd.");
-            ImGui.TextWrapped("Import Triggernometry_TEA_Limit_Cut_Personal_Voice.xml. Uses your existing localhost:51423 endpoint. Keep your 1256 ground markers enabled. Live validation pending.");
+            ImGui.TextWrapped("NAUR 1256 personal voice. First call is at the first Hawk Blaster. Follow the green tether into the first cleared blast on your numbered side, then continue clockwise. Inner means the inner outside lane, NOT center. Lead = odd; follow = even, spaced behind odd.");
+            ImGui.TextWrapped("Import Triggernometry_TEA_Limit_Cut_Personal_Voice.xml. Uses your existing localhost:51423 endpoint. The personal green tether marks the opening only. Live validation pending.");
             ImGui.TextWrapped("Voice: " + status);
             if (ImGui.Button("TEST VOICE")) Show("TEST", "LIMIT CUT VOICE TEST");
         }
