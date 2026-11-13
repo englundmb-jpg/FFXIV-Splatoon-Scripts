@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TriggernometryExport PluginVersion="1.2.0.6">
+  <ExportedFolder Id="ef8d6a49-1bb0-4c8f-a04e-09ea7871c76d" Name="Maggie - M12S Idyllic R1 Voice" Enabled="true">
+    <Folders />
+    <Triggers>
+      <Trigger Enabled="true" Source="Endpoint" Name="Personal Idyllic instruction" Id="59575b0e-4059-46f8-86eb-b7b76bf339d4" RegularExpression="^M12_ID_R1\|(?&lt;instruction&gt;[A-Za-z0-9 ,.'-]{1,160})$">
+        <Actions>
+          <Action OrderNumber="1" ActionType="UseTTS" UseTTSTextExpression="${instruction}" ExecutionDelayExpression="0" UseTTSVolumeExpression="100" UseTTSRateExpression="2" UseTTSExclusive="True">
+            <Condition Enabled="false" Grouping="And" />
+          </Action>
+        </Actions>
+        <Condition Enabled="false" Grouping="And" />
+      </Trigger>
+    </Triggers>
+  </ExportedFolder>
+</TriggernometryExport>
