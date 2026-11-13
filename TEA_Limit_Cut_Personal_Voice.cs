@@ -16,7 +16,7 @@ namespace MaggieSplatoon.TEA
     public sealed class TEA_Limit_Cut_Personal_Voice : SplatoonScript
     {
         public override HashSet<uint> ValidTerritories => new() { 887 };
-        public override Metadata Metadata => new(3, "Maggie accessibility");
+        public override Metadata Metadata => new(4, "Maggie accessibility");
         private HttpClient? voice;
         private int number, pairs, centers;
         private long numberAt, started, lastDash, lastCenter, until;
@@ -72,8 +72,7 @@ namespace MaggieSplatoon.TEA
         public override void OnEnable()
         {
             OnReset();
-            voice = new HttpClient(new HttpClientHandler { UseProxy = false })
-                { Timeout = TimeSpan.FromMilliseconds(700) };
+            voice = CreateVoiceClient();
         }
 
         public override void OnVFXSpawn(uint target, string path)
@@ -143,13 +142,21 @@ namespace MaggieSplatoon.TEA
         {
             current = text;
             until = Environment.TickCount64 + 4500;
-            _ = SayAsync(code);
+            if (voice is { } client) _ = SayAsync(client, code);
         }
 
-        private async Task SayAsync(string code)
+        private static HttpClient CreateVoiceClient() => new(new HttpClientHandler { UseProxy = false })
+            { Timeout = TimeSpan.FromSeconds(3) };
+
+        private async Task TestVoiceAsync()
         {
-            var client = voice;
-            if (client == null) return;
+            status = "Sending test...";
+            using var client = CreateVoiceClient();
+            await SayAsync(client, "TEST");
+        }
+
+        private async Task SayAsync(HttpClient client, string code)
+        {
             try
             {
                 using var body = new StringContent("MAGGIE_TEA_LC|" + code, Encoding.UTF8, "text/plain");
@@ -197,7 +204,7 @@ namespace MaggieSplatoon.TEA
             ImGui.TextWrapped("NAUR 1256 personal voice. First call is at the first Hawk Blaster. Follow the green tether into the first cleared blast on your numbered side, then continue clockwise. Inner means the inner outside lane, NOT center. Lead = odd; follow = even, spaced behind odd.");
             ImGui.TextWrapped("Import Triggernometry_TEA_Limit_Cut_Personal_Voice.xml. Uses your existing localhost:51423 endpoint. The personal green tether marks the opening only. Live validation pending.");
             ImGui.TextWrapped("Voice: " + status);
-            if (ImGui.Button("TEST VOICE")) Show("TEST", "LIMIT CUT VOICE TEST");
+            if (ImGui.Button("TEST VOICE")) _ = TestVoiceAsync();
         }
     }
 }
