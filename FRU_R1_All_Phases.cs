@@ -19,7 +19,7 @@ namespace MaggieSplatoon.FRU;
 public sealed class FRU_R1_All_Phases : SplatoonScript
 {
     public override HashSet<uint> ValidTerritories => new() { 1238 };
-    public override Metadata Metadata => new(2, "Maggie accessibility");
+    public override Metadata Metadata => new(3, "Maggie accessibility");
     private enum Part { Idle, Sky, Faith, Dust, Mirrors, Rampant, Relativity, Apoc, Darklit, Time, Blades, Wings, Polarizing }
     private Part part;
     private static readonly Vector2 Center = new(100,100);
@@ -37,6 +37,11 @@ public sealed class FRU_R1_All_Phases : SplatoonScript
     private long markUntil, textUntil, statusStart, nextPoll;
     private bool skyFire, clockwiseCardinals, iceKnown, blueKnown, dustSaid, solved, waterSaid, redQueued;
     private int smallSide, polarHit, fireOrder, ctDir;
+    private readonly HashSet<uint> puddles = new();
+    private readonly Dictionary<uint,Vector2> tidalOrigins = new();
+    private bool flexWater, rewindShown, rewindPlaced;
+    private int dpsSafe = -1, apocPulses;
+    private long lastApocPulse;
     private Vector2 blue, firstTower;
     private bool firstTowerKnown;
     private int glory, fireWave, apocAxis = -1, apocSpin, exaWave;
@@ -144,25 +149,28 @@ public sealed class FRU_R1_All_Phases : SplatoonScript
                 {redMirrors[src]=red; SolveRed();} break;
             case 40220: Call("Pair up."); break;
             case 40221: Call("Spread."); break;
-            case 40212: Start(Part.Rampant); Call("Light Rampant. DPS line up south."); break;
+            case 40212: Start(Part.Rampant); puddles.Clear(); Call("Light Rampant. DPS line up south."); break;
             case 40189: Call("Clock spots. Bait your cone."); break;
             case 40224: Start(Part.Idle); Call("Intermission next. Ranged inside, intercardinal."); break;
             case 40259: Call("Attack the light crystal clockwise from you."); break;
             case 40266: Start(Part.Relativity); yellow.Clear(); fireOrder=fireWave=0;fireAt=0;urClock=-1; Call("Ultimate Relativity. Orient to the yellow Y."); break;
             case 40286: Call("Stack middle."); break;
-            case 40270: Start(Part.Apoc);apocAxis=-1;apocSpin=0; Call("Dark Water. Check your matching timer for group flex."); break;
+            case 40270: Start(Part.Apoc);apocAxis=-1;apocSpin=0; dpsSafe=-1; apocPulses=0; lastApocPulse=0; flexWater=false; Call("Dark Water. Start east."); break;
             case 40296: Call("Apocalypse. Find the safe side for your group."); break;
-            case 40273: Call("Spread for eruptions."); break;
-            case 40288: Call("Spread for Spirit Taker."); break;
-            case 40181: Call("Leave the far bait to the tank. Prepare knockback."); break;
+            case 40273: Call(part==Part.Apoc && dpsSafe>=0?"Ranged spread at wall. "+Compass[dpsSafe]+" side.":"Spread for eruptions."); break;
+            case 40288: Call(part==Part.Time?"Far wall. Group one left.":"Spread for Spirit Taker."); break;
+            case 40181: Call(part==Part.Apoc && waterSaid?(flexWater?"Tank bait. Return to support group for water.":"Tank bait. Return to DPS group for water."):"Leave the far bait to the tank. Prepare knockback."); break;
             case 40246: Start(Part.Idle); Call("Center. Move southwest when wings appear."); break;
             case 40239: Start(Part.Darklit); edges.Clear(); chainPlayers.Clear(); Call("Darklit. Ranged southwest."); break;
             case 40227: Call("Right of Shiva. Stack with your water group."); break;
             case 40228: Call("Left of Shiva. Stack with your water group."); break;
             case 40247: case 40302: Call("Light party stack."); break;
             case 40249: case 40304: Call("Full party stack."); break;
-            case 40298: Start(Part.Time); cleanse=""; ctDir=-1;purple.Clear();purpleCalled=false; Call("Crystallize Time. Early pop."); break;
+            case 40298: Start(Part.Time); cleanse=""; ctDir=-1;purple.Clear();purpleCalled=false; tidalOrigins.Clear(); rewindShown=rewindPlaced=false; Call("Crystallize Time. Early pop."); break;
             case 40251: if(part==Part.Time) Call("Watch the exa waves. Prepare your rewind."); break;
+            case 40252:
+                if(part==Part.Time && Position(src) is {} origin) tidalOrigins[src]=origin;
+                break;
             case 40306: Start(Part.Blades); lines=null;exaFirst=null;exaWave=0;exaAt=0; Call("Fulgent Blade. Face the three small triangles."); break;
             case 40307: case 40118: if(part==Part.Blades) exaFirst??=Position(src);break;
             case 40310: Call("Face Pandora. Stack left after your last dodge."); break;
@@ -192,7 +200,44 @@ public sealed class FRU_R1_All_Phases : SplatoonScript
         }
         if(cmd!=502) return;
         if(part==Part.Dust && p1==345) {stones.Add(id);DustAssignment();}
-        if(part==Part.Rampant && p1==375 && BasePlayer?.EntityId==id) Call("Your puddles. Move to your east or west lane.");
+        if(part==Part.Rampant && p1==375 && puddles.Add(id) && puddles.Count==2)
+            SolveRampant();
+    }
+    private void SolveRampant()
+    {
+        if(BasePlayer==null) return;
+        var party=Svc.Party.ToArray();
+        if(party.Length!=8) return;
+        // Snapshot the two prepositioned rows at the second puddle marker.
+        var positions=party.ToDictionary(m=>m.EntityId,m=>Position(m.EntityId));
+        if(positions.Values.Any(p=>!p.HasValue)) return;
+        var north=party.Where(m=>m.ClassJob.Value.Role is 1 or 4)
+            .OrderBy(m=>positions[m.EntityId]!.Value.X).Select(m=>m.EntityId).ToList();
+        var south=party.Where(m=>m.ClassJob.Value.Role is 2 or 3)
+            .OrderBy(m=>positions[m.EntityId]!.Value.X).Select(m=>m.EntityId).ToList();
+        if(north.Count!=4 || south.Count!=4 || !puddles.All(positions.ContainsKey)) return;
+        uint me=BasePlayer.EntityId;
+        if(!south.Contains(me)) return;
+        if(puddles.Contains(me))
+        {
+            uint other=puddles.Single(id=>id!=me);
+            int column=south.IndexOf(me);
+            int otherColumn=north.Contains(other)?north.IndexOf(other):south.IndexOf(other);
+            bool west=column<=otherColumn;
+            Call(west?"Your puddles. West.":"Your puddles. East.");
+            Ring(Spot(west?6:2,8),"FIRST PUDDLE",true,4500);
+            return;
+        }
+        north.RemoveAll(puddles.Contains);
+        south.RemoveAll(puddles.Contains);
+        if(north.Count==2) {north.Insert(0,south[0]);south.RemoveAt(0);}
+        else if(north.Count==4) {south.Add(north[3]);north.RemoveAt(3);}
+        // North row (west to east) crosses to NE,S,NW. South crosses to SW,N,SE.
+        int index=north.IndexOf(me);
+        int degrees=index>=0?new[]{60,180,300}[index]:new[]{240,0,120}[south.IndexOf(me)];
+        double angle=degrees*Math.PI/180;
+        var point=Center+16*new Vector2((float)Math.Sin(angle),-(float)Math.Cos(angle));
+        Call(Compass[Dir(point)]+" tower."); Ring(point,"YOUR FIRST TOWER",true,10500);
     }
     private void DustAssignment()
     {
@@ -305,6 +350,31 @@ public sealed class FRU_R1_All_Phases : SplatoonScript
                 break;
             case 40157: if(part==Part.Sky) Hide(); break;
             case 40135: case 40131: case 40125: case 40122: case 40126: case 40123: case 40124: case 40127: Hide(); towers.Clear(); break;
+            case 40213:
+                if(part==Part.Rampant) Hide();
+                break;
+            case 40297:
+                if(part==Part.Apoc && waterSaid && Now-lastApocPulse>1000)
+                {
+                    lastApocPulse=Now;
+                    if(++apocPulses==2) Call(flexWater?"In. Cross for support water.":"In. DPS water.");
+                }
+                break;
+            case 40281:
+                if(part==Part.Time && !rewindShown && tidalOrigins.Count==2)
+                {
+                    var sum=tidalOrigins.Values.Aggregate(Vector2.Zero,(v,p)=>v+p-Center);
+                    if(Math.Abs(sum.X)<5 || Math.Abs(sum.Y)<5) break;
+                    var corner=Center+sum/2;
+                    var outward=Vector2.Normalize(sum);
+                    var left=new Vector2(outward.Y,-outward.X);
+                    var edge=Vector2.Normalize(outward+left);
+                    var offset=edge+2*new Vector2(edge.Y,-edge.X);
+                    Ring(corner+offset,"G1 REWIND",true,8000);
+                    Call(Compass[Dir(corner)]+" corner. Rewind left facing wall.");
+                    rewindShown=true;
+                }
+                break;
             case 40219:
                 if(part==Part.Rampant && !waterSaid && BasePlayer!=null)
                 {
@@ -390,6 +460,8 @@ public sealed class FRU_R1_All_Phases : SplatoonScript
         if(part==Part.Time)
         {
             ReadTime();
+            if(rewindShown && !rewindPlaced && BasePlayer.StatusList.Any(s=>s.StatusId==2452))
+            {rewindPlaced=true;Hide();Call("Ranged spread. Far wall, group one left.");}
             if(!purpleCalled && cleanse.Length!=0 && purple.Count==2)
             {
                 var d=purple.Where(x=>ctDir==6?x is 1 or 7:x is 3 or 5).ToArray();
@@ -409,8 +481,20 @@ public sealed class FRU_R1_All_Phases : SplatoonScript
         }
         if(part==Part.Apoc && !waterSaid && Now-statusStart<12000)
         {
-            var w=BasePlayer?.StatusList.FirstOrDefault(s=>s.StatusId==2461);
-            if(w!=null){waterSaid=true;Call(w.RemainingTime<12?"Your water first.":w.RemainingTime<30?"Your water second.":"Your water third.");}
+            var members=Svc.Party.ToArray();
+            if(members.Length!=8 || members.Any(m=>m.GameObject is not IBattleChara)) return;
+            var timers=members.ToDictionary(m=>m.EntityId,m=>
+            {
+                var status=((IBattleChara)m.GameObject!).StatusList.FirstOrDefault(v=>v.StatusId==2461);
+                return status==null?0:status.RemainingTime<15?1:status.RemainingTime<34?2:3;
+            });
+            if(timers.Values.GroupBy(order=>order).Count(g=>g.Count()==2)!=4) return;
+            int mine=timers[BasePlayer.EntityId];
+            // Only R2 has lower flex priority than R1 among the DPS.
+            flexWater=members.Any(m=>m.EntityId!=BasePlayer.EntityId && m.ClassJob.Value.Role==3 && timers[m.EntityId]==mine);
+            waterSaid=true;
+            Call((flexWater?"Flex west. Support water group. ":"Stay east. DPS water group. ")+
+                new[]{"No water.","Your water first.","Your water second.","Your water third."}[mine]);
         }
     }
     private void ReadApocalypse()
@@ -430,7 +514,8 @@ public sealed class FRU_R1_All_Phases : SplatoonScript
         if(apocAxis<0 || apocSpin==0) return;
         solved=true;
         int d=(apocAxis-apocSpin+8)%8;
-        Call("Apocalypse safe axes. "+Compass[d]+" and "+Compass[(d+4)%8]+".");
+        dpsSafe=d is >=1 and <=4?d:(d+4)%8;
+        Call("DPS spread side "+Compass[dpsSafe]+".");
     }
     private static float Cross(Vector2 a,Vector2 b)=>a.X*b.Y-a.Y*b.X;
     private void CollectBlades()
